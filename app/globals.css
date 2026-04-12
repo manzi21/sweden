@@ -1,257 +1,266 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@source "../node_modules/streamdown/dist/*.js";
 
-@custom-variant dark (&:is(.dark *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+/* ================================================================
+   MOBILE RESPONSIVE FIXES — Sverige TV
+   Mobile-first corrections for 320px → 430px
+   Applied: 2026-04-12
+   ================================================================ */
+
+/* 1. Global box-model & overflow prevention */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-:root {
-  --radius: 0.75rem;
-  --background: oklch(0.99 0 0);
-  --foreground: oklch(0.12 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.12 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.12 0 0);
-  --primary: oklch(0.15 0 0);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.96 0 0);
-  --secondary-foreground: oklch(0.15 0 0);
-  --muted: oklch(0.96 0 0);
-  --muted-foreground: oklch(0.45 0 0);
-  --accent: oklch(0.94 0 0);
-  --accent-foreground: oklch(0.15 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.89 0 0);
-  --input: oklch(0.94 0 0);
-  --ring: oklch(0.15 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.98 0 0);
-  --sidebar-foreground: oklch(0.12 0 0);
-  --sidebar-primary: oklch(0.15 0 0);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.96 0 0);
-  --sidebar-accent-foreground: oklch(0.15 0 0);
-  --sidebar-border: oklch(0.89 0 0);
-  --sidebar-ring: oklch(0.15 0 0);
+html {
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
-.dark {
-  --background: oklch(0.08 0 0);
-  --foreground: oklch(0.95 0 0);
-  --card: oklch(0.12 0 0);
-  --card-foreground: oklch(0.95 0 0);
-  --popover: oklch(0.12 0 0);
-  --popover-foreground: oklch(0.95 0 0);
-  --primary: oklch(0.88 0 0);
-  --primary-foreground: oklch(0.08 0 0);
-  --secondary: oklch(0.18 0 0);
-  --secondary-foreground: oklch(0.95 0 0);
-  --muted: oklch(0.18 0 0);
-  --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.18 0 0);
-  --accent-foreground: oklch(0.95 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(0.95 0 0 / 12%);
-  --input: oklch(0.95 0 0 / 8%);
-  --ring: oklch(0.88 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.12 0 0);
-  --sidebar-foreground: oklch(0.95 0 0);
-  --sidebar-primary: oklch(0.88 0 0);
-  --sidebar-primary-foreground: oklch(0.08 0 0);
-  --sidebar-accent: oklch(0.18 0 0);
-  --sidebar-accent-foreground: oklch(0.95 0 0);
-  --sidebar-border: oklch(0.95 0 0 / 12%);
-  --sidebar-ring: oklch(0.88 0 0);
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+  min-height: 100dvh;
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
+/* 2. Images & media responsive */
+img, video, iframe, embed, object {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 3. Support / chat widget — prevent overflow on mobile */
+.ue-sidebar-container,
+[class*="support"],
+[class*="chatWidget"],
+[class*="chatWindow"] {
+  max-width: calc(100vw - 32px) !important;
+}
+
+/* ================================================================
+   BREAKPOINT: ≤ 768px — Tablet + Mobile
+   ================================================================ */
+@media (max-width: 768px) {
+
+  /* Nav container */
+  nav {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
   }
+
+  /* Header */
+  header {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  /* All sections */
+  section,
+  .section {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow: hidden !important;
+  }
+
+  /* Hero */
+  .hero {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    min-height: auto !important;
+    width: 100% !important;
+  }
+
+  .heroContent,
+  .heroLogo,
+  .heroTrust {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Titles */
+  h1 {
+    font-size: clamp(1.75rem, 8vw, 2.75rem) !important;
+    line-height: 1.15 !important;
+    word-break: break-word !important;
+  }
+
+  h2 {
+    font-size: clamp(1.3rem, 6vw, 1.9rem) !important;
+    line-height: 1.2 !important;
+  }
+
+  h3 {
+    font-size: clamp(1.1rem, 5vw, 1.5rem) !important;
+  }
+
+  p {
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* Buttons — minimum 44px touch target */
+  button,
+  [role="button"],
+  a[class*="btn"],
+  a[class*="cta"],
+  a[class*="button"],
+  input[type="submit"],
+  input[type="button"] {
+    min-height: 44px !important;
+    min-width: 44px !important;
+    padding: 12px 20px !important;
+    white-space: nowrap !important;
+  }
+
+  /* Cards */
+  [class*="card"],
+  [class*="Card"],
+  [class*="pricingCard"],
+  [class*="featureCard"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Grids — force single column */
+  [class*="grid"],
+  [class*="Grid"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Flex rows — allow wrap */
+  [class*="flex"],
+  [class*="Flex"] {
+    flex-wrap: wrap !important;
+  }
+
+  /* Support chat widget */
+  .ue-sidebar-container,
+  [class*="chatWidget"],
+  [class*="supportWidget"],
+  [class*="supportFloat"],
+  [class*="chatFloat"] {
+    max-width: calc(100vw - 24px) !important;
+    right: 12px !important;
+    bottom: 12px !important;
+    left: auto !important;
+  }
+
+  /* Prevent 100vw elements from causing horizontal scroll */
+  [style*="width: 100vw"],
+  [style*="width:100vw"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Ticker / marquee */
+  [class*="ticker"],
+  [class*="marquee"],
+  [class*="Ticker"],
+  [class*="Marquee"] {
+    max-width: 100vw !important;
+    overflow: hidden !important;
+  }
+
+  /* Sticky elements safe area */
+  [style*="position: sticky"],
+  [style*="position:sticky"],
+  [style*="position: fixed"],
+  [style*="position:fixed"] {
+    max-width: 100% !important;
+  }
+
+  /* VH fix for mobile browsers */
+  [style*="100vh"] {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+  }
+}
+
+/* ================================================================
+   BREAKPOINT: ≤ 480px — Pure Mobile
+   ================================================================ */
+@media (max-width: 480px) {
+
+  /* Hero tighter on small screens */
+  .hero {
+    padding-top: 28px !important;
+    padding-bottom: 28px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Sections tighter */
+  section,
+  .section {
+    padding-top: 32px !important;
+    padding-bottom: 32px !important;
+  }
+
+  /* Font scaling */
+  h1 {
+    font-size: clamp(1.6rem, 9vw, 2.2rem) !important;
+  }
+
+  h2 {
+    font-size: clamp(1.2rem, 7vw, 1.6rem) !important;
+  }
+
+  /* Buttons full-width on tiny screens */
+  button,
+  [role="button"],
+  a[class*="btn"],
+  a[class*="cta"],
+  a[class*="button"] {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  /* Nav logo — never too big */
+  header img,
+  nav img,
+  [class*="logo"] img {
+    max-height: 36px !important;
+    width: auto !important;
+  }
+
+  /* Safe area insets for notched phones */
   body {
-    @apply bg-background text-foreground;
+    padding-left: env(safe-area-inset-left, 0px) !important;
+    padding-right: env(safe-area-inset-right, 0px) !important;
   }
 
-  /* Hide scrollbar while keeping functionality */
-  .hide-scrollbar {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* Internet Explorer 10+ */
+  footer {
+    padding-bottom: max(24px, env(safe-area-inset-bottom, 24px)) !important;
   }
-  
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none; /* Safari and Chrome */
+
+  /* Floating widgets — push up from bottom safe area */
+  .ue-sidebar-container,
+  [class*="chatWidget"],
+  [class*="supportWidget"],
+  [class*="supportFloat"],
+  [class*="chatFloat"] {
+    bottom: max(16px, env(safe-area-inset-bottom, 16px)) !important;
   }
 }
 
-@layer utilities {
-  .animate-fade-in {
-    animation: fade-in 200ms ease-out;
-  }
-  
-  .animate-slide-up {
-    animation: slide-up 200ms ease-out;
-  }
-  
-  .animate-slide-down {
-    animation: slide-down 150ms ease-out;
-  }
-  
-  .animate-scale-in {
-    animation: scale-in 200ms ease-out;
-  }
-  
-  .animate-message-in {
-    animation: message-in 300ms ease-out;
-  }
-
-  .shadow-border-small {
-    box-shadow: 
-      0 0 0 1px rgba(0, 0, 0, 0.08),
-      0 1px 2px rgba(0, 0, 0, 0.12);
-  }
-  
-  .shadow-border-medium {
-    box-shadow: 
-      0 0 0 1px rgba(0, 0, 0, 0.08),
-      0 2px 4px rgba(0, 0, 0, 0.12),
-      0 1px 6px rgba(0, 0, 0, 0.05);
-  }
-  
-  .dark .shadow-border-small {
-    box-shadow: 
-      0 0 0 1px rgba(255, 255, 255, 0.1),
-      0 1px 2px rgba(0, 0, 0, 0.4);
-  }
-  
-  .dark .shadow-border-medium {
-    box-shadow: 
-      0 0 0 1px rgba(255, 255, 255, 0.1),
-      0 2px 4px rgba(0, 0, 0, 0.4),
-      0 1px 6px rgba(0, 0, 0, 0.2);
-  }
-
-  .glass-effect {
-    backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-  
-  .dark .glass-effect {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
-  @keyframes slide-up {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes slide-down {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes scale-in {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  
-  @keyframes message-in {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-      filter: blur(4px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
-  }
-  
-  @media (prefers-reduced-motion: reduce) {
-    .animate-fade-in,
-    .animate-slide-up,
-    .animate-slide-down,
-    .animate-scale-in,
-    .animate-message-in {
-      animation: fade-in 200ms ease-out;
-    }
-  }
+/* ================================================================
+   CLS PREVENTION — Reserve space for async elements
+   ================================================================ */
+img:not([width]):not([height]) {
+  aspect-ratio: auto !important;
 }
+
+[class*="skeleton"],
+[class*="Skeleton"],
+[class*="placeholder"],
+[class*="Placeholder"] {
+  min-height: 20px;
+  }
