@@ -24,15 +24,58 @@ export const metadata:Metadata={
   icons:{icon:"/icon.svg"},
 };
 
-const MOA_IMG = "data:image/jpeg;base64,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";
+const MOA_IMG="data:image/jpeg;base64,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";
 
-const MOBILE_FIX_CSS = `
+const KILL_CHAT_SCRIPT=`
+(function(){
+  // 1. Block Audio entirely
+  var _AudioContext=window.AudioContext||window.webkitAudioContext;
+  if(_AudioContext){
+    var muted={createOscillator:function(){return{connect:function(){},start:function(){},stop:function(){}};},createGain:function(){return{connect:function(){},gain:{value:0}};},destination:{},get state(){return'suspended';},resume:function(){return Promise.resolve();},suspend:function(){return Promise.resolve();}};
+    try{Object.defineProperty(window,'AudioContext',{get:function(){return function(){return muted;};},configurable:false});
+    Object.defineProperty(window,'webkitAudioContext',{get:function(){return function(){return muted;};},configurable:false});}catch(e){}
+  }
+  // 2. Kill widget elements via MutationObserver
+  var KILL=['miliTeaser','miliFab','liveBadge','ue-sidebar-container','miliChat','miliOverlay','miliWindow'];
+  function removeEl(node){
+    if(node.nodeType!==1)return;
+    var cls=node.className||'';
+    if(typeof cls!=='string')cls='';
+    for(var i=0;i<KILL.length;i++){
+      if(cls.includes(KILL[i])||node.id===KILL[i]){
+        node.remove();
+        return;
+      }
+    }
+  }
+  var obs=new MutationObserver(function(muts){
+    muts.forEach(function(m){
+      m.addedNodes.forEach(function(node){removeEl(node);});
+    });
+  });
+  obs.observe(document.documentElement,{childList:true,subtree:true});
+  // 3. Remove existing elements immediately
+  KILL.forEach(function(cls){
+    document.querySelectorAll('.'+cls).forEach(function(el){el.remove();});
+  });
+  // 4. Block setInterval used by typing animation
+  var _origSetInterval=window.setInterval;
+  window.setInterval=function(fn,delay){
+    var fnStr=fn?fn.toString():'';
+    if(fnStr.includes('mili')||fnStr.includes('teaser')||fnStr.includes('typing')||fnStr.includes('chat')){
+      return 0;
+    }
+    return _origSetInterval.apply(this,arguments);
+  };
+})();
+`;
+
+const MOBILE_CSS=`
   *,*::before,*::after{box-sizing:border-box}
   html{overflow-x:hidden!important;max-width:100%!important;overscroll-behavior-x:none!important;-webkit-text-size-adjust:100%!important;}
   body{overflow-x:hidden!important;max-width:100%!important;overscroll-behavior-x:none!important;position:relative!important;min-height:100dvh!important;}
-  .ue-sidebar-container{display:none!important;width:0!important;height:0!important;overflow:hidden!important;visibility:hidden!important;pointer-events:none!important;left:-9999px!important;clip:rect(0,0,0,0)!important;}
-  img.miliTeaserAvatar{content:url("${MOA_IMG}");border-radius:50%;object-fit:cover;width:22px!important;height:22px!important;}
-  img.fabAvatar{content:url("${MOA_IMG}");border-radius:50%;object-fit:cover;width:35px!important;height:35px!important;}
+  .miliTeaser,.miliFab,.liveBadge,.ue-sidebar-container,.miliChat,.miliOverlay,.miliWindow{display:none!important;width:0!important;height:0!important;overflow:hidden!important;visibility:hidden!important;pointer-events:none!important;position:absolute!important;left:-9999px!important;}
+  img.miliTeaserAvatar,img.fabAvatar{content:url("${MOA_IMG}");border-radius:50%;object-fit:cover;}
   @media(max-width:768px){
     nav{max-width:100%!important;padding-left:16px!important;padding-right:16px!important;}
     header{width:100%!important;contain:layout paint!important;}
@@ -42,9 +85,9 @@ const MOBILE_FIX_CSS = `
     h2{font-size:clamp(1.2rem,6vw,1.8rem)!important;word-break:break-word!important;}
     [class*="card"],[class*="Card"]{width:100%!important;max-width:100%!important;min-width:0!important;}
     [class*="grid"],[class*="plans"]{grid-template-columns:1fr!important;}
-    .liveBadge{right:16px!important;left:auto!important;}
-    .miliTeaser{max-width:calc(100vw - 32px)!important;left:16px!important;right:auto!important;}
-    .miliFab{left:16px!important;}
+    .liveBadge{display:none!important;}
+    .miliTeaser{display:none!important;}
+    .miliFab{display:none!important;}
     img,video{max-width:100%!important;height:auto!important;}
     button,[role="button"]{min-height:44px!important;touch-action:manipulation!important;}
     .mobileLangSwitch{display:flex!important;gap:8px!important;padding:16px 0 100px!important;}
@@ -54,40 +97,19 @@ const MOBILE_FIX_CSS = `
 `;
 
 const footerLinks=[
-  {heading:"Laglig IPTV",links:[
-    {label:"Är IPTV lagligt?",href:"/ar-iptv-lagligt"},
-    {label:"IPTV-lagen juli 2026",href:"/iptv-lag-2026"},
-    {label:"Jämför tjänster",href:"/jamfor"},
-    {label:"Om oss",href:"/om-oss"},
-  ]},
-  {heading:"Installation",links:[
-    {label:"Alla enheter",href:"/installation"},
-    {label:"Firestick",href:"/installation/firestick"},
-    {label:"Samsung Smart TV",href:"/installation/samsung-smart-tv"},
-    {label:"TiviMate",href:"/installation/tivimate"},
-    {label:"Android",href:"/installation/android"},
-    {label:"iPhone",href:"/installation/iphone"},
-    {label:"LG Smart TV",href:"/installation/lg-smart-tv"},
-  ]},
-  {heading:"Kanaler",links:[
-    {label:"Alla kanaler",href:"/kanaler"},
-    {label:"Svenska kanaler",href:"/kanaler/svenska"},
-    {label:"Sport kanaler",href:"/kanaler/sport"},
-    {label:"Arabiska kanaler",href:"/kanaler/arabiska"},
-    {label:"Svensk TV utomlands",href:"/svensk-tv-utomlands"},
-  ]},
-  {heading:"Info",links:[
-    {label:"Integritetspolicy",href:"/integritetspolicy"},
-    {label:"Användarvillkor",href:"/anvandarvillkor"},
-  ]},
+  {heading:"Laglig IPTV",links:[{label:"Är IPTV lagligt?",href:"/ar-iptv-lagligt"},{label:"IPTV-lagen juli 2026",href:"/iptv-lag-2026"},{label:"Jämför tjänster",href:"/jamfor"},{label:"Om oss",href:"/om-oss"}]},
+  {heading:"Installation",links:[{label:"Alla enheter",href:"/installation"},{label:"Firestick",href:"/installation/firestick"},{label:"Samsung Smart TV",href:"/installation/samsung-smart-tv"},{label:"TiviMate",href:"/installation/tivimate"},{label:"Android",href:"/installation/android"},{label:"iPhone",href:"/installation/iphone"},{label:"LG Smart TV",href:"/installation/lg-smart-tv"}]},
+  {heading:"Kanaler",links:[{label:"Alla kanaler",href:"/kanaler"},{label:"Svenska kanaler",href:"/kanaler/svenska"},{label:"Sport kanaler",href:"/kanaler/sport"},{label:"Arabiska kanaler",href:"/kanaler/arabiska"},{label:"Svensk TV utomlands",href:"/svensk-tv-utomlands"}]},
+  {heading:"Info",links:[{label:"Integritetspolicy",href:"/integritetspolicy"},{label:"Användarvillkor",href:"/anvandarvillkor"}]},
 ];
 
 export default function RootLayout({children}:Readonly<{children:React.ReactNode}>){
-  const css = MOBILE_FIX_CSS.replace(/\${MOA_IMG}/g, MOA_IMG);
+  const css=MOBILE_CSS.replace(/\${MOA_IMG}/g,MOA_IMG);
   return(
     <html lang="sv" suppressHydrationWarning>
       <head>
         <style dangerouslySetInnerHTML={{__html:css}}/>
+        <script dangerouslySetInnerHTML={{__html:KILL_CHAT_SCRIPT}}/>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
@@ -118,4 +140,4 @@ export default function RootLayout({children}:Readonly<{children:React.ReactNode
       </body>
     </html>
   );
-      }
+  }
