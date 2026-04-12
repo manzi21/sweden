@@ -1,6 +1,229 @@
 
 
 /* ================================================================
+   ANDROID/MOBILE DEEP FIX — Production-ready
+   Root causes identified via live DOM audit:
+   - .liveBadge at left:1351px = off-screen horizontal scroll
+   - .ue-sidebar-container w:607px left:1425px = overflow
+   - .miliTeaser/.miliFab fixed positioning not mobile-aware
+   - header sticky without contain = scroll jump on Android Chrome
+   ================================================================ */
+
+/* --- GLOBAL ANTI-OVERFLOW --- */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+  overscroll-behavior-x: none !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+/* Prevent any child from overflowing */
+body > * {
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+}
+
+/* --- LIVE BADGE: repositioned for mobile --- */
+.liveBadge {
+  will-change: transform !important;
+  contain: layout style !important;
+}
+
+/* --- MILI WIDGETS: contained to screen --- */
+.miliTeaser,
+.miliFab {
+  contain: layout style !important;
+}
+
+/* --- ANIMATIONS: GPU-accelerated to prevent repaints --- */
+.liveDot {
+  will-change: opacity !important;
+  contain: strict !important;
+}
+
+/* --- HEADER: prevent sticky jump on Android Chrome --- */
+header {
+  contain: layout paint !important;
+  will-change: transform !important;
+  -webkit-transform: translateZ(0) !important;
+  transform: translateZ(0) !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+}
+
+/* --- BACKGROUND FIXED ELEMENT --- */
+.bg {
+  contain: strict !important;
+  will-change: transform !important;
+}
+
+/* ================================================================
+   MOBILE BREAKPOINT ≤ 768px
+   ================================================================ */
+@media (max-width: 768px) {
+
+  /* Nuclear overflow fix */
+  html, body {
+    position: relative !important;
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Kill any element wider than screen */
+  * {
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+  }
+
+  /* LIVE BADGE: reposition to bottom-right mobile safe */
+  .liveBadge {
+    right: 16px !important;
+    left: auto !important;
+    bottom: max(16px, env(safe-area-inset-bottom, 16px)) !important;
+  }
+
+  /* MILI TEASER: scale down and keep within screen */
+  .miliTeaser {
+    width: min(300px, calc(100vw - 32px)) !important;
+    max-width: calc(100vw - 32px) !important;
+    left: 16px !important;
+    right: auto !important;
+    bottom: max(80px, env(safe-area-inset-bottom, 80px)) !important;
+  }
+
+  /* MILI FAB: keep bottom-left, safe area aware */
+  .miliFab {
+    left: 16px !important;
+    bottom: max(24px, env(safe-area-inset-bottom, 24px)) !important;
+    max-width: calc(100vw - 32px) !important;
+  }
+
+  /* UE SIDEBAR: hide completely on mobile — causes scroll */
+  .ue-sidebar-container {
+    display: none !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  /* HERO: prevent width overflow */
+  .hero {
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow: hidden !important;
+    padding-left: max(16px, env(safe-area-inset-left, 16px)) !important;
+    padding-right: max(16px, env(safe-area-inset-right, 16px)) !important;
+  }
+
+  /* ALL SECTIONS */
+  section, .section {
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow: hidden !important;
+    padding-left: max(16px, env(safe-area-inset-left, 16px)) !important;
+    padding-right: max(16px, env(safe-area-inset-right, 16px)) !important;
+  }
+
+  /* NAV: full width no overflow */
+  nav {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /* PRICING CARDS: single column, no overflow */
+  [class*="pricingCard"],
+  [class*="planCard"],
+  [class*="card"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* GRIDS: force single column */
+  [class*="grid"],
+  [class*="plans"],
+  [class*="features"],
+  [class*="channels"] {
+    grid-template-columns: 1fr !important;
+    overflow: hidden !important;
+  }
+
+  /* IMAGES: never overflow */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+  }
+}
+
+/* ================================================================
+   PURE MOBILE ≤ 480px — Extra tight
+   ================================================================ */
+@media (max-width: 480px) {
+
+  /* Titles scale with viewport */
+  h1 {
+    font-size: clamp(1.6rem, 8.5vw, 2.4rem) !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.02em !important;
+    word-break: break-word !important;
+  }
+
+  h2 {
+    font-size: clamp(1.2rem, 6.5vw, 1.7rem) !important;
+    word-break: break-word !important;
+  }
+
+  /* Hero vertical breathing room */
+  .hero {
+    padding-top: 24px !important;
+    padding-bottom: 32px !important;
+    min-height: auto !important;
+  }
+
+  /* Mili teaser: very small screen */
+  .miliTeaser {
+    width: calc(100vw - 32px) !important;
+    left: 16px !important;
+    right: 16px !important;
+  }
+
+  /* Bottom CTA bar pattern */
+  [class*="ctaBar"],
+  [class*="cta-bar"],
+  [class*="bottomBar"],
+  [class*="bottom-bar"] {
+    padding-bottom: max(12px, env(safe-area-inset-bottom, 12px)) !important;
+    width: 100% !important;
+  }
+}
+
+/* ================================================================
+   PERFORMANCE: Prevent repaints during scroll
+   ================================================================ */
+.bg,
+header,
+.liveBadge,
+.miliFab,
+.miliTeaser {
+  -webkit-transform: translate3d(0, 0, 0) !important;
+  transform: translate3d(0, 0, 0) !important;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+     }
+
+/* ================================================================
    FIX: SV/EN/FR language buttons in mobile menu
    mobileLangSwitch blocked by WhatsApp button on mobile
    ================================================================ */
