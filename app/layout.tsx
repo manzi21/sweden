@@ -24,48 +24,20 @@ export const metadata:Metadata={
   icons:{icon:"/icon.svg"},
 };
 
+const MOA_IMG = "data:image/jpeg;base64,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";
+
 const MOBILE_FIX_CSS = `
   *,*::before,*::after{box-sizing:border-box}
-  html{
-    overflow-x:hidden!important;
-    max-width:100%!important;
-    overscroll-behavior-x:none!important;
-    -webkit-text-size-adjust:100%!important;
-  }
-  body{
-    overflow-x:hidden!important;
-    max-width:100%!important;
-    overscroll-behavior-x:none!important;
-    position:relative!important;
-    min-height:100dvh!important;
-  }
-  .ue-sidebar-container{
-    display:none!important;
-    width:0!important;
-    height:0!important;
-    overflow:hidden!important;
-    visibility:hidden!important;
-    pointer-events:none!important;
-    left:-9999px!important;
-    clip:rect(0,0,0,0)!important;
-  }
+  html{overflow-x:hidden!important;max-width:100%!important;overscroll-behavior-x:none!important;-webkit-text-size-adjust:100%!important;}
+  body{overflow-x:hidden!important;max-width:100%!important;overscroll-behavior-x:none!important;position:relative!important;min-height:100dvh!important;}
+  .ue-sidebar-container{display:none!important;width:0!important;height:0!important;overflow:hidden!important;visibility:hidden!important;pointer-events:none!important;left:-9999px!important;clip:rect(0,0,0,0)!important;}
+  img.miliTeaserAvatar{content:url("${MOA_IMG}");border-radius:50%;object-fit:cover;width:22px!important;height:22px!important;}
+  img.fabAvatar{content:url("${MOA_IMG}");border-radius:50%;object-fit:cover;width:35px!important;height:35px!important;}
   @media(max-width:768px){
     nav{max-width:100%!important;padding-left:16px!important;padding-right:16px!important;}
     header{width:100%!important;contain:layout paint!important;}
-    section,.section{
-      width:100%!important;
-      max-width:100vw!important;
-      overflow:hidden!important;
-      padding-left:max(16px,env(safe-area-inset-left,16px))!important;
-      padding-right:max(16px,env(safe-area-inset-right,16px))!important;
-    }
-    .hero{
-      width:100%!important;
-      max-width:100vw!important;
-      overflow:hidden!important;
-      padding-left:max(16px,env(safe-area-inset-left,16px))!important;
-      padding-right:max(16px,env(safe-area-inset-right,16px))!important;
-    }
+    section,.section{width:100%!important;max-width:100vw!important;overflow:hidden!important;padding-left:max(16px,env(safe-area-inset-left,16px))!important;padding-right:max(16px,env(safe-area-inset-right,16px))!important;}
+    .hero{width:100%!important;max-width:100vw!important;overflow:hidden!important;padding-left:max(16px,env(safe-area-inset-left,16px))!important;padding-right:max(16px,env(safe-area-inset-right,16px))!important;}
     h1{font-size:clamp(1.6rem,8vw,2.5rem)!important;line-height:1.15!important;word-break:break-word!important;}
     h2{font-size:clamp(1.2rem,6vw,1.8rem)!important;word-break:break-word!important;}
     [class*="card"],[class*="Card"]{width:100%!important;max-width:100%!important;min-width:0!important;}
@@ -111,10 +83,11 @@ const footerLinks=[
 ];
 
 export default function RootLayout({children}:Readonly<{children:React.ReactNode}>){
+  const css = MOBILE_FIX_CSS.replace(/\${MOA_IMG}/g, MOA_IMG);
   return(
     <html lang="sv" suppressHydrationWarning>
       <head>
-        <style dangerouslySetInnerHTML={{__html:MOBILE_FIX_CSS}}/>
+        <style dangerouslySetInnerHTML={{__html:css}}/>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
@@ -145,4 +118,4 @@ export default function RootLayout({children}:Readonly<{children:React.ReactNode
       </body>
     </html>
   );
-  }
+      }
