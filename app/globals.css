@@ -1,6 +1,51 @@
 
 
 /* ================================================================
+   FIX: SV/EN/FR language buttons in mobile menu
+   mobileLangSwitch blocked by WhatsApp button on mobile
+   ================================================================ */
+
+.mobileLangSwitch {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 20px 0 24px !important;
+  flex-wrap: wrap !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.mobileLangSwitch button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 52px !important;
+  min-height: 48px !important;
+  padding: 10px 16px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  pointer-events: all !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 300 !important;
+  position: relative !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: rgba(200,169,110,0.3) !important;
+}
+
+.mobileMenu {
+  padding-bottom: 120px !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+@media (min-width: 769px) {
+  .mobileLangSwitch { display: none !important; }
+}
+
+/* ================================================================
    MOBILE RESPONSIVE FIXES — Sverige TV
    Mobile-first corrections for 320px → 430px
    Applied: 2026-04-12
