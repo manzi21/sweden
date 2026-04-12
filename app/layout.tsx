@@ -6,7 +6,14 @@ import"./globals.css";
 const geistSans=Geist({variable:"--font-geist-sans",subsets:["latin"]});
 const geistMono=Geist_Mono({variable:"--font-geist-mono",subsets:["latin"]});
 
-export const viewport:Viewport={width:"device-width",initialScale:1,maximumScale:1,userScalable:false,viewportFit:"cover",themeColor:"#060407"};
+export const viewport:Viewport={
+  width:"device-width",
+  initialScale:1,
+  maximumScale:5,
+  userScalable:true,
+  viewportFit:"cover",
+  themeColor:"#060407",
+};
 
 export const metadata:Metadata={
   title:"Sverige TV — 20 000+ kanaler, 4K, Sport & Film",
@@ -16,6 +23,63 @@ export const metadata:Metadata={
   formatDetection:{telephone:false},
   icons:{icon:"/icon.svg"},
 };
+
+const MOBILE_FIX_CSS = `
+  *,*::before,*::after{box-sizing:border-box}
+  html{
+    overflow-x:hidden!important;
+    max-width:100%!important;
+    overscroll-behavior-x:none!important;
+    -webkit-text-size-adjust:100%!important;
+  }
+  body{
+    overflow-x:hidden!important;
+    max-width:100%!important;
+    overscroll-behavior-x:none!important;
+    position:relative!important;
+    min-height:100dvh!important;
+  }
+  .ue-sidebar-container{
+    display:none!important;
+    width:0!important;
+    height:0!important;
+    overflow:hidden!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+    left:-9999px!important;
+    clip:rect(0,0,0,0)!important;
+  }
+  @media(max-width:768px){
+    nav{max-width:100%!important;padding-left:16px!important;padding-right:16px!important;}
+    header{width:100%!important;contain:layout paint!important;}
+    section,.section{
+      width:100%!important;
+      max-width:100vw!important;
+      overflow:hidden!important;
+      padding-left:max(16px,env(safe-area-inset-left,16px))!important;
+      padding-right:max(16px,env(safe-area-inset-right,16px))!important;
+    }
+    .hero{
+      width:100%!important;
+      max-width:100vw!important;
+      overflow:hidden!important;
+      padding-left:max(16px,env(safe-area-inset-left,16px))!important;
+      padding-right:max(16px,env(safe-area-inset-right,16px))!important;
+    }
+    h1{font-size:clamp(1.6rem,8vw,2.5rem)!important;line-height:1.15!important;word-break:break-word!important;}
+    h2{font-size:clamp(1.2rem,6vw,1.8rem)!important;word-break:break-word!important;}
+    [class*="card"],[class*="Card"]{width:100%!important;max-width:100%!important;min-width:0!important;}
+    [class*="grid"],[class*="plans"]{grid-template-columns:1fr!important;}
+    .liveBadge{right:16px!important;left:auto!important;}
+    .miliTeaser{max-width:calc(100vw - 32px)!important;left:16px!important;right:auto!important;}
+    .miliFab{left:16px!important;}
+    img,video{max-width:100%!important;height:auto!important;}
+    button,[role="button"]{min-height:44px!important;touch-action:manipulation!important;}
+    .mobileLangSwitch{display:flex!important;gap:8px!important;padding:16px 0 100px!important;}
+    .mobileLangSwitch button{display:inline-flex!important;min-height:48px!important;min-width:52px!important;pointer-events:all!important;}
+    .mobileMenu{padding-bottom:120px!important;overflow-y:auto!important;}
+  }
+`;
 
 const footerLinks=[
   {heading:"Laglig IPTV",links:[
@@ -49,6 +113,9 @@ const footerLinks=[
 export default function RootLayout({children}:Readonly<{children:React.ReactNode}>){
   return(
     <html lang="sv" suppressHydrationWarning>
+      <head>
+        <style dangerouslySetInnerHTML={{__html:MOBILE_FIX_CSS}}/>
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
@@ -78,4 +145,4 @@ export default function RootLayout({children}:Readonly<{children:React.ReactNode
       </body>
     </html>
   );
-                          }
+  }
