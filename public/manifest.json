@@ -1,0 +1,21 @@
+{
+    "name": "Sverige TV",
+    "short_name": "SverigeTV",
+    "description": "20 000+ kanaler, 4K, sport & film",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#060407",
+    "theme_color": "#060407",
+    "orientation": "portrait-primary",
+    "lang": "sv",
+    "categories": ["entertainment"],
+    "icons": [
+          {
+                  "src": "/icon.svg",
+                  "sizes": "any",
+                  "type": "image/svg+xml",
+                  "purpose": "any maskable"
+          }
+    ]
+}
