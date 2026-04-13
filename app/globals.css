@@ -1,6 +1,50 @@
 
 
 /* ================================================================
+   FIX: Kurdî / dropdown text breaking vertically — OVERRIDE
+   word-break:break-word on h1/h2 was cascading into dropdowns
+   ================================================================ */
+
+/* Reset word-break for ALL interactive/floating elements */
+[class*="dropdown"],
+[class*="Dropdown"],
+[class*="select"],
+[class*="Select"],
+[class*="listbox"],
+[class*="Listbox"],
+[class*="popup"],
+[class*="Popup"],
+[class*="tooltip"],
+[class*="Tooltip"],
+[class*="menu"],
+[class*="Menu"],
+[class*="overlay"],
+[class*="Overlay"],
+[class*="modal"],
+[class*="Modal"],
+[class*="flag"],
+[class*="Flag"],
+[class*="lang"],
+[class*="country"],
+[class*="option"],
+[class*="Option"],
+[class*="item"],
+[class*="Item"],
+li, option, span, a, label {
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  white-space: normal !important;
+  hyphens: none !important;
+}
+
+/* h1/h2: only break words in the main hero content areas */
+h1, h2, h3, h4, h5, h6, p {
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  hyphens: none !important;
+}
+
+/* ================================================================
    ANDROID/MOBILE DEEP FIX — Production-ready
    Root causes identified via live DOM audit:
    - .liveBadge at left:1351px = off-screen horizontal scroll
