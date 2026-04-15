@@ -1,9 +1,6 @@
 "use client";
 import React, {
-  createContext,
-  useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
   useCallback,
@@ -13,8 +10,8 @@ import React, {
    TYPES
    ═══════════════════════════════════════════════════════════════════════════ */
 const SITE = {
-  domain: "https://sverigetv.se",
-  brand: "Sverige TV",
+  domain: "https://premiumiptv.se",
+  brand: "Premium IPTV",
   whatsappPhone: "447307410512",
   currencyLabel: "kr",
 };
@@ -61,10 +58,10 @@ const COUNTRIES = [
 /* ═══════════════════════════════════════════════════════════════════════════
    UTILS
    ═══════════════════════════════════════════════════════════════════════════ */
-function isMobileUA(ua) {
+function isMobileUA(ua: string) {
   return /Android|iPhone|iPad|iPod/i.test(ua);
 }
-function waLink(message, ua, ref) {
+function waLink(message: string, ua: string, ref?: string) {
   const suffix = ref ? ` | Ref: ${ref}` : "";
   const text = encodeURIComponent(message + suffix);
   return isMobileUA(ua)
@@ -75,8 +72,8 @@ function waLink(message, ua, ref) {
 /* ═══════════════════════════════════════════════════════════════════════════
    SCROLL REVEAL HOOK
    ═══════════════════════════════════════════════════════════════════════════ */
-function useReveal(threshold = 0.15) {
-  const ref = useRef(null);
+function useReveal(threshold = 0.15): [React.RefObject<HTMLElement | null>, boolean] {
+  const ref = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const el = ref.current;
@@ -94,7 +91,7 @@ function useReveal(threshold = 0.15) {
 /* ═══════════════════════════════════════════════════════════════════════════
    COUNTDOWN — real deadline, not fake
    ═══════════════════════════════════════════════════════════════════════════ */
-function useCountdown(targetDate) {
+function useCountdown(targetDate: string) {
   const [left, setLeft] = useState({ d: 0, h: 0, m: 0, s: 0 });
   useEffect(() => {
     const target = new Date(targetDate).getTime();
@@ -117,11 +114,11 @@ function useCountdown(targetDate) {
 /* ═══════════════════════════════════════════════════════════════════════════
    LOGO
    ═══════════════════════════════════════════════════════════════════════════ */
-function SverigeLogo({ size = 36, showText = true }) {
+function SverigeLogo({ size = 36, showText = true }: { size?: number; showText?: boolean }) {
   const h = size;
   const w = showText ? size * 5.2 : size;
   return (
-    <svg width={w} height={h} viewBox={`0 0 ${showText ? 208 : 40} 40`} xmlns="http://www.w3.org/2000/svg" aria-label="Sverige TV">
+    <svg width={w} height={h} viewBox={`0 0 ${showText ? 208 : 40} 40`} xmlns="http://www.w3.org/2000/svg" aria-label="Premium IPTV">
       <defs>
         <linearGradient id="lgCrown" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stopColor="#E8C97A"/>
@@ -147,9 +144,9 @@ function SverigeLogo({ size = 36, showText = true }) {
       </g>
       {showText && (
         <>
-          <text x="50" y="19" fontFamily="'Playfair Display', Georgia, serif" fontWeight="800" fontSize="13" letterSpacing="2.5" fill="#f5f0f5">SVERIGE</text>
+          <text x="50" y="19" fontFamily="'Playfair Display', Georgia, serif" fontWeight="800" fontSize="12" letterSpacing="2" fill="#f5f0f5">PREMIUM</text>
           <line x1="50" y1="23" x2="205" y2="23" stroke="url(#lgCrown)" strokeWidth="0.7" opacity="0.6"/>
-          <text x="50" y="35" fontFamily="'Playfair Display', Georgia, serif" fontWeight="900" fontSize="11" letterSpacing="6" fill="url(#lgCrown)">TV</text>
+          <text x="50" y="35" fontFamily="'Playfair Display', Georgia, serif" fontWeight="900" fontSize="11" letterSpacing="4" fill="url(#lgCrown)">IPTV</text>
         </>
       )}
     </svg>
@@ -159,7 +156,7 @@ function SverigeLogo({ size = 36, showText = true }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    CINEMATIC INTRO — refined
    ═══════════════════════════════════════════════════════════════════════════ */
-function CinematicIntro({ onDone }) {
+function CinematicIntro({ onDone }: { onDone: () => void }) {
   const [exiting, setExiting] = useState(false);
   const skip = useCallback(() => {
     setExiting(true);
@@ -211,7 +208,7 @@ function CinematicIntro({ onDone }) {
             </g>
           ))}
         </svg>
-        <h1 className="cin__title">SVERIGE TV</h1>
+        <h1 className="cin__title">PREMIUM IPTV</h1>
         <div className="cin__line" />
         <p className="cin__tag">20 000+ kanaler • 4K/UHD • EPG</p>
       </div>
@@ -273,7 +270,7 @@ function ProofTicker() {
 /* ═══════════════════════════════════════════════════════════════════════════
    HERO
    ═══════════════════════════════════════════════════════════════════════════ */
-function Hero({ ua }) {
+function Hero({ ua }: { ua: string }) {
   const [ref, vis] = useReveal(0.1);
   return (
     <section className="hero" ref={ref}>
@@ -295,7 +292,7 @@ function Hero({ ua }) {
             Se våra paket
             <span className="btn__arrow">→</span>
           </a>
-          <a className="btn btn--wa btn--lg" href={waLink("Hej! Jag vill testa Sverige TV gratis i 24 timmar.", ua, "Hero-Trial")} target="_blank" rel="noreferrer">
+          <a className="btn btn--wa btn--lg" href={waLink("Hej! Jag vill testa Premium IPTV gratis i 24 timmar.", ua, "Hero-Trial")} target="_blank" rel="noreferrer">
             <span className="btn__waIcon">💬</span>
             Gratis test 24h
           </a>
@@ -340,7 +337,7 @@ function TrustStrip() {
 /* ═══════════════════════════════════════════════════════════════════════════
    PRICING SECTION — conversion-optimized
    ═══════════════════════════════════════════════════════════════════════════ */
-function Pricing({ ua }) {
+function Pricing({ ua }: { ua: string }) {
   const [ref, vis] = useReveal(0.08);
   return (
     <section id="offers" className="sec" ref={ref}>
@@ -432,13 +429,13 @@ function CompareTable() {
     { service: "Viaplay Total", price: "329 kr", live: "~150", vod: true, hd4k: true, support: "Chat" },
     { service: "C More", price: "279 kr", live: "~80", vod: true, hd4k: false, support: "Chat" },
     { service: "Netflix", price: "179 kr", live: "0", vod: true, hd4k: true, support: "Chat" },
-    { service: "Sverige TV", price: "från 83 kr", live: "20 000+", vod: true, hd4k: true, support: "WhatsApp", highlight: true },
+    { service: "Premium IPTV", price: "från 83 kr", live: "20 000+", vod: true, hd4k: true, support: "WhatsApp", highlight: true },
   ];
   return (
     <section className="sec" ref={ref}>
       <div className={`sec__head ${vis ? "vis" : ""}`}>
         <span className="sec__badge">Jämförelse</span>
-        <h2>Varför välja Sverige TV?</h2>
+        <h2>Varför välja Premium IPTV?</h2>
         <p>Se skillnaden mot traditionella streamingtjänster</p>
       </div>
       <div className={`compare ${vis ? "vis" : ""}`}>
@@ -504,8 +501,8 @@ function ChannelExplorer() {
 /* ═══════════════════════════════════════════════════════════════════════════
    COUNTRIES
    ═══════════════════════════════════════════════════════════════════════════ */
-function Countries({ ua }) {
-  const [sel, setSel] = useState(null);
+function Countries({ ua }: { ua: string }) {
+  const [sel, setSel] = useState<typeof COUNTRIES[0] | null>(null);
   const [ref, vis] = useReveal();
 
   useEffect(() => {
@@ -536,7 +533,7 @@ function Countries({ ua }) {
       </section>
 
       {sel && (
-        <div className="cmodal" onClick={(e) => { if (e.target.classList.contains("cmodal")) setSel(null); }}>
+        <div className="cmodal" onClick={(e) => { if ((e.target as HTMLElement).classList.contains("cmodal")) setSel(null); }}>
           <div className="cmodal__box">
             <div className="cmodal__head">
               <span className="cmodal__flag">{sel.flag}</span>
@@ -588,7 +585,7 @@ function Countries({ ua }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    DEVICES
    ═══════════════════════════════════════════════════════════════════════════ */
-function Devices({ ua }) {
+function Devices({ ua }: { ua: string }) {
   const [ref, vis] = useReveal();
   return (
     <section id="devices" className="sec" ref={ref}>
@@ -651,7 +648,7 @@ function Reviews() {
 /* ═══════════════════════════════════════════════════════════════════════════
    QUICK SETUP
    ═══════════════════════════════════════════════════════════════════════════ */
-function Setup({ ua }) {
+function Setup({ ua }: { ua: string }) {
   const [ref, vis] = useReveal();
   const steps = [
     { n: "1", icon: "💬", text: "Kontakta oss på WhatsApp — berätta vilken enhet du har." },
@@ -726,7 +723,7 @@ function FAQ() {
 /* ═══════════════════════════════════════════════════════════════════════════
    FINAL CTA SECTION — push to convert
    ═══════════════════════════════════════════════════════════════════════════ */
-function FinalCTA({ ua }) {
+function FinalCTA({ ua }: { ua: string }) {
   const [ref, vis] = useReveal();
   return (
     <section className="sec" ref={ref}>
@@ -735,7 +732,7 @@ function FinalCTA({ ua }) {
         <h2>Redo att börja?</h2>
         <p>Prova gratis i 24 timmar — inget kreditkort krävs.<br/>Aktivering på under 10 minuter via WhatsApp.</p>
         <div className="finalcta__actions">
-          <a className="btn btn--wa btn--xl" href={waLink("Hej! Jag vill testa Sverige TV gratis i 24 timmar.", ua, "Final-CTA")} target="_blank" rel="noreferrer">
+          <a className="btn btn--wa btn--xl" href={waLink("Hej! Jag vill testa Premium IPTV gratis i 24 timmar.", ua, "Final-CTA")} target="_blank" rel="noreferrer">
             💬 Starta gratis test nu
           </a>
           <a className="btn btn--outline btn--xl" href="#offers">
@@ -751,7 +748,7 @@ function FinalCTA({ ua }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    STICKY MOBILE CTA
    ═══════════════════════════════════════════════════════════════════════════ */
-function StickyMobileCTA({ ua }) {
+function StickyMobileCTA({ ua }: { ua: string }) {
   const [show, setShow] = useState(false);
   useEffect(() => {
     const onScroll = () => setShow(window.scrollY > 600);
@@ -761,7 +758,7 @@ function StickyMobileCTA({ ua }) {
   if (!show) return null;
   return (
     <div className="stickyCta">
-      <a className="stickyCta__btn" href={waLink("Hej! Jag vill testa Sverige TV gratis i 24 timmar.", ua, "Sticky-Mobile")} target="_blank" rel="noreferrer">
+      <a className="stickyCta__btn" href={waLink("Hej! Jag vill testa Premium IPTV gratis i 24 timmar.", ua, "Sticky-Mobile")} target="_blank" rel="noreferrer">
         💬 Gratis test 24h
       </a>
       <a className="stickyCta__btn stickyCta__btn--sec" href="#offers">
@@ -774,18 +771,18 @@ function StickyMobileCTA({ ua }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    MOA CHAT (improved)
    ═══════════════════════════════════════════════════════════════════════════ */
-function MoaChat({ ua }) {
+function MoaChat({ ua }: { ua: string }) {
   const [open, setOpen] = useState(false);
-  const [msgs, setMsgs] = useState([]);
+  const [msgs, setMsgs] = useState<{from: "bot"|"user"; text: string}[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [unread, setUnread] = useState(0);
   const [greeted, setGreeted] = useState(false);
-  const endRef = useRef(null);
+  const endRef = useRef<HTMLDivElement | null>(null);
 
   const quickReplies = ["Visa priser 💰", "Gratis test 24h 🧪", "Firestick-hjälp 🔥", "Vilka kanaler? 📺"];
 
-  const pushBot = async (text, delay = 800) => {
+  const pushBot = async (text: string, delay = 800) => {
     setIsTyping(true);
     await new Promise(r => setTimeout(r, delay));
     setMsgs(prev => [...prev, { from: "bot", text }]);
@@ -809,7 +806,7 @@ function MoaChat({ ua }) {
     return () => clearTimeout(t);
   }, [greeted]);
 
-  const getBotReply = (q) => {
+  const getBotReply = (q: string): string[] => {
     const l = q.toLowerCase();
     if (/pris|price|kost|paket|plan|💰/.test(l)) return ["Vi har paket från 83 kr/mån — 1, 3, 6 eller 12 månader. Alla inkluderar 20 000+ kanaler och EPG.", "Vill du se paketen direkt, eller testa gratis i 24h först?"];
     if (/firestick|install|setup|enhet|device|smart tv|🔥/.test(l)) return ["Firestick och Smart TV är populärast — installationen tar 10 minuter.", "Jag skickar installationshjälp direkt på WhatsApp!"];
@@ -818,7 +815,7 @@ function MoaChat({ ua }) {
     return ["Jag kan hjälpa dig med paket, gratis test, installation och kompatibilitet.", "Snabbast hjälp får du på WhatsApp — klicka nedan!"];
   };
 
-  const doSend = async (val) => {
+  const doSend = async (val: string) => {
     if (!val.trim() || isTyping) return;
     setMsgs(prev => [...prev, { from: "user", text: val }]);
     setInput("");
@@ -882,14 +879,19 @@ export default function Page() {
   const [showIntro, setShowIntro] = useState(true);
   const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
 
-  return (
-    <>
-      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  useEffect(() => {
+    if (document.querySelector('link[href*="Playfair"]')) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap";
+    document.head.appendChild(link);
+  }, []);
 
+  return (
+    <div className="app">
       {showIntro && <CinematicIntro onDone={() => setShowIntro(false)} />}
 
-      <div className="app">
-        <div className="app__bg" />
+      <div className="app__bg" />
 
         {/* COUNTDOWN BAR */}
         <CountdownBar />
@@ -910,7 +912,7 @@ export default function Page() {
                 <a key={href} href={href}>{label}</a>
               ))}
             </div>
-            <a className="btn btn--wa btn--sm hdr__cta" href={waLink("Hej! Jag behöver hjälp med Sverige TV.", ua, "Header")} target="_blank" rel="noreferrer">
+            <a className="btn btn--wa btn--sm hdr__cta" href={waLink("Hej! Jag behöver hjälp med Premium IPTV.", ua, "Header")} target="_blank" rel="noreferrer">
               💬 WhatsApp
             </a>
           </nav>
@@ -948,11 +950,10 @@ export default function Page() {
         <StickyMobileCTA ua={ua} />
         <MoaChat ua={ua} />
 
-        <style>{`
+        <style dangerouslySetInnerHTML={{ __html: `
 /* ═══════════════════════════════════════════════════════════════════
    CSS — ENHANCED LANDING PAGE
    ═══════════════════════════════════════════════════════════════════ */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
   --bg: #050308;
@@ -1654,8 +1655,7 @@ body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--fo
   transition: all 0.2s;
 }
 .cin__skip:hover { border-color: #FECC02; color: #FECC02; }
-        `}</style>
-      </div>
-    </>
+        `}} />
+    </div>
   );
 }
