@@ -552,8 +552,8 @@ function Countries({ ua }) {
                 <div className="cmodal__chGrid">
                   {sel.channels.map(ch => (
                     <div key={ch.n} className="cmodal__chip">
-                      <span>{ch.n}</span>
-                      <span>{ch.c}</span>
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0 }}>{ch.n}</span>
+                      <span style={{ flexShrink: 0 }}>{ch.c}</span>
                     </div>
                   ))}
                   <div className="cmodal__chip cmodal__chip--gold">
@@ -563,8 +563,8 @@ function Countries({ ua }) {
                 </div>
               </div>
               <div className="cmodal__priceBox">
-                <span style={{ fontSize: 24 }}>💰</span>
-                <div>
+                <span style={{ fontSize: 24, flexShrink: 0 }}>💰</span>
+                <div style={{ minWidth: 0, overflow: 'hidden' }}>
                   <div style={{ fontWeight: 700, fontSize: 14, color: "#fff" }}>Från 83 kr/mån</div>
                   <div style={{ fontSize: 12, color: "#9898a4" }}>Alla kanaler ingår • Gratis test 24h</div>
                 </div>
@@ -1283,38 +1283,42 @@ body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--fo
   border-radius: 20px; width: 100%; max-width: 640px; max-height: 88vh;
   display: flex; flex-direction: column; overflow: hidden;
   animation: slideUp 0.3s ease;
+  -webkit-overflow-scrolling: touch;
 }
-.cmodal__head { padding: 20px; display: flex; align-items: flex-start; gap: 14px; }
-.cmodal__flag { font-size: 40px; flex-shrink: 0; }
-.cmodal__titleBlock { flex: 1; min-width: 0; }
-.cmodal__titleBlock h2 { font-family: var(--font-display); font-size: 20px; margin: 0 0 4px; }
-.cmodal__titleBlock p { font-size: 13px; color: var(--muted); margin: 0; }
+.cmodal__head { padding: 20px; display: flex; align-items: flex-start; gap: 14px; overflow: hidden; }
+.cmodal__flag { font-size: 40px; flex-shrink: 0; line-height: 1; width: 44px; }
+.cmodal__titleBlock { flex: 1 1 0%; min-width: 0; overflow: hidden; width: 0; }
+.cmodal__titleBlock h2 { font-family: var(--font-display); font-size: 20px; margin: 0 0 4px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal; }
+.cmodal__titleBlock p { font-size: 13px; color: var(--muted); margin: 0; overflow-wrap: break-word; word-wrap: break-word; white-space: normal; }
 .cmodal__close {
   background: rgba(255,255,255,0.08); border: none; border-radius: 50%;
-  width: 36px; height: 36px; color: var(--muted); font-size: 16px;
+  width: 36px; height: 36px; min-width: 36px; color: var(--muted); font-size: 16px;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; flex-shrink: 0;
 }
 .cmodal__close:hover { background: rgba(255,255,255,0.15); color: #fff; }
-.cmodal__body { overflow-y: auto; padding: 0 20px 20px; flex: 1; }
+.cmodal__body { overflow-y: auto; overflow-x: hidden; padding: 0 20px 20px; flex: 1 1 auto; min-height: 0; -webkit-overflow-scrolling: touch; }
 .cmodal__sec { margin-bottom: 20px; }
 .cmodal__secTitle { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(200,169,110,0.6); margin-bottom: 10px; }
-.cmodal__chGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; }
+.cmodal__chGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 6px; }
 .cmodal__chip {
   background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
   border-radius: 8px; padding: 8px 12px;
   display: flex; align-items: center; justify-content: space-between; gap: 6px;
   font-size: 13px; font-weight: 600;
+  overflow: hidden;
 }
 .cmodal__chip--gold { background: rgba(200,169,110,0.06); border-color: rgba(200,169,110,0.2); }
 .cmodal__priceBox {
   background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.2);
   border-radius: 12px; padding: 14px 16px;
   display: flex; align-items: center; gap: 12px;
+  overflow: hidden;
 }
 .cmodal__footer {
   padding: 14px 20px 20px; border-top: 1px solid var(--border);
   display: flex; flex-direction: column; gap: 8px;
+  flex-shrink: 0;
 }
 
 /* ── DEVICES ── */
@@ -1557,7 +1561,12 @@ body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--fo
   .moa__fabText { display: none; }
   .moa__box { bottom: 130px; left: 12px; right: 12px; width: auto; }
   .cmodal { padding: 0; align-items: flex-end; }
-  .cmodal__box { border-radius: 20px 20px 0 0; max-height: 90vh; }
+  .cmodal__box { border-radius: 20px 20px 0 0; max-height: 90vh; width: 100vw; max-width: 100vw; }
+  .cmodal__head { padding: 16px; gap: 10px; }
+  .cmodal__flag { font-size: 32px; width: 36px; }
+  .cmodal__titleBlock h2 { font-size: 18px; }
+  .cmodal__chGrid { grid-template-columns: repeat(2, 1fr); }
+  .cmodal__footer { padding: 12px 16px 16px; padding-bottom: max(16px, env(safe-area-inset-bottom)); }
 }
 @media (hover: none) {
   .btn, .explorer__tab, .faq__q, .ccard { min-height: 48px; }
@@ -1649,4 +1658,4 @@ body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--fo
       </div>
     </>
   );
-        }
+}
