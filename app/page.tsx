@@ -64,6 +64,39 @@ const DEVICE_LIST = [
   { name: "MAG Box", icon: "📡" },
 ];
 
+// ─── COUNTRIES DATA (from code 2) ─────────────────────────────────────────────
+
+type CountryChannel = { n: string; c: string };
+type Country = {
+  slug: string;
+  flag: string;
+  name: string;
+  sub: string;
+  desc: string;
+  wa: string;
+  keywords: [string, string][];
+  channels: CountryChannel[];
+};
+
+const COUNTRIES: Country[] = [
+  { slug:"arabisk",flag:"🇸🇦",name:"عربي",sub:"MBC, Al Jazeera, beIN Sports",desc:"Fullständigt arabiskt kanalpaket — MBC, Al Jazeera, beIN Sports 4K, OSN, Rotana.",wa:"Hej! Jag vill ha arabiska kanaler i Sverige.",keywords:[["arabisk IPTV Sverige","1 200/mån"],["MBC Sverige","890/mån"],["beIN Sports Sverige","720/mån"],["arabiska kanaler","650/mån"]],channels:[{n:"MBC 1",c:"🎬"},{n:"MBC 2",c:"🎬"},{n:"MBC Drama",c:"📺"},{n:"MBC Action",c:"💥"},{n:"Al Jazeera",c:"📰"},{n:"Al Arabiya",c:"📰"},{n:"beIN Sports 1 4K",c:"⚽"},{n:"beIN Sports 2",c:"⚽"},{n:"beIN Sports 3",c:"⚽"},{n:"OSN Sports",c:"⚽"},{n:"Rotana Cinema",c:"🎬"},{n:"Rotana Drama",c:"📺"},{n:"Dubai TV",c:"🎬"},{n:"Abu Dhabi TV",c:"📰"},{n:"Saudi 1",c:"🎬"},{n:"LBC Lebanon",c:"🎬"},{n:"BBC Arabic",c:"📰"},{n:"France 24 عربي",c:"📰"},{n:"Nile Drama",c:"📺"},{n:"MTV Lebanon",c:"🎵"}]},
+  { slug:"turkisk",flag:"🇹🇷",name:"Türkçe",sub:"TRT, Show TV, Kanal D",desc:"Alla turkiska favoritkanaler — TRT, Show TV, Kanal D, diziler och sport.",wa:"Hej! Jag vill ha turkiska kanaler i Sverige.",keywords:[["turkisk IPTV Sverige","980/mån"],["turkiska kanaler","740/mån"],["TRT Sverige","520/mån"],["türk dizi Sverige","480/mån"]],channels:[{n:"TRT 1",c:"🎬"},{n:"TRT Haber",c:"📰"},{n:"TRT Spor",c:"⚽"},{n:"Show TV",c:"🎬"},{n:"Kanal D",c:"🎬"},{n:"Star TV",c:"🎬"},{n:"ATV",c:"🎬"},{n:"FOX Türkiye",c:"🎬"},{n:"Habertürk",c:"📰"},{n:"CNN Türk",c:"📰"},{n:"beIN Sports TR",c:"⚽"},{n:"A Spor",c:"⚽"},{n:"TV8",c:"🎬"},{n:"Teve 2",c:"🎬"},{n:"TRT 2",c:"🎭"}]},
+  { slug:"exyu",flag:"🇧🇦",name:"ExYu",sub:"Pink, RTS, HRT, Arena Sport",desc:"Bosniska, serbiska, kroatiska kanaler — sport, serier, nyheter.",wa:"Hej! Jag vill ha ExYu kanaler i Sverige.",keywords:[["exyu IPTV Sverige","560/mån"],["balkanska kanaler","430/mån"],["Pink TV Sverige","380/mån"],["Arena Sport Sverige","290/mån"]],channels:[{n:"Pink 1",c:"🎬"},{n:"Pink 2",c:"🎬"},{n:"RTS 1 Srbija",c:"🎬"},{n:"HRT 1 Hrvatska",c:"🎬"},{n:"FTV BiH",c:"🎬"},{n:"BHT1",c:"📰"},{n:"Arena Sport 1 HD",c:"⚽"},{n:"Arena Sport 2 HD",c:"⚽"},{n:"Prva TV",c:"🎬"},{n:"Nova S Srbija",c:"🎬"},{n:"Hayat TV",c:"🎬"},{n:"N1 Balkan",c:"📰"}]},
+  { slug:"somalisk",flag:"🇸🇴",name:"Somali",sub:"Universal TV, Horn Cable",desc:"Somaliska kanaler — Universal TV, Horn Cable TV, SBC.",wa:"Hej! Jag vill ha somaliska kanaler i Sverige.",keywords:[["somalisk IPTV Sverige","340/mån"],["Universal TV Sverige","280/mån"],["somaliska kanaler","210/mån"]],channels:[{n:"Universal TV",c:"🎬"},{n:"Horn Cable TV",c:"📰"},{n:"SBC Somalia",c:"🎬"},{n:"Goobjoog TV",c:"📰"},{n:"Mustaqbal TV",c:"🎬"},{n:"VOA Somali",c:"📰"},{n:"BBC Somali",c:"📰"}]},
+  { slug:"persisk",flag:"🇮🇷",name:"فارسی",sub:"Manoto, GEM TV, VOA Persian",desc:"Iranska kanaler — Manoto, GEM TV, Iran International.",wa:"Hej! Jag vill ha persiska kanaler i Sverige.",keywords:[["persisk IPTV Sverige","420/mån"],["Manoto Sverige","350/mån"],["GEM TV Sverige","290/mån"]],channels:[{n:"Manoto TV",c:"🎬"},{n:"GEM TV",c:"🎬"},{n:"VOA Persian",c:"📰"},{n:"Iran International",c:"📰"},{n:"BBC Persian",c:"📰"},{n:"Farsi1",c:"🎬"},{n:"Varzesh TV",c:"⚽"}]},
+  { slug:"kurdisk",flag:"🏳️",name:"Kurdî",sub:"Rudaw, Kurdistan 24, NRT",desc:"Kurdiska TV-kanaler — Rudaw, Kurdistan 24, NRT, K24.",wa:"Hej! Jag vill ha kurdiska kanaler i Sverige.",keywords:[["kurdisk IPTV Sverige","380/mån"],["Rudaw Sverige","290/mån"],["Kurdistan 24","240/mån"]],channels:[{n:"Rudaw",c:"📰"},{n:"Kurdistan 24",c:"📰"},{n:"NRT TV",c:"🎬"},{n:"K24",c:"📰"},{n:"KTV Kurdistan",c:"🎬"},{n:"Zagros TV",c:"🎬"}]},
+  { slug:"polsk",flag:"🇵🇱",name:"Polski",sub:"TVP, Polsat, TVN, Canal+",desc:"Polska TV-kanaler — TVP, Polsat, TVN, Canal+.",wa:"Hej! Jag vill ha polska kanaler i Sverige.",keywords:[["polska IPTV Sverige","310/mån"],["polska kanaler","260/mån"],["TVP Sverige","200/mån"]],channels:[{n:"TVP 1",c:"🎬"},{n:"TVP 2",c:"🎬"},{n:"TVP Info",c:"📰"},{n:"Polsat",c:"🎬"},{n:"TVN",c:"🎬"},{n:"TVN 24",c:"📰"},{n:"Canal+ Sport PL",c:"⚽"},{n:"TVP Sport",c:"⚽"}]},
+  { slug:"finsk",flag:"🇫🇮",name:"Suomi",sub:"Yle, MTV3, Nelonen",desc:"Finska TV-kanaler — Yle, MTV3, Nelonen, Sub.",wa:"Hej! Jag vill ha finska kanaler i Sverige.",keywords:[["finsk IPTV Sverige","280/mån"],["finska kanaler","220/mån"],["Yle Sverige","180/mån"]],channels:[{n:"Yle TV1",c:"🎬"},{n:"Yle TV2",c:"🎬"},{n:"MTV3",c:"🎬"},{n:"Nelonen",c:"🎬"},{n:"Sub",c:"🎬"},{n:"C More Sport FI",c:"⚽"}]},
+  { slug:"indisk",flag:"🇮🇳",name:"हिंदी",sub:"Star Plus, Zee TV, Sony",desc:"Indiska kanaler — Star Plus, Zee TV, Sony, Colors och Bollywood.",wa:"Hej! Jag vill ha indiska kanaler i Sverige.",keywords:[["indisk IPTV Sverige","320/mån"],["Star Plus Sverige","280/mån"],["hindi TV Sverige","210/mån"]],channels:[{n:"Star Plus HD",c:"🎬"},{n:"Zee TV HD",c:"🎬"},{n:"Sony Entertainment",c:"🎬"},{n:"Colors TV",c:"🎬"},{n:"Star Sports 1",c:"⚽"},{n:"Aaj Tak",c:"📰"},{n:"Zee Cinema",c:"🎬"},{n:"Star Gold",c:"🎬"}]},
+  { slug:"afrikansk",flag:"🌍",name:"Afrique",sub:"Canal+, RTS, TFM, AFROTV",desc:"Afrikanska kanaler — Canal+, RTS Sénégal, TFM, Nollywood.",wa:"Hej! Jag vill ha afrikanska kanaler i Sverige.",keywords:[["afrikansk IPTV Sverige","260/mån"],["Canal+ Africa Sverige","190/mån"],["afrikanska kanaler","170/mån"]],channels:[{n:"Canal+ Afrique",c:"🎬"},{n:"RTS 1 Sénégal",c:"🎬"},{n:"TFM Sénégal",c:"🎬"},{n:"AFROTV",c:"🎬"},{n:"NTA Nigeria",c:"📰"},{n:"Africa 24",c:"📰"},{n:"Nollywood TV",c:"🎬"},{n:"SuperSport Africa",c:"⚽"}]},
+  { slug:"kinesisk",flag:"🇨🇳",name:"中文",sub:"CCTV, Phoenix, TVB",desc:"Kinesiska kanaler — CCTV, Phoenix, TVB, mandarin.",wa:"Hej! Jag vill ha kinesiska kanaler i Sverige.",keywords:[["kinesisk IPTV Sverige","240/mån"],["CCTV Sverige","190/mån"],["Phoenix TV Sverige","160/mån"]],channels:[{n:"CCTV 1",c:"🎬"},{n:"CCTV 4 Int",c:"🎬"},{n:"Phoenix InfoNews",c:"📰"},{n:"Phoenix Chinese",c:"🎬"},{n:"TVB Jade",c:"🎬"},{n:"CCTV Sport",c:"⚽"}]},
+  { slug:"spansk",flag:"🇪🇸",name:"Español",sub:"TVE, Antena 3, Univision",desc:"Spanska kanaler — TVE, Antena 3, Univision, LaLiga.",wa:"Hej! Jag vill ha spanska kanaler i Sverige.",keywords:[["spansk IPTV Sverige","190/mån"],["TVE Sverige","160/mån"],["Antena 3 Sverige","130/mån"]],channels:[{n:"TVE 1",c:"🎬"},{n:"TVE 2",c:"🎬"},{n:"Antena 3",c:"🎬"},{n:"Telecinco",c:"🎬"},{n:"Univision",c:"🌎"},{n:"Canal+ LaLiga",c:"⚽"},{n:"ESPN Latin",c:"⚽"}]},
+  { slug:"grekisk",flag:"🇬🇷",name:"Ελληνικά",sub:"ERT, MEGA, ANT1",desc:"Grekiska kanaler — ERT, MEGA, ANT1, Nova Sports.",wa:"Hej! Jag vill ha grekiska kanaler i Sverige.",keywords:[["grekisk IPTV Sverige","180/mån"],["ERT Sverige","150/mån"],["MEGA TV Sverige","120/mån"]],channels:[{n:"ERT 1",c:"🎬"},{n:"MEGA Channel",c:"🎬"},{n:"ANT1",c:"🎬"},{n:"SKAI TV",c:"📰"},{n:"Nova Sports GR",c:"⚽"}]},
+  { slug:"portugisisk",flag:"🇵🇹",name:"Português",sub:"RTP, SIC, TVI, Globo",desc:"Portugisiska och brasilianska kanaler — RTP, SIC, Globo Brasil.",wa:"Hej! Jag vill ha portugisiska kanaler i Sverige.",keywords:[["portugisisk IPTV Sverige","160/mån"],["RTP Sverige","130/mån"],["brasiliansk TV Sverige","110/mån"]],channels:[{n:"RTP 1",c:"🎬"},{n:"RTP Internacional",c:"🎬"},{n:"SIC Portugal",c:"🎬"},{n:"TVI Portugal",c:"🎬"},{n:"Globo Brasil",c:"🎬"},{n:"SporTV",c:"⚽"}]},
+  { slug:"thai",flag:"🇹🇭",name:"ภาษาไทย",sub:"Thai PBS, ONE31, GMM25",desc:"Thailändska kanaler — Thai PBS, ONE31, GMM25, CH3.",wa:"Hej! Jag vill ha thailändska kanaler i Sverige.",keywords:[["thai IPTV Sverige","140/mån"],["thailändska kanaler","110/mån"]],channels:[{n:"Thai PBS",c:"🎬"},{n:"ONE31",c:"🎬"},{n:"GMM25",c:"🎬"},{n:"CH3 Thailand",c:"🎬"},{n:"True Sport",c:"⚽"}]},
+  { slug:"vietnamesisk",flag:"🇻🇳",name:"Tiếng Việt",sub:"VTV, HTV, SCTV",desc:"Vietnamesiska kanaler — VTV, HTV, SCTV.",wa:"Hej! Jag vill ha vietnamesiska kanaler i Sverige.",keywords:[["vietnamesisk IPTV Sverige","130/mån"],["VTV Sverige","100/mån"]],channels:[{n:"VTV1",c:"🎬"},{n:"VTV3",c:"🎬"},{n:"HTV7",c:"🎬"},{n:"SCTV",c:"🎬"}]},
+];
+
 // ─── DICTIONARY ──────────────────────────────────────────────────────────────
 
 const dict: Record<Locale, Copy> = {
@@ -545,16 +578,12 @@ function normalizeLocale(raw: string): Locale {
 }
 function detectLangClient(): Locale {
   if (typeof window === "undefined") return "sv";
-  // 1. URL param always wins
   const params = new URLSearchParams(window.location.search);
   const qp = params.get("lang");
   if (qp) return normalizeLocale(qp);
-  // 2. Device/browser language (before localStorage — phone language is canonical)
   const navLangs = ((navigator.languages?.length ? navigator.languages : [navigator.language]) as string[]).filter(Boolean);
   for (const nl of navLangs) { const n = normalizeLocale(nl); if (dict[n]) return n; }
-  // 3. Previously saved preference
   try { const s = window.localStorage.getItem("lang"); if (s) return normalizeLocale(s); } catch {}
-  // 4. Default: Swedish
   return "sv";
 }
 function getISOWeekKey(d = new Date()): string {
@@ -697,7 +726,7 @@ function MoaChat({ userAgent }: { userAgent: string }) {
   const [unread, setUnread] = useState(0);
   const [showQuick, setShowQuick] = useState(false);
   const msgsEndRef = useRef<HTMLDivElement | null>(null);
-  const avatarUrl = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjAgMTYwIj4KICA8ZGVmcz4KICAgIDxjbGlwUGF0aCBpZD0iYyI+PGNpcmNsZSBjeD0iODAiIGN5PSI4MCIgcj0iODAiLz48L2NsaXBQYXRoPgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJiZyIgY3g9IjUwJSIgY3k9IjEwMCUiIHI9IjkwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMxZTBjMTIiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMGEwNTA3Ii8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJza2luIiBjeD0iNDIlIiBjeT0iMzIlIiByPSI2MiUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmNlMGM0Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTUlIiBzdG9wLWNvbG9yPSIjZjVjOGEwIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2RmYTA3MCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0ic2tpblNoYWQiIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNlOGE4NzgiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjMDcwNDAiIHN0b3Atb3BhY2l0eT0iMC4yMiIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iaGFpciIgY3g9IjUwJSIgY3k9IjEwJSIgcj0iODAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzNkMjIxMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjQwJSIgc3RvcC1jb2xvcj0iIzJhMTUwOCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxNTBhMDQiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImhhaXJIaSIgY3g9IjUwJSIgY3k9IjIwJSIgcj0iNTAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzVjMzUyMCIgc3RvcC1vcGFjaXR5PSIwLjYiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMmExNTA4IiBzdG9wLW9wYWNpdHk9IjAiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImlyaXNMIiBjeD0iMzglIiBjeT0iMzAlIiByPSI3MCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNmI4ZmE4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iNDUlIiBzdG9wLWNvbG9yPSIjM2Q2Mjc4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzFlMzU0NSIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iaXJpc1IiIGN4PSIzOCUiIGN5PSIzMCUiIHI9IjcwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM2YjhmYTgiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI0NSUiIHN0b3AtY29sb3I9IiMzZDYyNzgiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMWUzNTQ1Ii8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJibHVzaEwiIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNlMDcwNjAiIHN0b3Atb3BhY2l0eT0iMC4yOCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlMDcwNjAiIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iYmx1c2hSIiBjeD0iNTAlIiBjeT0iNTAlIiByPSI1MCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZTA3MDYwIiBzdG9wLW9wYWNpdHk9IjAuMjgiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZTA3MDYwIiBzdG9wLW9wYWNpdHk9IjAiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImxpcCIgY3g9IjUwJSIgY3k9IjMwJSIgcj0iNzAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2M4NDA2MCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4YTE4MzAiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICA8ZmlsdGVyIGlkPSJzb2Z0Ij48ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSIwLjUiLz48L2ZpbHRlcj4KICAgIDxmaWx0ZXIgaWQ9InZzb2Z0Ij48ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSIwLjI1Ii8+PC9maWx0ZXI+CiAgICA8ZmlsdGVyIGlkPSJoYWlyQmx1ciI+PGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iMC40Ii8+PC9maWx0ZXI+CiAgPC9kZWZzPgoKICA8ZyBjbGlwLXBhdGg9InVybCgjYykiPgogICAgPCEtLSBCYWNrZ3JvdW5kIC0tPgogICAgPHJlY3Qgd2lkdGg9IjE2MCIgaGVpZ2h0PSIxNjAiIGZpbGw9InVybCgjYmcpIi8+CiAgICA8IS0tIFN1YnRsZSBib3JkZWF1eCBnbG93IGJvdHRvbSAtLT4KICAgIDxlbGxpcHNlIGN4PSI4MCIgY3k9IjE2OCIgcng9IjcwIiByeT0iMzgiIGZpbGw9IiM3YzEzMjYiIG9wYWNpdHk9IjAuMjIiLz4KCiAgICA8IS0tIE91dGZpdCDigJQgZGFyayBlbGVnYW50IG5lY2tsaW5lIC0tPgogICAgPHBhdGggZD0iTSAwIDE0OCBRIDMwIDExNSA1OCAxMTggUSA3MCAxMjIgODAgMTI0IFEgOTAgMTIyIDEwMiAxMTggUSAxMzAgMTE1IDE2MCAxNDggTCAxNjAgMTYwIEwgMCAxNjAgWiIgZmlsbD0iIzBmMDgxMCIvPgogICAgPCEtLSBDb2xsYXIgc3VidGxlIGJvcmRlYXV4IGRldGFpbCAtLT4KICAgIDxwYXRoIGQ9Ik0gNjIgMTE4IFEgODAgMTI4IDk4IDExOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN2MxMzI2IiBzdHJva2Utd2lkdGg9IjEuMiIgb3BhY2l0eT0iMC41NSIvPgogICAgPHBhdGggZD0iTSA2OCAxMTkgUSA4MCAxMzAgOTIgMTE5IiBmaWxsPSJub25lIiBzdHJva2U9IiM4YTFjMmUiIHN0cm9rZS13aWR0aD0iMC43IiBvcGFjaXR5PSIwLjM1Ii8+CgogICAgPCEtLSBOZWNrIC0tPgogICAgPHBhdGggZD0iTSA2NiAxMDIgUSA3MiAxMDggODAgMTEwIFEgODggMTA4IDk0IDEwMiBMIDk0IDExOSBRIDg4IDEyNCA4MCAxMjYgUSA3MiAxMjQgNjYgMTE5IFoiIGZpbGw9InVybCgjc2tpbikiLz4KICAgIDwhLS0gTmVjayBzaGFkb3cgY2VudHJlIC0tPgogICAgPGVsbGlwc2UgY3g9IjgwIiBjeT0iMTEyIiByeD0iNSIgcnk9IjciIGZpbGw9IiNjMDcwNDAiIG9wYWNpdHk9IjAuMTIiLz4KCiAgICA8IS0tIEhhaXIgYmFjayAoYmVoaW5kIGZhY2UpIC0tPgogICAgPHBhdGggZD0iTSAyOCA3MCBRIDI0IDM4IDM2IDIyIFEgNTIgNCA4MCA1IFEgMTA4IDQgMTI0IDIyIFEgMTM2IDM4IDEzMiA3MCBRIDEzMCA5MCAxMjYgMTA0IFEgMTIwIDExNiAxMTggMTI2IEwgMTEyIDEyNSBRIDExNiAxMTIgMTIwIDk4IFEgMTI2IDgwIDEyOCA2NCBRIDEzMiAzOCAxMTggMjQgUSAxMDIgMTAgODAgMTAgUSA1OCAxMCA0MiAyNCBRIDI4IDM4IDMyIDY0IFEgMzQgODAgNDAgOTggUSA0NCAxMTIgNDggMTI1IEwgNDIgMTI2IFEgNDAgMTE2IDM0IDEwNCBRIDMwIDkwIDI4IDcwIFoiIGZpbGw9InVybCgjaGFpcikiIGZpbHRlcj0idXJsKCNoYWlyQmx1cikiLz4KCiAgICA8IS0tIEZhY2Ugc2hhcGUgLS0+CiAgICA8ZWxsaXBzZSBjeD0iODAiIGN5PSI3MCIgcng9IjM1IiByeT0iNDIiIGZpbGw9InVybCgjc2tpbikiLz4KICAgIDwhLS0gSmF3IHJlZmluZW1lbnQgLS0+CiAgICA8cGF0aCBkPSJNIDUwIDc2IFEgNTAgMTAyIDgwIDExMiBRIDExMCAxMDIgMTEwIDc2IiBmaWxsPSJ1cmwoI3NraW4pIi8+CiAgICA8IS0tIEZhY2UgZGVwdGggb3ZlcmxheSAtLT4KICAgIDxlbGxpcHNlIGN4PSI4MCIgY3k9IjcwIiByeD0iMzUiIHJ5PSI0MiIgZmlsbD0idXJsKCNza2luU2hhZCkiLz4KCiAgICA8IS0tIFRlbXBvcmFsIHNoYWRvd3MgLS0+CiAgICA8ZWxsaXBzZSBjeD0iNDYiIGN5PSI1OCIgcng9IjgiIHJ5PSIxNCIgZmlsbD0iI2MwNzA0MCIgb3BhY2l0eT0iMC4wOSIgZmlsdGVyPSJ1cmwoI3NvZnQpIi8+CiAgICA8ZWxsaXBzZSBjeD0iMTE0IiBjeT0iNTgiIHJ4PSI4IiByeT0iMTQiIGZpbGw9IiNjMDcwNDAiIG9wYWNpdHk9IjAuMDkiIGZpbHRlcj0idXJsKCNzb2Z0KSIvPgoKICAgIDwhLS0gQ2hlZWtzIGJsdXNoIC0tPgogICAgPGVsbGlwc2UgY3g9IjU2IiBjeT0iODAiIHJ4PSIxMiIgcnk9IjkiIGZpbGw9InVybCgjYmx1c2hMKSIgZmlsdGVyPSJ1cmwoI3NvZnQpIi8+CiAgICA8ZWxsaXBzZSBjeD0iMTA0IiBjeT0iODAiIHJ4PSIxMiIgcnk9IjkiIGZpbGw9InVybCgjYmx1c2hSKSIgZmlsdGVyPSJ1cmwoI3NvZnQpIi8+CgogICAgPCEtLSBFeWVicm93cyDigJQgYXJjaGVkLCBkZWZpbmVkIC0tPgogICAgPHBhdGggZD0iTSA1NCA1MSBRIDYyIDQ2IDcyIDQ4LjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJhMTQwOCIgc3Ryb2tlLXdpZHRoPSIyLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgPHBhdGggZD0iTSA4OCA0OC41IFEgOTggNDYgMTA2IDUxIiBmaWxsPSJub25lIiBzdHJva2U9IiMyYTE0MDgiIHN0cm9rZS13aWR0aD0iMi44IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICAgIDwhLS0gQnJvdyBzb2Z0bmVzcyAtLT4KICAgIDxwYXRoIGQ9Ik0gNTQgNTEgUSA2MiA0NyA3MiA0OSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2QyMDEwIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjUiLz4KICAgIDxwYXRoIGQ9Ik0gODggNDkgUSA5OCA0NyAxMDYgNTEiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzNkMjAxMCIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC41Ii8+CgogICAgPCEtLSBVcHBlciBleWVsaWQgc2hhZG93IC0tPgogICAgPGVsbGlwc2UgY3g9IjYzIiBjeT0iNjAiIHJ4PSI5LjUiIHJ5PSI1IiBmaWxsPSIjYzA3MDQwIiBvcGFjaXR5PSIwLjE0IiBmaWx0ZXI9InVybCgjdnNvZnQpIi8+CiAgICA8ZWxsaXBzZSBjeD0iOTciIGN5PSI2MCIgcng9IjkuNSIgcnk9IjUiIGZpbGw9IiNjMDcwNDAiIG9wYWNpdHk9IjAuMTQiIGZpbHRlcj0idXJsKCN2c29mdCkiLz4KCiAgICA8IS0tIEV5ZXMg4oCUIExlZnQgLS0+CiAgICA8cGF0aCBkPSJNIDUzLjUgNjIgUSA2MyA1NiA3Mi41IDYyIFEgNjMgNjUuNSA1My41IDYyIFoiIGZpbGw9IndoaXRlIi8+CiAgICA8ZWxsaXBzZSBjeD0iNjMiIGN5PSI2MS41IiByeD0iNS44IiByeT0iNS44IiBmaWxsPSJ1cmwoI2lyaXNMKSIvPgogICAgPGVsbGlwc2UgY3g9IjYzIiBjeT0iNjEuNSIgcng9IjQiIHJ5PSI0IiBmaWxsPSIjMGUxZTI4Ii8+CiAgICA8ZWxsaXBzZSBjeD0iNjMiIGN5PSI2MS41IiByeD0iMi44IiByeT0iMi44IiBmaWxsPSIjMDYwZTE0Ii8+CiAgICA8IS0tIElyaXMgcmluZyAtLT4KICAgIDxlbGxpcHNlIGN4PSI2MyIgY3k9IjYxLjUiIHJ4PSI1LjgiIHJ5PSI1LjgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFlMzg0OCIgc3Ryb2tlLXdpZHRoPSIwLjUiIG9wYWNpdHk9IjAuNiIvPgogICAgPCEtLSBDYXRjaCBsaWdodCAtLT4KICAgIDxlbGxpcHNlIGN4PSI2NS41IiBjeT0iNTkuNSIgcng9IjEuNSIgcnk9IjEuNSIgZmlsbD0id2hpdGUiIG9wYWNpdHk9IjAuODgiLz4KICAgIDxlbGxpcHNlIGN4PSI2MS41IiBjeT0iNjMiIHJ4PSIwLjciIHJ5PSIwLjciIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjM4Ii8+CiAgICA8IS0tIFVwcGVyIGxhc2hlcyAtLT4KICAgIDxwYXRoIGQ9Ik0gNTMgNjEgUSA1NSA1Ni41IDYzIDU4IFEgNzEgNTYuNSA3MyA2MSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMTIwODA1IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgPHBhdGggZD0iTSA1NCA1OS41IEwgNTIuNSA1NyIgc3Ryb2tlPSIjMTIwODA1IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgPHBhdGggZD0iTSA1NyA1Ny41IEwgNTYuNSA1NS41IiBzdHJva2U9IiMxMjA4MDUiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgICA8cGF0aCBkPSJNIDYwLjUgNTcgTCA2MC41IDU0LjgiIHN0cm9rZT0iIzEyMDgwNSIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICAgIDxwYXRoIGQ9Ik0gNjQgNTYuOCBMIDY0LjUgNTQuNiIgc3Ryb2tlPSIjMTIwODA1IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgPHBhdGggZD0iTSA2NyA1Ny41IEwgNjggNTUuNSIgc3Ryb2tlPSIjMTIwODA1IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgPHBhdGggZD0iTSA3MCA1OSBMIDcxLjUgNTcuMiIgc3Ryb2tlPSIjMTIwODA1IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgPCEtLSBMb3dlciBsYXNoIGxpbmUgLS0+CiAgICA8cGF0aCBkPSJNIDU0IDYzIFEgNjMgNjUgNzIgNjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzNkMjAxMCIgc3Ryb2tlLXdpZHRoPSIwLjYiIG9wYWNpdHk9IjAuMzUiLz4KCiAgICA8IS0tIEV5ZXMg4oCUIFJpZ2h0IC0tPgogICAgPHBhdGggZD0iTSA4Ny41IDYyIFEgOTcgNTYgMTA2LjUgNjIgUSA5NyA2NS41IDg3LjUgNjIgWiIgZmlsbD0id2hpdGUiLz4KICAgIDxlbGxpcHNlIGN4PSI5NyIgY3k9IjYxLjUiIHJ4PSI1LjgiIHJ5PSI1LjgiIGZpbGw9InVybCgjaXJpc1IpIi8+CiAgICA8ZWxsaXBzZSBjeD0iOTciIGN5PSI2MS41IiByeD0iNCIgcnk9IjQiIGZpbGw9IiMwZTFlMjgiLz4KICAgIDxlbGxpcHNlIGN4PSI5NyIgY3k9IjYxLjUiIHJ4PSIyLjgiIHJ5PSIyLjgiIGZpbGw9IiMwNjBlMTQiLz4KICAgIDxlbGxpcHNlIGN4PSI5NyIgY3k9IjYxLjUiIHJ4PSI1LjgiIHJ5PSI1LjgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFlMzg0OCIgc3Ryb2tlLXdpZHRoPSIwLjUiIG9wYWNpdHk9IjAuNiIvPgogICAgPGVsbGlwc2UgY3g9Ijk5LjUiIGN5PSI1OS41IiByeD0iMS41IiByeT0iMS41IiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC44OCIvPgogICAgPGVsbGlwc2UgY3g9Ijk1LjUiIGN5PSI2MyIgcng9IjAuNyIgcnk9IjAuNyIgZmlsbD0id2hpdGUiIG9wYWNpdHk9IjAuMzgiLz4KICAgIDxwYXRoIGQ9Ik0gODcgNjEgUSA4OSA1Ni41IDk3IDU4IFEgMTA1IDU2LjUgMTA3IDYxIiBmaWxsPSJub25lIiBzdHJva2U9IiMxMjA4MDUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgICA8cGF0aCBkPSJNIDg4IDU5LjUgTCA4Ni41IDU3IiBzdHJva2U9IiMxMjA4MDUiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgICA8cGF0aCBkPSJNIDkxIDU3LjUgTCA5MC41IDU1LjUiIHN0cm9rZT0iIzEyMDgwNSIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICAgIDxwYXRoIGQ9Ik0gOTQuNSA1NyBMIDk0LjUgNTQuOCIgc3Ryb2tlPSIjMTIwODA1IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgPHBhdGggZD0iTSA5OCA1Ni44IEwgOTguNSA1NC42IiBzdHJva2U9IiMxMjA4MDUiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgICA8cGF0aCBkPSJNIDEwMSA1Ny41IEwgMTAyIDU1LjUiIHN0cm9rZT0iIzEyMDgwNSIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICAgIDxwYXRoIGQ9Ik0gMTA0IDU5IEwgMTA1LjUgNTcuMiIgc3Ryb2tlPSIjMTIwODA1IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgPHBhdGggZD0iTSA4OCA2MyBRIDk3IDY1IDEwNiA2MyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2QyMDEwIiBzdHJva2Utd2lkdGg9IjAuNiIgb3BhY2l0eT0iMC4zNSIvPgoKICAgIDwhLS0gTm9zZSDigJQgcmVmaW5lZCwgc3VidGxlIC0tPgogICAgPHBhdGggZD0iTSA4MCA2OCBMIDc3IDgwIFEgODAgODMgODMgODAgWiIgZmlsbD0iI2MwNzg0OCIgb3BhY2l0eT0iMC4xNiIvPgogICAgPGVsbGlwc2UgY3g9Ijc2IiBjeT0iODEiIHJ4PSIzLjIiIHJ5PSIyLjIiIGZpbGw9IiNiODcwNDAiIG9wYWNpdHk9IjAuMTYiLz4KICAgIDxlbGxpcHNlIGN4PSI4NCIgY3k9IjgxIiByeD0iMy4yIiByeT0iMi4yIiBmaWxsPSIjYjg3MDQwIiBvcGFjaXR5PSIwLjE2Ii8+CiAgICA8cGF0aCBkPSJNIDc0LjUgODEuNSBRIDgwIDg0IDg1LjUgODEuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjg3MDQwIiBzdHJva2Utd2lkdGg9IjAuOSIgb3BhY2l0eT0iMC4zIi8+CiAgICA8IS0tIE5vc2UgYnJpZGdlIHN1YnRsZSAtLT4KICAgIDxwYXRoIGQ9Ik0gNzggNjggUSA3NiA3NCA3NiA4MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzA3ODQ4IiBzdHJva2Utd2lkdGg9IjAuNiIgb3BhY2l0eT0iMC4xNSIvPgogICAgPHBhdGggZD0iTSA4MiA2OCBRIDg0IDc0IDg0IDgwIiBmaWxsPSJub25lIiBzdHJva2U9IiNjMDc4NDgiIHN0cm9rZS13aWR0aD0iMC42IiBvcGFjaXR5PSIwLjE1Ii8+CgogICAgPCEtLSBQaGlsdHJ1bSAtLT4KICAgIDxwYXRoIGQ9Ik0gNzcgODMgUSA4MCA4NiA4MyA4MyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzA3ODQ4IiBzdHJva2Utd2lkdGg9IjAuNyIgb3BhY2l0eT0iMC4yIi8+CgogICAgPCEtLSBMaXBzIOKAlCBmdWxsLCBkZWZpbmVkLCB3aXRoIGN1cGlkIGJvdyAtLT4KICAgIDwhLS0gVXBwZXIgbGlwIC0tPgogICAgPHBhdGggZD0iTSA2NSA5MCBRIDcwIDg2LjUgNzUgODggTCA4MCA4NyBMIDg1IDg4IFEgOTAgODYuNSA5NSA5MCBRIDkwIDg4LjUgODAgODkuNSBRIDcwIDg4LjUgNjUgOTAgWiIgZmlsbD0idXJsKCNsaXApIi8+CiAgICA8IS0tIEN1cGlkIGJvdyBoaWdobGlnaHQgLS0+CiAgICA8cGF0aCBkPSJNIDY1IDkwIFEgNjkgODcgNzQgODguMiBMIDgwIDg3LjIgTCA4NiA4OC4yIFEgOTEgODcgOTUgOTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2EwMjg0OCIgc3Ryb2tlLXdpZHRoPSIwLjciIG9wYWNpdHk9IjAuNSIvPgogICAgPCEtLSBMb3dlciBsaXAgLS0+CiAgICA8cGF0aCBkPSJNIDY1IDkwIFEgNjggOTggODAgOTkuNSBRIDkyIDk4IDk1IDkwIFEgODkgOTMuNSA4MCA5NC41IFEgNzEgOTMuNSA2NSA5MCBaIiBmaWxsPSJ1cmwoI2xpcCkiLz4KICAgIDwhLS0gTGlwIGNlbnRyZSBsaW5lIC0tPgogICAgPHBhdGggZD0iTSA2NiA5MCBRIDgwIDkxLjUgOTQgOTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzZhMTAyMCIgc3Ryb2tlLXdpZHRoPSIwLjYiIG9wYWNpdHk9IjAuNCIvPgogICAgPCEtLSBMb3dlciBsaXAgc2hpbmUgLS0+CiAgICA8ZWxsaXBzZSBjeD0iODAiIGN5PSI5NSIgcng9IjciIHJ5PSIyLjIiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjEiLz4KICAgIDwhLS0gQ29ybmVyIHNoYWRvd3MgLS0+CiAgICA8cGF0aCBkPSJNIDYzIDg5IFEgNjIgOTIgNjMgOTYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2MwNzA0MCIgc3Ryb2tlLXdpZHRoPSIwLjciIG9wYWNpdHk9IjAuMTgiLz4KICAgIDxwYXRoIGQ9Ik0gOTcgODkgUSA5OCA5MiA5NyA5NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzA3MDQwIiBzdHJva2Utd2lkdGg9IjAuNyIgb3BhY2l0eT0iMC4xOCIvPgoKICAgIDwhLS0gU3VidGxlIGNoaW4gZGltcGxlIC0tPgogICAgPGVsbGlwc2UgY3g9IjgwIiBjeT0iMTA3IiByeD0iNCIgcnk9IjIiIGZpbGw9IiNjMDcwNDAiIG9wYWNpdHk9IjAuMDgiLz4KCiAgICA8IS0tIEhhaXIgZnJvbnQgbGF5ZXIgLS0+CiAgICA8cGF0aCBkPSJNIDI4IDcwIFEgMjYgMzggMzggMjIgUSA1NCA1IDgwIDYgUSAxMDYgNSAxMjIgMjIgUSAxMzQgMzggMTMyIDcwIFEgMTI4IDQ4IDEyMCAzNCBRIDEwNiAxNCA4MCAxMyBRIDU0IDE0IDQwIDM0IFEgMzIgNDggMzIgNjYgWiIgZmlsbD0idXJsKCNoYWlyKSIvPgogICAgPCEtLSBIYWlyIGhpZ2hsaWdodCAtLT4KICAgIDxwYXRoIGQ9Ik0gNDIgMjQgUSA4MCA4IDExOCAyNCBRIDEwMCAxNCA4MCAxMyBRIDYwIDE0IDQyIDI0IFoiIGZpbGw9InVybCgjaGFpckhpKSIvPgogICAgPCEtLSBTaWRlIGhhaXIgLS0+CiAgICA8cGF0aCBkPSJNIDMyIDY2IFEgMjkgODYgMzIgMTA2IFEgMzQgMTE2IDM2IDEyMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWUwZTA2IiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgPHBhdGggZD0iTSAxMjggNjYgUSAxMzEgODYgMTI4IDEwNiBRIDEyNiAxMTYgMTI0IDEyMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWUwZTA2IiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgPCEtLSBIYWlyIHN0cmFuZCBkZXRhaWxzIC0tPgogICAgPHBhdGggZD0iTSAzMiA2NiBRIDMxIDgyIDMzIDk2IiBmaWxsPSJub25lIiBzdHJva2U9IiMzZDIwMTAiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC4zNSIvPgogICAgPHBhdGggZD0iTSAxMjggNjYgUSAxMjkgODIgMTI3IDk2IiBmaWxsPSJub25lIiBzdHJva2U9IiMzZDIwMTAiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC4zNSIvPgogICAgPHBhdGggZD0iTSAzMCA3NCBRIDI5IDg4IDMxIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMmExNTA4IiBzdHJva2Utd2lkdGg9IjEuNSIgb3BhY2l0eT0iMC4yNSIvPgogICAgPHBhdGggZD0iTSAxMzAgNzQgUSAxMzEgODggMTI5IDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMmExNTA4IiBzdHJva2Utd2lkdGg9IjEuNSIgb3BhY2l0eT0iMC4yNSIvPgoKICAgIDwhLS0gRWFycmluZ3Mg4oCUIGVsZWdhbnQgYm9yZGVhdXggZ29sZCBkcm9wcyAtLT4KICAgIDxjaXJjbGUgY3g9IjQzIiBjeT0iODAiIHI9IjQiIGZpbGw9IiMwYTA1MDciLz4KICAgIDxjaXJjbGUgY3g9IjQzIiBjeT0iODAiIHI9IjMuMiIgZmlsbD0iIzdjMTMyNiIgb3BhY2l0eT0iMC45NSIvPgogICAgPGVsbGlwc2UgY3g9IjQzIiBjeT0iODAiIHJ4PSIzLjIiIHJ5PSIzLjIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2M5YTg0YyIgc3Ryb2tlLXdpZHRoPSIwLjciLz4KICAgIDxlbGxpcHNlIGN4PSI0MyIgY3k9Ijg1LjUiIHJ4PSIyIiByeT0iMy41IiBmaWxsPSIjOGExYzJlIi8+CiAgICA8ZWxsaXBzZSBjeD0iNDMiIGN5PSI4NS41IiByeD0iMiIgcnk9IjMuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzlhODRjIiBzdHJva2Utd2lkdGg9IjAuNSIvPgogICAgPGVsbGlwc2UgY3g9IjQzLjciIGN5PSI4NCIgcng9IjAuNyIgcnk9IjEiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjE4Ii8+CgogICAgPGNpcmNsZSBjeD0iMTE3IiBjeT0iODAiIHI9IjQiIGZpbGw9IiMwYTA1MDciLz4KICAgIDxjaXJjbGUgY3g9IjExNyIgY3k9IjgwIiByPSIzLjIiIGZpbGw9IiM3YzEzMjYiIG9wYWNpdHk9IjAuOTUiLz4KICAgIDxlbGxpcHNlIGN4PSIxMTciIGN5PSI4MCIgcng9IjMuMiIgcnk9IjMuMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzlhODRjIiBzdHJva2Utd2lkdGg9IjAuNyIvPgogICAgPGVsbGlwc2UgY3g9IjExNyIgY3k9Ijg1LjUiIHJ4PSIyIiByeT0iMy41IiBmaWxsPSIjOGExYzJlIi8+CiAgICA8ZWxsaXBzZSBjeD0iMTE3IiBjeT0iODUuNSIgcng9IjIiIHJ5PSIzLjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2M5YTg0YyIgc3Ryb2tlLXdpZHRoPSIwLjUiLz4KICAgIDxlbGxpcHNlIGN4PSIxMTcuNyIgY3k9Ijg0IiByeD0iMC43IiByeT0iMSIgZmlsbD0id2hpdGUiIG9wYWNpdHk9IjAuMTgiLz4KCiAgICA8IS0tIFJpbSBsaWdodCDigJQgc3VidGxlIGhpZ2hsaWdodCBvbiBsZWZ0IGZhY2UgZWRnZSAtLT4KICAgIDxwYXRoIGQ9Ik0gNDYgNDIgUSA0MyA3MCA0OCA5OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyMTAsMTYwLDAuMDcpIiBzdHJva2Utd2lkdGg9IjUiLz4KICAgIDwhLS0gVG9wIGxpZ2h0IG9uIGZvcmVoZWFkIC0tPgogICAgPGVsbGlwc2UgY3g9Ijc1IiBjeT0iMzUiIHJ4PSIxOCIgcnk9IjEwIiBmaWxsPSJyZ2JhKDI1NSwyMjAsMTgwLDAuMDYpIiBmaWx0ZXI9InVybCgjc29mdCkiLz4KICA8L2c+Cjwvc3ZnPg==";
+  const avatarUrl = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjAgMTYwIj4KICA8ZGVmcz4KICAgIDxjbGlwUGF0aCBpZD0iYyI+PGNpcmNsZSBjeD0iODAiIGN5PSI4MCIgcj0iODAiLz48L2NsaXBQYXRoPgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJiZyIgY3g9IjUwJSIgY3k9IjEwMCUiIHI9IjkwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMxZTBjMTIiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMGEwNTA3Ii8+CiAgICA8L3JhZGlhbEdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==";
 
   const pushBot = async (text: string, delay = 900) => {
     setIsTyping(true);
@@ -853,6 +882,117 @@ function ChannelExplorer() {
         </div>
       </div>
     </section>
+  );
+}
+
+// ─── COUNTRIES SECTION (from code 2) ─────────────────────────────────────────
+
+function CountriesSection({ ua }: { ua: string }) {
+  const [selected, setSelected] = useState<Country | null>(null);
+
+  useEffect(() => {
+    document.body.style.overflow = selected ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [selected]);
+
+  const closeModal = () => setSelected(null);
+
+  return (
+    <>
+      <section id="countries" className="section">
+        <div className="sectionHead">
+          <h2>TV på ditt språk i Sverige</h2>
+          <p>Klicka på ditt land — se alla kanaler och beställ direkt via WhatsApp</p>
+          <p style={{ fontSize: 13, color: "var(--gold)", fontWeight: 600, marginTop: 6 }}>👆 Tryck på ett land för att se kanalerna</p>
+        </div>
+        <div className="countriesGrid">
+          {COUNTRIES.map(c => (
+            <button key={c.slug} className="countryCard" onClick={() => setSelected(c)}>
+              <span className="ctryFlag">{c.flag}</span>
+              <div className="ctryInfo">
+                <div className="ctryName">{c.name}</div>
+                <div className="ctrySub">{c.sub}</div>
+              </div>
+              <span className="ctryArrow">›</span>
+            </button>
+          ))}
+        </div>
+        <div className="stepsCtaWrap" style={{ marginTop: 28 }}>
+          <a className="btnSecondary" href={generateWhatsAppLink("Hej! Jag söker kanaler på mitt språk i Sverige.", ua, "Countries-NotFound")} target="_blank" rel="noreferrer">
+            💬 Mitt språk ingår inte — fråga oss
+          </a>
+        </div>
+      </section>
+
+      {selected && (
+        <div className="countryModalOverlay" onClick={(e) => { if ((e.target as HTMLElement).classList.contains("countryModalOverlay")) closeModal(); }} role="dialog" aria-modal="true" aria-label={selected.name}>
+          <div className="countryModalBox">
+            {/* Header */}
+            <div className="countryModalHd">
+              <span className="countryModalFlag">{selected.flag}</span>
+              <div className="countryModalTb">
+                <h2>{selected.name}</h2>
+                <p>{selected.desc}</p>
+              </div>
+              <button className="countryModalClose" onClick={closeModal} aria-label="Stäng">✕</button>
+            </div>
+
+            {/* Body */}
+            <div className="countryModalBd">
+              {/* Channels */}
+              <div className="countryModalSec">
+                <div className="countryModalSecTitle">📺 Kanaler som ingår ({selected.channels.length}+)</div>
+                <div className="countryChGrid">
+                  {selected.channels.map(ch => (
+                    <div key={ch.n} className="countryChChip">
+                      <div className="countryChName">{ch.n}</div>
+                      <div className="countryChIcon">{ch.c}</div>
+                    </div>
+                  ))}
+                  <div className="countryChChip countryChChipGold">
+                    <div className="countryChName" style={{ color: "#C9A84C" }}>+ 100s fler</div>
+                    <div className="countryChIcon">💬</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Keywords */}
+              <div className="countryModalSec">
+                <div className="countryModalSecTitle">🔍 Vad folk söker på Google</div>
+                <div className="countryKwWrap">
+                  {selected.keywords.map(([kw, vol]) => (
+                    <div key={kw} className="countryKwPill">
+                      <span className="countryKwText">{kw}</span>
+                      <span className="countryKwVol">{vol}</span>
+                    </div>
+                  ))}
+                </div>
+                <p style={{ fontSize: 11, color: "var(--muted)", marginTop: 10 }}>Volym = månatliga sökningar i Sverige</p>
+              </div>
+
+              {/* Price box */}
+              <div className="countryPriceBox">
+                <span style={{ fontSize: 26, flexShrink: 0 }}>💰</span>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 14, color: "#fff", marginBottom: 3 }}>Pris: från 83 kr/mån</div>
+                  <div style={{ fontSize: 12, color: "var(--muted)" }}>Alla kanaler ingår • Gratis test 24h • Ingen bindningstid</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="countryModalFt">
+              <a className="trialCta" style={{ flex: 1, minWidth: 140, textAlign: "center", fontSize: 14, padding: "13px 18px" }} href={generateWhatsAppLink(selected.wa, ua, `Country-${selected.slug}`)} target="_blank" rel="noreferrer">
+                💬 Beställ {selected.name} — WhatsApp
+              </a>
+              <a className="btnSecondary" style={{ flex: 1, minWidth: 130, textAlign: "center", fontSize: 13, padding: "13px 14px" }} href={generateWhatsAppLink(`Hej! Jag vill testa ${selected.name} kanaler gratis 24h.`, ua, `Trial-${selected.slug}`)} target="_blank" rel="noreferrer">
+                🧪 Testa 24h gratis
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -1065,8 +1205,6 @@ function QuickSetup({ ua }: { ua: string }) {
 }
 
 // ─── LOGO SVG ─────────────────────────────────────────────────────────────────
-// Logo intégré — couronne suédoise + typographie premium
-// Apparaît dans la nav, le footer, et sert de base pour l'OG image
 
 function SverigeLogo({ size = 36, showText = true }: { size?: number; showText?: boolean }) {
   const h = size;
@@ -1088,60 +1226,20 @@ function SverigeLogo({ size = 36, showText = true }: { size?: number; showText?:
           <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
-
-      {/* Bouclier */}
-      <path
-        d="M 3 3 L 37 3 L 37 26 Q 37 36 20 39 Q 3 36 3 26 Z"
-        fill="url(#lgShield)"
-        stroke="#7c1326"
-        strokeWidth="0.8"
-      />
-      {/* Bord doré du bouclier */}
-      <path
-        d="M 3 3 L 37 3 L 37 26 Q 37 36 20 39 Q 3 36 3 26 Z"
-        fill="none"
-        stroke="url(#lgCrown)"
-        strokeWidth="1.2"
-        filter="url(#lgGlow)"
-      />
-
-      {/* Couronne centrale — grande */}
+      <path d="M 3 3 L 37 3 L 37 26 Q 37 36 20 39 Q 3 36 3 26 Z" fill="url(#lgShield)" stroke="#7c1326" strokeWidth="0.8"/>
+      <path d="M 3 3 L 37 3 L 37 26 Q 37 36 20 39 Q 3 36 3 26 Z" fill="none" stroke="url(#lgCrown)" strokeWidth="1.2" filter="url(#lgGlow)"/>
       <g filter="url(#lgGlow)">
-        <path
-          d="M 8 28 L 8 20 L 12 20 L 12 14 L 16 20 L 20 10 L 24 20 L 28 14 L 28 20 L 32 20 L 32 28 Z"
-          fill="url(#lgCrown)"
-        />
-        {/* Orbes de la couronne */}
+        <path d="M 8 28 L 8 20 L 12 20 L 12 14 L 16 20 L 20 10 L 24 20 L 28 14 L 28 20 L 32 20 L 32 28 Z" fill="url(#lgCrown)"/>
         <circle cx="20" cy="9" r="2.2" fill="#E8C97A"/>
         <circle cx="12" cy="13.5" r="1.6" fill="#C9A84C"/>
         <circle cx="28" cy="13.5" r="1.6" fill="#C9A84C"/>
-        {/* Brillance couronne */}
         <ellipse cx="16" cy="23" rx="3" ry="1.2" fill="rgba(255,220,120,0.18)"/>
       </g>
-
-      {/* Texte "SVERIGE TV" si showText */}
       {showText && (
         <>
-          {/* "SVERIGE" */}
-          <text
-            x="50" y="19"
-            fontFamily="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif"
-            fontWeight="800"
-            fontSize="13"
-            letterSpacing="2.5"
-            fill="#f5f0f5"
-          >SVERIGE</text>
-          {/* Ligne séparatrice */}
+          <text x="50" y="19" fontFamily="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" fontWeight="800" fontSize="13" letterSpacing="2.5" fill="#f5f0f5">SVERIGE</text>
           <line x1="50" y1="23" x2="205" y2="23" stroke="url(#lgCrown)" strokeWidth="0.7" opacity="0.6"/>
-          {/* "TV" */}
-          <text
-            x="50" y="35"
-            fontFamily="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif"
-            fontWeight="900"
-            fontSize="11"
-            letterSpacing="6"
-            fill="url(#lgCrown)"
-          >TV</text>
+          <text x="50" y="35" fontFamily="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" fontWeight="900" fontSize="11" letterSpacing="6" fill="url(#lgCrown)">TV</text>
         </>
       )}
     </svg>
@@ -1200,29 +1298,22 @@ function CinematicIntro({ onDone }: { onDone: () => void }) {
                 <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
               </filter>
             </defs>
-            {/* Shield fill */}
             <path className="cinShieldFill" d="M 16 16 L 184 16 L 184 118 Q 184 160 100 186 Q 16 160 16 118 Z" fill="#005A8E"/>
-            {/* Inner shadow */}
             <path className="cinShieldFill" d="M 22 22 L 178 22 L 178 117 Q 178 155 100 180 Q 22 155 22 117 Z" fill="none" stroke="rgba(0,20,50,0.5)" strokeWidth="6"/>
-            {/* Shield border draws itself */}
             <path className="cinShieldBorder" d="M 16 16 L 184 16 L 184 118 Q 184 160 100 186 Q 16 160 16 118 Z" fill="none" stroke="#FECC02" strokeWidth="3.5" filter="url(#cglow)" strokeLinecap="round" strokeLinejoin="round"/>
-            {/* Outer glow */}
             <path className="cinShieldBorderGlow" d="M 16 16 L 184 16 L 184 118 Q 184 160 100 186 Q 16 160 16 118 Z" fill="none" stroke="rgba(254,204,2,0.2)" strokeWidth="12"/>
-            {/* Crown 1 */}
             <g className="cinCrown cinCrown1" transform="translate(60,74)">
               <path d="M -22 16 L -22 2 L -17 2 L -17 -6 L -9 2 L 0 -16 L 9 2 L 17 -6 L 17 2 L 22 2 L 22 16 Z" fill="#FECC02" filter="url(#cglow)"/>
               <circle cx="0" cy="-16" r="3.5" fill="#FECC02"/>
               <circle cx="-17" cy="-6" r="2.5" fill="#FECC02"/>
               <circle cx="17" cy="-6" r="2.5" fill="#FECC02"/>
             </g>
-            {/* Crown 2 */}
             <g className="cinCrown cinCrown2" transform="translate(140,74)">
               <path d="M -22 16 L -22 2 L -17 2 L -17 -6 L -9 2 L 0 -16 L 9 2 L 17 -6 L 17 2 L 22 2 L 22 16 Z" fill="#FECC02" filter="url(#cglow)"/>
               <circle cx="0" cy="-16" r="3.5" fill="#FECC02"/>
               <circle cx="-17" cy="-6" r="2.5" fill="#FECC02"/>
               <circle cx="17" cy="-6" r="2.5" fill="#FECC02"/>
             </g>
-            {/* Crown 3 */}
             <g className="cinCrown cinCrown3" transform="translate(100,148)">
               <path d="M -22 16 L -22 2 L -17 2 L -17 -6 L -9 2 L 0 -16 L 9 2 L 17 -6 L 17 2 L 22 2 L 22 16 Z" fill="#FECC02" filter="url(#cglow)"/>
               <circle cx="0" cy="-16" r="3.5" fill="#FECC02"/>
@@ -1254,14 +1345,12 @@ export default function Page() {
   const [showIOSBar, setShowIOSBar] = useState(false);
 
   useEffect(() => {
-    // Retirer le cover anti-FOUC immédiatement
     const cover = document.getElementById("__next_cover");
     if (cover) {
       cover.style.transition = "opacity 0.25s ease";
       cover.style.opacity = "0";
       setTimeout(() => cover.parentNode?.removeChild(cover), 260);
     }
-    // Show cinematic intro every fresh page load
     setShowIntro(true);
     const detected = detectLangClient();
     setLang(detected);
@@ -1276,18 +1365,15 @@ export default function Page() {
     return () => window.removeEventListener("beforeinstallprompt", handleInstall);
   }, []);
 
-  // PWA install — show bar immediately when browser prompt is ready
   useEffect(() => {
     if (!installPrompt) return;
     const key = "pwa_dismissed_v1";
     try { if (localStorage.getItem(key)) return; } catch {}
-    // Show after intro finishes (2.5s) OR immediately if user scrolled
     const show = () => setShowPWABar(true);
     const timer = window.setTimeout(show, 2600);
     return () => window.clearTimeout(timer);
   }, [installPrompt]);
 
-  // iOS Safari — no beforeinstallprompt, show manual instructions after 4s
   useEffect(() => {
     const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
     const isInStandalone = (window.navigator as any).standalone === true;
@@ -1322,9 +1408,6 @@ export default function Page() {
   const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
   const t = dict[lang];
 
-  // ── SCHEMAS JSON-LD — conformes Google Search Console (mars 2026) ────────────
-  // Champs obligatoires pour "Fiches de marchand" et "Extraits de produits" :
-  // seller, condition, shippingDetails, hasMerchantReturnPolicy, image
   const seller = {
     "@type": "Organization",
     name: SITE.brand,
@@ -1462,6 +1545,7 @@ export default function Page() {
   const navLinks = [
     { href: "#offers", label: t.nav.offers },
     { href: "#channels", label: t.nav.channels },
+    { href: "#countries", label: "TV-länder" },
     { href: "#devices", label: t.nav.devices },
     { href: "#cities", label: t.nav.cities },
     { href: "#faq", label: t.nav.faq },
@@ -1471,7 +1555,6 @@ export default function Page() {
   return (
     <LanguageContext.Provider value={{ lang, setLang }}>
       {showIntro && <CinematicIntro onDone={() => setShowIntro(false)} />}
-      {/* ANTI-FOUC cover — rendu avant tout, retiré dès hydratation */}
       <div id="__next_cover" style={{
         position:"fixed",inset:0,background:"#060407",
         zIndex:99997,display:"flex",alignItems:"center",justifyContent:"center",
@@ -1481,7 +1564,6 @@ export default function Page() {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
-        {/* OG meta — preview WhatsApp / réseaux sociaux */}
         <meta property="og:title" content="Sverige TV — 20 000+ kanaler, 4K & Sport" />
         <meta property="og:description" content="Sveriges #1 TV-tjänst. 20 000+ kanaler, 100 000+ filmer & serier. Från 83 kr/mån. Aktivering på 10 min via WhatsApp." />
         <meta property="og:image" content="https://sverigetv.se/og-image.jpg" />
@@ -1496,7 +1578,6 @@ export default function Page() {
         <meta name="twitter:image" content="https://sverigetv.se/og-image.jpg" />
         <title>Sverige TV — 20 000+ kanaler, 4K, Sport &amp; Film</title>
         <meta name="description" content="Sveriges #1 TV-tjänst. 20 000+ live-kanaler, 4K/UHD, sport, filmer och serier. Aktivering på 10 min via WhatsApp. Fungerar på Firestick, Smart TV, iPhone och Android." />
-        {/* PWA manifest & iOS meta */}
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#060407" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1531,7 +1612,6 @@ export default function Page() {
                 <button onClick={handleInstallClick} className="installBtn" type="button">📲 {t.nav.install}</button>
               )}
             </div>
-            {/* HAMBURGER */}
             <button className="hamburger" onClick={() => setMenuOpen(v => !v)} aria-label="Meny" type="button">
               {menuOpen ? "✕" : "☰"}
             </button>
@@ -1633,6 +1713,9 @@ export default function Page() {
           {/* CHANNEL EXPLORER */}
           <ChannelExplorer />
 
+          {/* COUNTRIES SECTION — NEW from code 2 */}
+          <CountriesSection ua={ua} />
+
           {/* DEVICE SECTION */}
           <DeviceSection ua={ua} />
 
@@ -1719,11 +1802,11 @@ export default function Page() {
             --border-accent: rgba(124,19,38,0.35);
             --gold: #c8a96e;
           }
-          /* CSS critique — chargé en priorité, évite le flash */
           html {
             scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
-            background: #060407;  /* noir IMMÉDIAT avant tout JS */
+            background: #060407;
+            overflow-x: hidden;
           }
           body {
             margin: 0;
@@ -1734,7 +1817,6 @@ export default function Page() {
             overscroll-behavior-y: contain;
           }
           *, *::before, *::after { box-sizing: border-box; }
-          /* Cover spinner bordeaux */
           #__next_cover::after {
             content: "";
             width: 26px; height: 26px;
@@ -1771,7 +1853,6 @@ export default function Page() {
           .heroLogo { display: flex; justify-content: center; margin-bottom: 20px; filter: drop-shadow(0 0 18px rgba(139,23,40,0.5)); }
           .footerLogo { display: flex; justify-content: center; margin-bottom: 16px; opacity: 0.8; }
           .mobileMenuLogo { padding: 16px 0 8px; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 8px; }
-          .dot { width: 10px; height: 10px; background: linear-gradient(135deg, var(--gold), var(--accent)); border-radius: 2px; flex-shrink: 0; }
           .links { display: flex; gap: 18px; font-weight: 500; font-size: 14px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
           .links a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
           .links a:hover { color: #fff; }
@@ -1869,6 +1950,168 @@ export default function Page() {
           .channelList { padding: 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
           .channelItem { font-size: 13px; color: #ccc; display: flex; align-items: center; gap: 8px; }
           .more { color: var(--muted); font-style: italic; }
+
+          /* ── COUNTRIES SECTION (NEW) ── */
+          .countriesGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+          }
+          .countryCard {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            width: 100%;
+            -webkit-tap-highlight-color: rgba(201,168,76,0.2);
+          }
+          .countryCard:hover {
+            transform: translateY(-2px) translateX(2px);
+            border-color: rgba(201,168,76,0.5);
+            background: #130d18;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+          }
+          .countryCard:active { transform: scale(0.97); }
+          .ctryFlag { font-size: 22px; flex-shrink: 0; }
+          .ctryInfo { flex: 1; min-width: 0; overflow: hidden; }
+          .ctryName { font-weight: 700; font-size: 14px; color: #f0ecf5; }
+          .ctrySub { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+          .ctryArrow { color: rgba(201,168,76,0.5); font-size: 18px; flex-shrink: 0; transition: transform 0.2s; }
+          .countryCard:hover .ctryArrow { transform: translateX(4px); color: #C9A84C; }
+
+          /* COUNTRY MODAL */
+          .countryModalOverlay {
+            position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,0.82);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            animation: fadeIn 0.2s ease;
+            overflow: hidden;
+          }
+          @media (min-width: 640px) {
+            .countryModalOverlay { align-items: center; padding: 20px; }
+          }
+          @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+          .countryModalBox {
+            background: #0d0a12;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px 20px 0 0;
+            width: 100%;
+            max-width: 680px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+          }
+          @media (min-width: 640px) {
+            .countryModalBox { border-radius: 20px; max-height: 88vh; }
+          }
+          .countryModalHd {
+            padding: 20px 20px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            flex-shrink: 0;
+            min-width: 0;
+            overflow: hidden;
+}
+          .countryModalFlag { font-size: 44px; line-height: 1; flex-shrink: 0; }
+          .countryModalTb { flex: 1; min-width: 0; overflow: hidden; overflow-wrap: break-word; }
+          .countryModalTb h2 { font-size: 22px; font-weight: 800; color: #fff; margin: 0 0 4px; word-break: break-word; overflow-wrap: break-word; }
+          .countryModalTb p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; word-break: break-word; overflow-wrap: break-word; white-space: normal; }
+          .countryModalClose {
+            background: rgba(255,255,255,0.08);
+            border: none;
+            border-radius: 50%;
+            width: 36px; height: 36px;
+            color: var(--muted);
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: 0.15s;
+          }
+          .countryModalClose:hover { background: rgba(255,255,255,0.15); color: #f0ecf5; }
+          .countryModalBd {
+            overflow-y: auto;
+            padding: 16px 20px 24px;
+            flex: 1;
+            min-width: 0;
+            overflow-x: hidden;
+          }
+          .countryModalBd::-webkit-scrollbar { width: 4px; }
+          .countryModalBd::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+          .countryModalSec { margin-bottom: 24px; }
+          .countryModalSecTitle {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(201,168,76,0.7);
+            margin-bottom: 12px;
+          }
+          .countryChGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 7px;
+          }
+          .countryChChip {
+            background: #130d18;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+          }
+          .countryChChipGold {
+            background: rgba(201,168,76,0.06);
+            border-color: rgba(201,168,76,0.2);
+          }
+          .countryChName { font-size: 13px; font-weight: 600; color: #f0ecf5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+          .countryChIcon { font-size: 14px; }
+          .countryKwWrap { display: flex; flex-wrap: wrap; gap: 7px; max-width: 100%; overflow: hidden; }
+          .countryKwPill {
+            background: rgba(0,106,167,0.1);
+            border: 1px solid rgba(0,106,167,0.25);
+            border-radius: 20px;
+            padding: 5px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+          }
+          .countryKwText { font-size: 12px; color: rgba(240,236,245,0.75); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+          .countryKwVol { font-size: 11px; color: #4AB4E8; font-weight: 700; }
+          .countryPriceBox {
+            background: rgba(61,190,122,0.06);
+            border: 1px solid rgba(61,190,122,0.2);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+          }
+          .countryModalFt {
+            padding: 14px 20px 20px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            flex-shrink: 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+          }
+          /* ── END COUNTRIES ── */
 
           /* DEVICES */
           .deviceGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px; }
@@ -1968,7 +2211,7 @@ export default function Page() {
           .liveToastSub { font-size: 12px; color: #ccc; }
           .liveToastBtn { margin-left: auto; background: rgba(255,255,255,0.1); border: none; color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; }
 
-          /* ── RESPONSIVE / MOBILE-FIRST ── */
+          /* ── RESPONSIVE ── */
           @media (max-width: 900px) {
             .links a { display: none; }
             .langSwitch { display: none; }
@@ -1976,21 +2219,14 @@ export default function Page() {
             .hamburger { display: flex; }
           }
           @media (max-width: 640px) {
-            /* Layout */
             .main { padding: 0 16px env(safe-area-inset-bottom, 100px); padding-bottom: max(120px, env(safe-area-inset-bottom, 0px) + 100px); }
             .section { margin-bottom: 52px; }
             .sectionHead { margin-bottom: 28px; }
             .sectionHead h2 { font-size: 1.55rem; }
-
-            /* Top bar */
             .topBarInner { flex-direction: column; gap: 4px; font-size: 11px; }
             .urgency { font-size: 11px; }
-
-            /* Nav */
             .nav { padding: 12px 16px; }
             .brand { font-size: 1rem; }
-
-            /* Hero */
             .hero { padding: 44px 0 36px; }
             h1 { font-size: clamp(1.9rem, 9vw, 2.8rem); letter-spacing: -0.5px; margin-bottom: 16px; }
             .pill { font-size: 10px; padding: 5px 12px; margin-bottom: 16px; }
@@ -1998,58 +2234,48 @@ export default function Page() {
             .actions { gap: 10px; flex-direction: column; align-items: center; }
             .btnPrimary, .btnSecondary { width: 100%; max-width: 320px; padding: 16px 24px; font-size: 15px; text-align: center; }
             .heroTrust { font-size: 11px; padding: 0 8px; }
-
-            /* Trial */
             .trialBanner { flex-direction: column; align-items: stretch; padding: 20px 16px; gap: 16px; }
             .trialCta { text-align: center; justify-content: center; padding: 16px 20px; font-size: 15px; }
-
-            /* Trust grid */
             .trustGrid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .trustCard { padding: 14px 10px; }
             .trustIcon { font-size: 22px; margin-bottom: 7px; }
             .trustCard h4 { font-size: 12px; }
             .trustCard p { font-size: 11px; }
-
-            /* Plans */
             .grid { grid-template-columns: 1fr; gap: 20px; }
             .card { padding: 24px 18px; }
             .bigNumber { font-size: 3.2rem; }
-
-            /* VOD stats */
             .statsGrid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
             .statCard { padding: 20px 14px; }
             .statValue { font-size: 1.7rem; }
-
-            /* Compare */
             .compareWrap { border-radius: 10px; }
             .compareTable { font-size: 11px; min-width: 420px; }
             .compareTable th, .compareTable td { padding: 10px 8px; }
-
-            /* Channels */
             .tabBtn { font-size: 12px; padding: 12px 10px; min-width: 80px; }
             .channelList { padding: 16px; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
-
-            /* Devices */
+            /* Countries mobile — FIXED */
+            .countriesGrid { grid-template-columns: repeat(2, 1fr); }
+            .countryModalFlag { font-size: 32px; }
+            .countryModalHd { gap: 10px; padding: 16px 16px 0; }
+            .countryModalTb h2 { font-size: 18px; }
+            .countryModalTb p { font-size: 12px; }
+            .countryModalClose { width: 32px; height: 32px; font-size: 15px; }
+            .countryModalBd { padding: 12px 16px 20px; }
+            .countryChGrid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+            .countryChChip { padding: 7px 10px; }
+            .countryChName { font-size: 12px; }
+            .countryPriceBox { padding: 12px 14px; gap: 10px; }
+            .countryModalFt { flex-direction: column; padding: 12px 16px 16px; }
+            .countryModalFt a { min-width: unset; width: 100%; }
             .deviceGrid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
             .deviceCard { padding: 14px 8px; gap: 6px; }
             .deviceIcon { font-size: 24px; }
             .deviceName { font-size: 11px; }
-
-            /* Reviews */
             .reviewsGrid { grid-template-columns: 1fr; gap: 14px; }
             .reviewCard { padding: 18px; }
-
-            /* Steps */
             .stepsGrid { grid-template-columns: 1fr; gap: 14px; }
-
-            /* FAQ */
             .faqSummary { padding: 15px; font-size: 14px; }
-
-            /* Footer */
             .footer { padding: 40px 16px; }
             .footerLinks { gap: 14px; }
-
-            /* Live / chat widgets */
             .liveBadge { display: none; }
             .liveToast { bottom: max(16px, env(safe-area-inset-bottom, 0px)); left: 12px; right: 12px; width: auto; }
             .miliFab { bottom: max(16px, env(safe-area-inset-bottom, 0px)); left: auto; right: 16px; border-radius: 999px; }
@@ -2057,216 +2283,70 @@ export default function Page() {
             .miliBox { bottom: max(88px, env(safe-area-inset-bottom, 0px) + 72px); left: 12px; right: 12px; width: auto; max-height: 72vh; }
             .fabText { display: none; }
             .fabContent { padding: 8px; gap: 0; }
-
-            /* Install banner */
             .pwaBar { left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom, 0px)); width: auto; }
           }
-
-          /* Touch tap targets */
           @media (hover: none) {
             .btnPrimary, .btnSecondary, .btnPlan, .trialCta,
-            .tabBtn, .faqSummary, .quickReply, .hamburger {
-              min-height: 48px;
-            }
+            .tabBtn, .faqSummary, .quickReply, .hamburger,
+            .countryCard { min-height: 48px; }
           }
           @media (prefers-reduced-motion: reduce) {
-            .miliBox, .liveToast, .miliFab, .liveDot, .urgency, .installBtn { animation: none; transition: none; }
+            .miliBox, .liveToast, .miliFab, .liveDot, .urgency, .installBtn,
+            .countryModalBox, .countryModalOverlay { animation: none; transition: none; }
             .typingIndicator span { animation: none; }
           }
 
           /* ── CINEMATIC INTRO ── */
-          .cinWrap {
-            position: fixed; inset: 0; z-index: 9999;
-            display: flex; align-items: center; justify-content: center;
-            flex-direction: column;
-            overflow: hidden;
-          }
+          .cinWrap { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; overflow: hidden; }
           .cinWrap.cinExit { animation: cinFadeOut 0.42s cubic-bezier(0.4,0,1,1) forwards; }
           @keyframes cinFadeOut { to { opacity: 0; transform: scale(1.04); } }
-
-          .cinBg {
-            position: absolute; inset: 0;
-            background: radial-gradient(ellipse at 50% 40%, #001830 0%, #000810 55%, #000000 100%);
-          }
-          .cinVignette {
-            position: absolute; inset: 0;
-            background: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(0,0,0,0.85) 100%);
-            pointer-events: none;
-          }
-
-          /* Particles */
+          .cinBg { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 40%, #001830 0%, #000810 55%, #000000 100%); }
+          .cinVignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(0,0,0,0.85) 100%); pointer-events: none; }
           .cinParticles { position: absolute; inset: 0; pointer-events: none; }
-          .cinParticle {
-            position: absolute;
-            border-radius: 50%;
-            background: #FECC02;
-            animation: cinFloat linear infinite;
-          }
-          @keyframes cinFloat {
-            0%   { transform: translateY(0)   scale(1);   opacity: 0; }
-            8%   { opacity: 0.55; }
-            90%  { opacity: 0.3; }
-            100% { transform: translateY(-105vh) scale(0.4); opacity: 0; }
-          }
-
-          /* Lens flare sweep */
-          .cinLensFlare {
-            position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(254,204,2,0.04), rgba(254,204,2,0.09), rgba(254,204,2,0.04), transparent);
-            animation: cinLens 0.7s ease-out 1.0s forwards;
-            pointer-events: none;
-          }
+          .cinParticle { position: absolute; border-radius: 50%; background: #FECC02; animation: cinFloat linear infinite; }
+          @keyframes cinFloat { 0% { transform: translateY(0) scale(1); opacity: 0; } 8% { opacity: 0.55; } 90% { opacity: 0.3; } 100% { transform: translateY(-105vh) scale(0.4); opacity: 0; } }
+          .cinLensFlare { position: absolute; top: 0; left: -100%; width: 60%; height: 100%; background: linear-gradient(90deg, transparent, rgba(254,204,2,0.04), rgba(254,204,2,0.09), rgba(254,204,2,0.04), transparent); animation: cinLens 0.7s ease-out 1.0s forwards; pointer-events: none; }
           @keyframes cinLens { to { left: 140%; } }
-
-          /* Emblem */
           .cinEmblemWrap { position: relative; margin-bottom: 28px; }
-          .cinEmblemGlow {
-            position: absolute; inset: -30px;
-            border-radius: 50%;
-            background: radial-gradient(ellipse, rgba(254,204,2,0.18) 0%, transparent 70%);
-            animation: cinGlowPulse 2s ease-in-out 1.1s infinite;
-          }
-          @keyframes cinGlowPulse {
-            0%,100% { transform: scale(1);   opacity: 0.6; }
-            50%      { transform: scale(1.15); opacity: 1;   }
-          }
+          .cinEmblemGlow { position: absolute; inset: -30px; border-radius: 50%; background: radial-gradient(ellipse, rgba(254,204,2,0.18) 0%, transparent 70%); animation: cinGlowPulse 2s ease-in-out 1.1s infinite; }
+          @keyframes cinGlowPulse { 0%,100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.15); opacity: 1; } }
           .cinSvg { position: relative; z-index: 1; }
-
-          /* Shield border draws — accéléré */
-          .cinShieldFill   { opacity: 0; animation: cinFadeIn 0.3s ease 0.88s forwards; }
-          .cinShieldBorder {
-            stroke-dasharray: 700; stroke-dashoffset: 700;
-            animation: cinDraw 0.82s cubic-bezier(0.4,0,0.2,1) 0.15s forwards;
-          }
+          .cinShieldFill { opacity: 0; animation: cinFadeIn 0.3s ease 0.88s forwards; }
+          .cinShieldBorder { stroke-dasharray: 700; stroke-dashoffset: 700; animation: cinDraw 0.82s cubic-bezier(0.4,0,0.2,1) 0.15s forwards; }
           .cinShieldBorderGlow { opacity: 0; animation: cinFadeIn 0.25s ease 0.88s forwards; }
-          @keyframes cinDraw   { to { stroke-dashoffset: 0; } }
+          @keyframes cinDraw { to { stroke-dashoffset: 0; } }
           @keyframes cinFadeIn { to { opacity: 1; } }
-
-          /* Crowns pop in */
           .cinCrown { opacity: 0; transform-origin: center bottom; }
           .cinCrown1 { animation: cinCrownPop 0.32s cubic-bezier(0.34,1.56,0.64,1) 1.18s forwards; }
           .cinCrown2 { animation: cinCrownPop 0.32s cubic-bezier(0.34,1.56,0.64,1) 1.38s forwards; }
-          .cinCrown3 { animation: cinCrownPop 0.32s cubic-bezier(0.34,1.4,0.64,1)  1.55s forwards; }
-          @keyframes cinCrownPop {
-            0%   { opacity: 0; transform: scale(0) translateY(4px) rotate(-6deg); }
-            60%  { opacity: 1; }
-            100% { opacity: 1; transform: scale(1) translateY(0) rotate(0); }
-          }
-
-          /* Title */
-          .cinContent {
-            position: relative; z-index: 2;
-            display: flex; flex-direction: column; align-items: center;
-            text-align: center; gap: 0;
-          }
+          .cinCrown3 { animation: cinCrownPop 0.32s cubic-bezier(0.34,1.4,0.64,1) 1.55s forwards; }
+          @keyframes cinCrownPop { 0% { opacity: 0; transform: scale(0) translateY(4px) rotate(-6deg); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1) translateY(0) rotate(0); } }
+          .cinContent { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0; }
           .cinTitleWrap { margin-bottom: 14px; }
-          .cinTitle {
-            font-size: clamp(2.4rem, 8vw, 5rem);
-            font-weight: 900;
-            letter-spacing: 0.32em;
-            color: #FECC02;
-            text-shadow: 0 0 32px rgba(254,204,2,0.7), 0 0 64px rgba(254,204,2,0.28);
-            margin: 0 0 8px;
-            opacity: 0;
-            animation: cinTitleIn 0.48s cubic-bezier(0.16,1,0.3,1) 1.72s forwards;
-          }
-          @keyframes cinTitleIn {
-            0%   { opacity: 0; letter-spacing: 0.6em; transform: scale(1.04); filter: blur(6px); }
-            65%  { filter: blur(0); }
-            100% { opacity: 1; letter-spacing: 0.32em; transform: scale(1); filter: blur(0); }
-          }
-          .cinTitleLine {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #FECC02, transparent);
-            width: 0;
-            margin: 0 auto;
-            animation: cinLineExpand 0.38s ease 2.02s forwards;
-          }
+          .cinTitle { font-size: clamp(2.4rem, 8vw, 5rem); font-weight: 900; letter-spacing: 0.32em; color: #FECC02; text-shadow: 0 0 32px rgba(254,204,2,0.7), 0 0 64px rgba(254,204,2,0.28); margin: 0 0 8px; opacity: 0; animation: cinTitleIn 0.48s cubic-bezier(0.16,1,0.3,1) 1.72s forwards; }
+          @keyframes cinTitleIn { 0% { opacity: 0; letter-spacing: 0.6em; transform: scale(1.04); filter: blur(6px); } 65% { filter: blur(0); } 100% { opacity: 1; letter-spacing: 0.32em; transform: scale(1); filter: blur(0); } }
+          .cinTitleLine { height: 1px; background: linear-gradient(90deg, transparent, #FECC02, transparent); width: 0; margin: 0 auto; animation: cinLineExpand 0.38s ease 2.02s forwards; }
           @keyframes cinLineExpand { to { width: 220px; } }
-          .cinTagline {
-            font-size: 0.88rem; letter-spacing: 0.16em; text-transform: uppercase;
-            color: rgba(255,255,255,0.62); font-weight: 400;
-            margin: 0 0 8px;
-            opacity: 0; animation: cinFadeUp 0.35s ease 2.2s forwards;
-          }
-          .cinSub {
-            font-size: 11px; letter-spacing: 0.08em;
-            color: rgba(254,204,2,0.5);
-            margin: 0;
-            opacity: 0; animation: cinFadeUp 0.3s ease 2.42s forwards;
-          }
-          @keyframes cinFadeUp {
-            from { opacity: 0; transform: translateY(8px); }
-            to   { opacity: 1; transform: translateY(0); }
-          }
-
-          /* Skip — apparaît dès le début sur mobile */
-          .cinSkip {
-            position: absolute; bottom: 28px; right: 20px;
-            background: rgba(0,0,0,0.35); border: 1px solid rgba(254,204,2,0.2);
-            color: rgba(254,204,2,0.45); font-size: 12px; letter-spacing: 0.08em;
-            padding: 8px 18px; border-radius: 20px; cursor: pointer;
-            transition: border-color 0.18s, color 0.18s, background 0.18s;
-            z-index: 10; min-height: 40px;
-            opacity: 0; animation: cinFadeIn 0.3s ease 0.6s forwards;
-          }
+          .cinTagline { font-size: 0.88rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.62); font-weight: 400; margin: 0 0 8px; opacity: 0; animation: cinFadeUp 0.35s ease 2.2s forwards; }
+          .cinSub { font-size: 11px; letter-spacing: 0.08em; color: rgba(254,204,2,0.5); margin: 0; opacity: 0; animation: cinFadeUp 0.3s ease 2.42s forwards; }
+          @keyframes cinFadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+          .cinSkip { position: absolute; bottom: 28px; right: 20px; background: rgba(0,0,0,0.35); border: 1px solid rgba(254,204,2,0.2); color: rgba(254,204,2,0.45); font-size: 12px; letter-spacing: 0.08em; padding: 8px 18px; border-radius: 20px; cursor: pointer; transition: border-color 0.18s, color 0.18s, background 0.18s; z-index: 10; min-height: 40px; opacity: 0; animation: cinFadeIn 0.3s ease 0.6s forwards; }
           .cinSkip:hover { border-color: #FECC02; color: #FECC02; background: rgba(254,204,2,0.06); }
-
-          /* Hide intro when user prefers no motion — must be AFTER base .cinWrap rule */
-          @media (prefers-reduced-motion: reduce) {
-            .cinWrap { display: none !important; }
-          }
-          /* ── END CINEMATIC ── */
+          @media (prefers-reduced-motion: reduce) { .cinWrap { display: none !important; } }
 
           /* ── PWA INSTALL BAR ── */
-          .pwaBar {
-            position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
-            width: min(460px, calc(100vw - 32px));
-            background: var(--card-hi);
-            border: 1px solid var(--border-accent);
-            border-radius: 14px;
-            padding: 12px 14px;
-            display: flex; align-items: center; gap: 12px;
-            z-index: 1050;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 1px rgba(139,23,40,0.4);
-            animation: pwaSlideUp 0.4s cubic-bezier(0.16,1,0.3,1);
-          }
-          @keyframes pwaSlideUp {
-            from { transform: translateX(-50%) translateY(20px); opacity: 0; }
-            to   { transform: translateX(-50%) translateY(0); opacity: 1; }
-          }
+          .pwaBar { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); width: min(460px, calc(100vw - 32px)); background: var(--card-hi); border: 1px solid var(--border-accent); border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; z-index: 1050; box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 1px rgba(139,23,40,0.4); animation: pwaSlideUp 0.4s cubic-bezier(0.16,1,0.3,1); }
+          @keyframes pwaSlideUp { from { transform: translateX(-50%) translateY(20px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
           .pwaIcon { font-size: 24px; flex-shrink: 0; }
           .pwaText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
           .pwaText strong { font-size: 13px; font-weight: 700; color: var(--fg); }
           .pwaText span { font-size: 11px; color: var(--muted); }
-          .pwaAccept {
-            background: linear-gradient(135deg, var(--accent-hi), var(--accent));
-            color: #fff; border: none; padding: 9px 18px; border-radius: 8px;
-            font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap;
-            transition: 0.15s;
-          }
+          .pwaAccept { background: linear-gradient(135deg, var(--accent-hi), var(--accent)); color: #fff; border: none; padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: 0.15s; }
           .pwaAccept:hover { background: linear-gradient(135deg, var(--gold), var(--accent-hi)); }
-          .pwaDismiss {
-            background: none; border: none; color: var(--muted);
-            font-size: 14px; cursor: pointer; padding: 4px 6px; flex-shrink: 0;
-            transition: color 0.15s;
-          }
+          .pwaDismiss { background: none; border: none; color: var(--muted); font-size: 14px; cursor: pointer; padding: 4px 6px; flex-shrink: 0; transition: color 0.15s; }
           .pwaDismiss:hover { color: var(--fg); }
-
-          /* iOS install bar */
           .pwaBarIOS { bottom: max(80px, env(safe-area-inset-bottom, 0px) + 70px); }
-          .iosShareIcon { 
-            display: inline-block; 
-            background: rgba(254,204,2,0.15); 
-            border: 1px solid rgba(254,204,2,0.3);
-            border-radius: 4px; 
-            padding: 1px 5px; 
-            font-size: 11px; 
-            color: #FECC02;
-            margin: 0 1px;
-            vertical-align: middle;
-          }
-          /* ── END PWA ── */
+          .iosShareIcon { display: inline-block; background: rgba(254,204,2,0.15); border: 1px solid rgba(254,204,2,0.3); border-radius: 4px; padding: 1px 5px; font-size: 11px; color: #FECC02; margin: 0 1px; vertical-align: middle; }
         `}</style>
       </div>
     </LanguageContext.Provider>
