@@ -1,9 +1,6 @@
 "use client";
 import React, {
-  createContext,
-  useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
   useCallback,
@@ -61,10 +58,10 @@ const COUNTRIES = [
 /* ═══════════════════════════════════════════════════════════════════════════
    UTILS
    ═══════════════════════════════════════════════════════════════════════════ */
-function isMobileUA(ua) {
+function isMobileUA(ua: string) {
   return /Android|iPhone|iPad|iPod/i.test(ua);
 }
-function waLink(message, ua, ref) {
+function waLink(message: string, ua: string, ref?: string) {
   const suffix = ref ? ` | Ref: ${ref}` : "";
   const text = encodeURIComponent(message + suffix);
   return isMobileUA(ua)
@@ -75,8 +72,8 @@ function waLink(message, ua, ref) {
 /* ═══════════════════════════════════════════════════════════════════════════
    SCROLL REVEAL HOOK
    ═══════════════════════════════════════════════════════════════════════════ */
-function useReveal(threshold = 0.15) {
-  const ref = useRef(null);
+function useReveal(threshold = 0.15): [React.RefObject<HTMLElement | null>, boolean] {
+  const ref = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const el = ref.current;
@@ -94,7 +91,7 @@ function useReveal(threshold = 0.15) {
 /* ═══════════════════════════════════════════════════════════════════════════
    COUNTDOWN — real deadline, not fake
    ═══════════════════════════════════════════════════════════════════════════ */
-function useCountdown(targetDate) {
+function useCountdown(targetDate: string) {
   const [left, setLeft] = useState({ d: 0, h: 0, m: 0, s: 0 });
   useEffect(() => {
     const target = new Date(targetDate).getTime();
@@ -117,7 +114,7 @@ function useCountdown(targetDate) {
 /* ═══════════════════════════════════════════════════════════════════════════
    LOGO
    ═══════════════════════════════════════════════════════════════════════════ */
-function SverigeLogo({ size = 36, showText = true }) {
+function SverigeLogo({ size = 36, showText = true }: { size?: number; showText?: boolean }) {
   const h = size;
   const w = showText ? size * 5.2 : size;
   return (
@@ -159,7 +156,7 @@ function SverigeLogo({ size = 36, showText = true }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    CINEMATIC INTRO — refined
    ═══════════════════════════════════════════════════════════════════════════ */
-function CinematicIntro({ onDone }) {
+function CinematicIntro({ onDone }: { onDone: () => void }) {
   const [exiting, setExiting] = useState(false);
   const skip = useCallback(() => {
     setExiting(true);
@@ -273,7 +270,7 @@ function ProofTicker() {
 /* ═══════════════════════════════════════════════════════════════════════════
    HERO
    ═══════════════════════════════════════════════════════════════════════════ */
-function Hero({ ua }) {
+function Hero({ ua }: { ua: string }) {
   const [ref, vis] = useReveal(0.1);
   return (
     <section className="hero" ref={ref}>
@@ -340,7 +337,7 @@ function TrustStrip() {
 /* ═══════════════════════════════════════════════════════════════════════════
    PRICING SECTION — conversion-optimized
    ═══════════════════════════════════════════════════════════════════════════ */
-function Pricing({ ua }) {
+function Pricing({ ua }: { ua: string }) {
   const [ref, vis] = useReveal(0.08);
   return (
     <section id="offers" className="sec" ref={ref}>
@@ -504,8 +501,8 @@ function ChannelExplorer() {
 /* ═══════════════════════════════════════════════════════════════════════════
    COUNTRIES
    ═══════════════════════════════════════════════════════════════════════════ */
-function Countries({ ua }) {
-  const [sel, setSel] = useState(null);
+function Countries({ ua }: { ua: string }) {
+  const [sel, setSel] = useState<typeof COUNTRIES[0] | null>(null);
   const [ref, vis] = useReveal();
 
   useEffect(() => {
@@ -536,7 +533,7 @@ function Countries({ ua }) {
       </section>
 
       {sel && (
-        <div className="cmodal" onClick={(e) => { if (e.target.classList.contains("cmodal")) setSel(null); }}>
+        <div className="cmodal" onClick={(e) => { if ((e.target as HTMLElement).classList.contains("cmodal")) setSel(null); }}>
           <div className="cmodal__box">
             <div className="cmodal__head">
               <span className="cmodal__flag">{sel.flag}</span>
@@ -588,7 +585,7 @@ function Countries({ ua }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    DEVICES
    ═══════════════════════════════════════════════════════════════════════════ */
-function Devices({ ua }) {
+function Devices({ ua }: { ua: string }) {
   const [ref, vis] = useReveal();
   return (
     <section id="devices" className="sec" ref={ref}>
@@ -651,7 +648,7 @@ function Reviews() {
 /* ═══════════════════════════════════════════════════════════════════════════
    QUICK SETUP
    ═══════════════════════════════════════════════════════════════════════════ */
-function Setup({ ua }) {
+function Setup({ ua }: { ua: string }) {
   const [ref, vis] = useReveal();
   const steps = [
     { n: "1", icon: "💬", text: "Kontakta oss på WhatsApp — berätta vilken enhet du har." },
@@ -726,7 +723,7 @@ function FAQ() {
 /* ═══════════════════════════════════════════════════════════════════════════
    FINAL CTA SECTION — push to convert
    ═══════════════════════════════════════════════════════════════════════════ */
-function FinalCTA({ ua }) {
+function FinalCTA({ ua }: { ua: string }) {
   const [ref, vis] = useReveal();
   return (
     <section className="sec" ref={ref}>
@@ -751,7 +748,7 @@ function FinalCTA({ ua }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    STICKY MOBILE CTA
    ═══════════════════════════════════════════════════════════════════════════ */
-function StickyMobileCTA({ ua }) {
+function StickyMobileCTA({ ua }: { ua: string }) {
   const [show, setShow] = useState(false);
   useEffect(() => {
     const onScroll = () => setShow(window.scrollY > 600);
@@ -774,18 +771,18 @@ function StickyMobileCTA({ ua }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    MOA CHAT (improved)
    ═══════════════════════════════════════════════════════════════════════════ */
-function MoaChat({ ua }) {
+function MoaChat({ ua }: { ua: string }) {
   const [open, setOpen] = useState(false);
-  const [msgs, setMsgs] = useState([]);
+  const [msgs, setMsgs] = useState<{from: "bot"|"user"; text: string}[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [unread, setUnread] = useState(0);
   const [greeted, setGreeted] = useState(false);
-  const endRef = useRef(null);
+  const endRef = useRef<HTMLDivElement | null>(null);
 
   const quickReplies = ["Visa priser 💰", "Gratis test 24h 🧪", "Firestick-hjälp 🔥", "Vilka kanaler? 📺"];
 
-  const pushBot = async (text, delay = 800) => {
+  const pushBot = async (text: string, delay = 800) => {
     setIsTyping(true);
     await new Promise(r => setTimeout(r, delay));
     setMsgs(prev => [...prev, { from: "bot", text }]);
@@ -809,7 +806,7 @@ function MoaChat({ ua }) {
     return () => clearTimeout(t);
   }, [greeted]);
 
-  const getBotReply = (q) => {
+  const getBotReply = (q: string): string[] => {
     const l = q.toLowerCase();
     if (/pris|price|kost|paket|plan|💰/.test(l)) return ["Vi har paket från 83 kr/mån — 1, 3, 6 eller 12 månader. Alla inkluderar 20 000+ kanaler och EPG.", "Vill du se paketen direkt, eller testa gratis i 24h först?"];
     if (/firestick|install|setup|enhet|device|smart tv|🔥/.test(l)) return ["Firestick och Smart TV är populärast — installationen tar 10 minuter.", "Jag skickar installationshjälp direkt på WhatsApp!"];
@@ -818,7 +815,7 @@ function MoaChat({ ua }) {
     return ["Jag kan hjälpa dig med paket, gratis test, installation och kompatibilitet.", "Snabbast hjälp får du på WhatsApp — klicka nedan!"];
   };
 
-  const doSend = async (val) => {
+  const doSend = async (val: string) => {
     if (!val.trim() || isTyping) return;
     setMsgs(prev => [...prev, { from: "user", text: val }]);
     setInput("");
@@ -882,14 +879,19 @@ export default function Page() {
   const [showIntro, setShowIntro] = useState(true);
   const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
 
-  return (
-    <>
-      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  useEffect(() => {
+    if (document.querySelector('link[href*="Playfair"]')) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap";
+    document.head.appendChild(link);
+  }, []);
 
+  return (
+    <div className="app">
       {showIntro && <CinematicIntro onDone={() => setShowIntro(false)} />}
 
-      <div className="app">
-        <div className="app__bg" />
+      <div className="app__bg" />
 
         {/* COUNTDOWN BAR */}
         <CountdownBar />
@@ -948,11 +950,10 @@ export default function Page() {
         <StickyMobileCTA ua={ua} />
         <MoaChat ua={ua} />
 
-        <style>{`
+        <style dangerouslySetInnerHTML={{ __html: `
 /* ═══════════════════════════════════════════════════════════════════
    CSS — ENHANCED LANDING PAGE
    ═══════════════════════════════════════════════════════════════════ */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
   --bg: #050308;
@@ -1654,8 +1655,7 @@ body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--fo
   transition: all 0.2s;
 }
 .cin__skip:hover { border-color: #FECC02; color: #FECC02; }
-        `}</style>
-      </div>
-    </>
+        `}} />
+    </div>
   );
 }
