@@ -1806,6 +1806,7 @@ export default function Page() {
             scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
             background: #060407;
+            overflow-x: hidden;
           }
           body {
             margin: 0;
@@ -1978,7 +1979,7 @@ export default function Page() {
           }
           .countryCard:active { transform: scale(0.97); }
           .ctryFlag { font-size: 22px; flex-shrink: 0; }
-          .ctryInfo { flex: 1; min-width: 0; }
+          .ctryInfo { flex: 1; min-width: 0; overflow: hidden; }
           .ctryName { font-weight: 700; font-size: 14px; color: #f0ecf5; }
           .ctrySub { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
           .ctryArrow { color: rgba(201,168,76,0.5); font-size: 18px; flex-shrink: 0; transition: transform 0.2s; }
@@ -1993,6 +1994,7 @@ export default function Page() {
             align-items: flex-end;
             justify-content: center;
             animation: fadeIn 0.2s ease;
+            overflow: hidden;
           }
           @media (min-width: 640px) {
             .countryModalOverlay { align-items: center; padding: 20px; }
@@ -2019,11 +2021,13 @@ export default function Page() {
             align-items: flex-start;
             gap: 14px;
             flex-shrink: 0;
-          }
+            min-width: 0;
+            overflow: hidden;
+}
           .countryModalFlag { font-size: 44px; line-height: 1; flex-shrink: 0; }
-          .countryModalTb { flex: 1; }
-          .countryModalTb h2 { font-size: 22px; font-weight: 800; color: #fff; margin: 0 0 4px; }
-          .countryModalTb p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; }
+          .countryModalTb { flex: 1; min-width: 0; overflow: hidden; overflow-wrap: break-word; }
+          .countryModalTb h2 { font-size: 22px; font-weight: 800; color: #fff; margin: 0 0 4px; word-break: break-word; overflow-wrap: break-word; }
+          .countryModalTb p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; word-break: break-word; overflow-wrap: break-word; white-space: normal; }
           .countryModalClose {
             background: rgba(255,255,255,0.08);
             border: none;
@@ -2043,6 +2047,8 @@ export default function Page() {
             overflow-y: auto;
             padding: 16px 20px 24px;
             flex: 1;
+            min-width: 0;
+            overflow-x: hidden;
           }
           .countryModalBd::-webkit-scrollbar { width: 4px; }
           .countryModalBd::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
@@ -2074,9 +2080,9 @@ export default function Page() {
             background: rgba(201,168,76,0.06);
             border-color: rgba(201,168,76,0.2);
           }
-          .countryChName { font-size: 13px; font-weight: 600; color: #f0ecf5; }
+          .countryChName { font-size: 13px; font-weight: 600; color: #f0ecf5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
           .countryChIcon { font-size: 14px; }
-          .countryKwWrap { display: flex; flex-wrap: wrap; gap: 7px; }
+          .countryKwWrap { display: flex; flex-wrap: wrap; gap: 7px; max-width: 100%; overflow: hidden; }
           .countryKwPill {
             background: rgba(0,106,167,0.1);
             border: 1px solid rgba(0,106,167,0.25);
@@ -2086,7 +2092,7 @@ export default function Page() {
             align-items: center;
             gap: 6px;
           }
-          .countryKwText { font-size: 12px; color: rgba(240,236,245,0.75); }
+          .countryKwText { font-size: 12px; color: rgba(240,236,245,0.75); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
           .countryKwVol { font-size: 11px; color: #4AB4E8; font-weight: 700; }
           .countryPriceBox {
             background: rgba(61,190,122,0.06);
@@ -2246,10 +2252,19 @@ export default function Page() {
             .compareTable th, .compareTable td { padding: 10px 8px; }
             .tabBtn { font-size: 12px; padding: 12px 10px; min-width: 80px; }
             .channelList { padding: 16px; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
-            /* Countries mobile */
+            /* Countries mobile — FIXED */
             .countriesGrid { grid-template-columns: repeat(2, 1fr); }
-            .countryChGrid { grid-template-columns: repeat(2, 1fr); }
-            .countryModalFt { flex-direction: column; }
+            .countryModalFlag { font-size: 32px; }
+            .countryModalHd { gap: 10px; padding: 16px 16px 0; }
+            .countryModalTb h2 { font-size: 18px; }
+            .countryModalTb p { font-size: 12px; }
+            .countryModalClose { width: 32px; height: 32px; font-size: 15px; }
+            .countryModalBd { padding: 12px 16px 20px; }
+            .countryChGrid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+            .countryChChip { padding: 7px 10px; }
+            .countryChName { font-size: 12px; }
+            .countryPriceBox { padding: 12px 14px; gap: 10px; }
+            .countryModalFt { flex-direction: column; padding: 12px 16px 16px; }
             .countryModalFt a { min-width: unset; width: 100%; }
             .deviceGrid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
             .deviceCard { padding: 14px 8px; gap: 6px; }
