@@ -582,14 +582,8 @@ function detectLangClient(): Locale {
   const qp = params.get("lang");
   if (qp) return normalizeLocale(qp);
   const navLangs = ((navigator.languages?.length ? navigator.languages : [navigator.language]) as string[]).filter(Boolean);
-  for (const nl of navLangs) {
-    const n = normalizeLocale(nl);
-    if (dict[n]) return n;
-  }
-  try {
-    const s = window.localStorage.getItem("lang");
-    if (s) return normalizeLocale(s);
-  } catch {}
+  for (const nl of navLangs) { const n = normalizeLocale(nl); if (dict[n]) return n; }
+  try { const s = window.localStorage.getItem("lang"); if (s) return normalizeLocale(s); } catch {}
   return "sv";
 }
 function getISOWeekKey(d = new Date()): string {
@@ -602,23 +596,12 @@ function getISOWeekKey(d = new Date()): string {
 }
 function hash32(s: string): number {
   let h = 0x811c9dc5;
-  for (let i = 0; i < s.length; i++) {
-    h ^= s.charCodeAt(i);
-    h = Math.imul(h, 0x01000193);
-  }
+  for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); }
   return h >>> 0;
 }
 function makePRNG(seed: number) {
   let s = seed >>> 0;
-  return () => {
-    s ^= s << 13;
-    s >>>= 0;
-    s ^= s >>> 17;
-    s >>>= 0;
-    s ^= s << 5;
-    s >>>= 0;
-    return (s >>> 0) / 4294967296;
-  };
+  return () => { s ^= s << 13; s >>>= 0; s ^= s >>> 17; s >>>= 0; s ^= s << 5; s >>>= 0; return (s >>> 0) / 4294967296; };
 }
 function clamp(n: number, a: number, b: number) { return Math.max(a, Math.min(b, n)); }
 function timeAgoLabel(from: Date, now: Date) {
@@ -665,7 +648,6 @@ function LiveActivityWidget({ userAgent }: { userAgent: string }) {
     const rndWeek = makePRNG(weekSeed);
     const viewingBase = 3 + Math.floor(rndWeek() * 8);
     let lastUpdate = new Date();
-
     const tick = () => {
       const t = new Date();
       const minuteKey = `${weekKey}|${t.getUTCHours()}:${t.getUTCMinutes()}`;
@@ -675,7 +657,6 @@ function LiveActivityWidget({ userAgent }: { userAgent: string }) {
       if (rnd() < 0.25) lastUpdate = t;
       setData({ viewing, updatedLabel: timeAgoLabel(lastUpdate, t) });
     };
-
     tick();
     const id = window.setInterval(tick, 12000);
     return () => window.clearInterval(id);
@@ -683,10 +664,7 @@ function LiveActivityWidget({ userAgent }: { userAgent: string }) {
 
   useEffect(() => {
     const k = "live_toast_v3";
-    try {
-      if (sessionStorage.getItem(k) === "1") return;
-    } catch {}
-
+    try { if (sessionStorage.getItem(k) === "1") return; } catch {}
     const onScroll = () => {
       const el = document.getElementById("offers");
       if (!el) return;
@@ -697,7 +675,6 @@ function LiveActivityWidget({ userAgent }: { userAgent: string }) {
         window.setTimeout(() => setToast(false), 5000);
       }
     };
-
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -711,15 +688,13 @@ function LiveActivityWidget({ userAgent }: { userAgent: string }) {
             <div className="liveToastTitle">Just nu 🔥</div>
             <div className="liveToastSub">{data.viewing} besökare tittar på erbjudandena.</div>
           </div>
-          <button className="liveToastBtn" onClick={() => setOpen(true)} type="button">Se</button>
+          <button className="liveToastBtn" onClick={() => setOpen(true)}>Se</button>
         </div>
       )}
-
-      <button className="liveBadge" onClick={() => setOpen(v => !v)} aria-label="Se live aktivitet" type="button">
+      <button className="liveBadge" onClick={() => setOpen(v => !v)} aria-label="Se live aktivitet">
         <span className="liveDot" />
         <span className="liveBadgeText">{data ? `${data.viewing} live` : "Live"}</span>
       </button>
-
       {open && data && (
         <div className="livePanel">
           <div className="liveHead">
@@ -730,11 +705,7 @@ function LiveActivityWidget({ userAgent }: { userAgent: string }) {
             <div className="liveRow"><span>Besökare just nu</span><b>{data.viewing}</b></div>
             <div className="liveRow"><span>Support</span><b style={{ color: "#22c55e" }}>Online</b></div>
           </div>
-          <button
-            className="liveCta"
-            type="button"
-            onClick={() => window.open(generateWhatsAppLink("Hej! Jag vill beställa.", userAgent, "Live-Widget"), "_blank", "noopener,noreferrer")}
-          >
+          <button className="liveCta" onClick={() => window.open(generateWhatsAppLink("Hej! Jag vill beställa.", userAgent, "Live-Widget"), "_blank")}>
             Starta WhatsApp
           </button>
         </div>
@@ -765,19 +736,15 @@ function MoaChat({ userAgent }: { userAgent: string }) {
   };
 
   useEffect(() => {
-    try {
-      if (localStorage.getItem("chatDismissed") === "true") setDismissed(true);
-    } catch {}
+    try { if (localStorage.getItem("chatDismissed") === "true") setDismissed(true); } catch {}
   }, []);
 
   useEffect(() => {
-    if (msgs.length > 0) msgsEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    if (msgs.length > 0) msgsEndRef.current?.scrollIntoView({ behavior: "smooth" });
     if (msgs.filter(m => m.from === "bot").length >= 2) setShowQuick(true);
   }, [msgs, isTyping]);
 
-  useEffect(() => {
-    if (open) setUnread(0);
-  }, [open]);
+  useEffect(() => { if (open) setUnread(0); }, [open]);
 
   useEffect(() => {
     if (dismissed || msgs.length > 0) return;
@@ -789,18 +756,8 @@ function MoaChat({ userAgent }: { userAgent: string }) {
     return () => window.clearTimeout(t);
   }, [dismissed, msgs.length, lang]);
 
-  const handleOpen = () => {
-    setOpen(true);
-    setDismissed(false);
-    try { localStorage.removeItem("chatDismissed"); } catch {}
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setDismissed(true);
-    try { localStorage.setItem("chatDismissed", "true"); } catch {}
-  };
-
+  const handleOpen = () => { setOpen(true); setDismissed(false); try { localStorage.removeItem("chatDismissed"); } catch {} };
+  const handleClose = () => { setOpen(false); setDismissed(true); try { localStorage.setItem("chatDismissed", "true"); } catch {} };
   const handleToggle = () => open ? handleClose() : handleOpen();
 
   const doSend = async (val: string) => {
@@ -811,11 +768,7 @@ function MoaChat({ userAgent }: { userAgent: string }) {
     const replies = getBotReply(val, lang);
     for (const r of replies) await pushBot(r, 700);
     window.setTimeout(() => {
-      window.open(
-        generateWhatsAppLink(`${dict[lang].bot.greeting1.replace("👋 ", "")} ${val}`, userAgent, "Moa-Chat"),
-        "_blank",
-        "noopener,noreferrer"
-      );
+      window.open(generateWhatsAppLink(`${dict[lang].bot.greeting1.replace("👋 ", "")} ${val}`, userAgent, "Moa-Chat"), "_blank");
     }, 1200);
   };
 
@@ -834,7 +787,7 @@ function MoaChat({ userAgent }: { userAgent: string }) {
   return (
     <>
       {!open && !dismissed && teaserMsgs.length > 0 && (
-        <button className="miliTeaser" onClick={handleOpen} aria-label="Öppna chatten" type="button">
+        <button className="miliTeaser" onClick={handleOpen} aria-label="Öppna chatten">
           <div className="miliTeaserHead">
             <img src={avatarUrl} alt="Moa" className="miliTeaserAvatar" loading="lazy" width="22" height="22" onError={fallbackSrc} />
             <span className="miliTeaserTitle">Moa • Support</span>
@@ -845,8 +798,7 @@ function MoaChat({ userAgent }: { userAgent: string }) {
           </div>
         </button>
       )}
-
-      <button className="miliFab" onClick={handleToggle} aria-label="Chatta med Moa" type="button">
+      <button className="miliFab" onClick={handleToggle} aria-label="Chatta med Moa">
         <div className="fabContent">
           <img src={avatarUrl} alt="Moa" className="fabAvatar" loading="lazy" width="35" height="35" onError={fallbackSrc} />
           <span className="fabPulse"></span>
@@ -854,9 +806,8 @@ function MoaChat({ userAgent }: { userAgent: string }) {
           {unread > 0 && <span className="miliBadge miliBadgeFab">{unread}</span>}
         </div>
       </button>
-
       {open && (
-        <div className="miliBox" role="dialog" aria-label="Chat med Moa" aria-modal="false">
+        <div className="miliBox" role="dialog" aria-label="Chat med Moa">
           <div className="miliHeader">
             <div className="headerAvatarWrapper">
               <img src={avatarUrl} alt="Moa" className="headerAvatar" width="40" height="40" onError={fallbackSrc} />
@@ -868,9 +819,8 @@ function MoaChat({ userAgent }: { userAgent: string }) {
                 {isTyping ? "Moa skriver..." : "Svarar snabbt"}
               </div>
             </div>
-            <button className="miliClose" onClick={handleClose} aria-label="Stäng chatten" type="button">✕</button>
+            <button className="miliClose" onClick={handleClose} aria-label="Stäng chatten">✕</button>
           </div>
-
           <div className="miliBody">
             <div className="miliMsgs">
               {msgs.map((m, i) => (
@@ -878,35 +828,24 @@ function MoaChat({ userAgent }: { userAgent: string }) {
               ))}
               <div ref={msgsEndRef} />
             </div>
-
             {isTyping && (
               <div className="typingIndicator"><span>.</span><span>.</span><span>.</span></div>
             )}
-
             {showQuick && !isTyping && (
               <div className="quickReplies">
                 {dict[lang].bot.quick.map(q => (
-                  <button key={q} className="quickReply" onClick={() => handleQuick(q)} type="button">{q}</button>
+                  <button key={q} className="quickReply" onClick={() => handleQuick(q)}>{q}</button>
                 ))}
               </div>
             )}
-
             <div className="miliInputRow">
               <input
                 value={input}
                 onChange={e => setInput(e.target.value)}
-                onKeyDown={e => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    handleSend();
-                  }
-                }}
+                onKeyDown={e => e.key === "Enter" && handleSend()}
                 placeholder="Skriv här..."
-                inputMode="text"
-                autoCapitalize="sentences"
-                autoCorrect="on"
               />
-              <button onClick={handleSend} type="button" aria-label="Skicka">→</button>
+              <button onClick={handleSend}>→</button>
             </div>
           </div>
         </div>
@@ -921,7 +860,6 @@ function ChannelExplorer() {
   const { lang } = useLanguage();
   const t = dict[lang];
   const [activeTab, setActiveTab] = useState(0);
-
   return (
     <section id="channels" className="section">
       <div className="sectionHead">
@@ -931,12 +869,7 @@ function ChannelExplorer() {
       <div className="explorerBox">
         <div className="tabs">
           {channelPreview.map((item, i) => (
-            <button
-              key={i}
-              className={`tabBtn ${activeTab === i ? "active" : ""}`}
-              onClick={() => setActiveTab(i)}
-              type="button"
-            >
+            <button key={i} className={`tabBtn ${activeTab === i ? "active" : ""}`} onClick={() => setActiveTab(i)}>
               {item.country}
             </button>
           ))}
@@ -956,46 +889,13 @@ function ChannelExplorer() {
 
 function CountriesSection({ ua }: { ua: string }) {
   const [selected, setSelected] = useState<Country | null>(null);
+
+  useEffect(() => {
+    document.body.style.overflow = selected ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [selected]);
+
   const closeModal = () => setSelected(null);
-
-  useEffect(() => {
-    if (!selected || typeof window === "undefined") return;
-
-    const scrollY = window.scrollY;
-    const { body, documentElement } = document;
-
-    const previous = {
-      bodyOverflow: body.style.overflow,
-      bodyPosition: body.style.position,
-      bodyTop: body.style.top,
-      bodyWidth: body.style.width,
-      htmlOverflow: documentElement.style.overflow,
-    };
-
-    body.style.overflow = "hidden";
-    body.style.position = "fixed";
-    body.style.top = `-${scrollY}px`;
-    body.style.width = "100%";
-    documentElement.style.overflow = "hidden";
-
-    return () => {
-      body.style.overflow = previous.bodyOverflow;
-      body.style.position = previous.bodyPosition;
-      body.style.top = previous.bodyTop;
-      body.style.width = previous.bodyWidth;
-      documentElement.style.overflow = previous.htmlOverflow;
-      window.scrollTo(0, scrollY);
-    };
-  }, [selected]);
-
-  useEffect(() => {
-    if (!selected) return;
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeModal();
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [selected]);
 
   return (
     <>
@@ -1005,20 +905,18 @@ function CountriesSection({ ua }: { ua: string }) {
           <p>Klicka på ditt land — se alla kanaler och beställ direkt via WhatsApp</p>
           <p style={{ fontSize: 13, color: "var(--gold)", fontWeight: 600, marginTop: 6 }}>👆 Tryck på ett land för att se kanalerna</p>
         </div>
-
         <div className="countriesGrid">
           {COUNTRIES.map(c => (
-            <button key={c.slug} className="countryCard" onClick={() => setSelected(c)} type="button">
-              <span className="ctryFlag" aria-hidden="true">{c.flag}</span>
+            <button key={c.slug} className="countryCard" onClick={() => setSelected(c)}>
+              <span className="ctryFlag">{c.flag}</span>
               <div className="ctryInfo">
                 <div className="ctryName">{c.name}</div>
                 <div className="ctrySub">{c.sub}</div>
               </div>
-              <span className="ctryArrow" aria-hidden="true">›</span>
+              <span className="ctryArrow">›</span>
             </button>
           ))}
         </div>
-
         <div className="stepsCtaWrap" style={{ marginTop: 28 }}>
           <a className="btnSecondary" href={generateWhatsAppLink("Hej! Jag söker kanaler på mitt språk i Sverige.", ua, "Countries-NotFound")} target="_blank" rel="noreferrer">
             💬 Mitt språk ingår inte — fråga oss
@@ -1027,26 +925,21 @@ function CountriesSection({ ua }: { ua: string }) {
       </section>
 
       {selected && (
-        <div
-          className="countryModalOverlay"
-          onClick={(e) => {
-            if ((e.target as HTMLElement).classList.contains("countryModalOverlay")) closeModal();
-          }}
-          role="dialog"
-          aria-modal="true"
-          aria-label={selected.name}
-        >
-          <div className="countryModalBox" onClick={e => e.stopPropagation()}>
+        <div className="countryModalOverlay" onClick={(e) => { if ((e.target as HTMLElement).classList.contains("countryModalOverlay")) closeModal(); }} role="dialog" aria-modal="true" aria-label={selected.name}>
+          <div className="countryModalBox">
+            {/* Header */}
             <div className="countryModalHd">
-              <span className="countryModalFlag" aria-hidden="true">{selected.flag}</span>
+              <span className="countryModalFlag">{selected.flag}</span>
               <div className="countryModalTb">
                 <h2>{selected.name}</h2>
                 <p>{selected.desc}</p>
               </div>
-              <button className="countryModalClose" onClick={closeModal} aria-label="Stäng" type="button">✕</button>
+              <button className="countryModalClose" onClick={closeModal} aria-label="Stäng">✕</button>
             </div>
 
+            {/* Body */}
             <div className="countryModalBd">
+              {/* Channels */}
               <div className="countryModalSec">
                 <div className="countryModalSecTitle">📺 Kanaler som ingår ({selected.channels.length}+)</div>
                 <div className="countryChGrid">
@@ -1063,6 +956,7 @@ function CountriesSection({ ua }: { ua: string }) {
                 </div>
               </div>
 
+              {/* Keywords */}
               <div className="countryModalSec">
                 <div className="countryModalSecTitle">🔍 Vad folk söker på Google</div>
                 <div className="countryKwWrap">
@@ -1076,6 +970,7 @@ function CountriesSection({ ua }: { ua: string }) {
                 <p style={{ fontSize: 11, color: "var(--muted)", marginTop: 10 }}>Volym = månatliga sökningar i Sverige</p>
               </div>
 
+              {/* Price box */}
               <div className="countryPriceBox">
                 <span style={{ fontSize: 26, flexShrink: 0 }}>💰</span>
                 <div>
@@ -1085,23 +980,12 @@ function CountriesSection({ ua }: { ua: string }) {
               </div>
             </div>
 
+            {/* Footer */}
             <div className="countryModalFt">
-              <a
-                className="trialCta"
-                style={{ flex: 1, minWidth: 140, textAlign: "center", fontSize: 14, padding: "13px 18px" }}
-                href={generateWhatsAppLink(selected.wa, ua, `Country-${selected.slug}`)}
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a className="trialCta" style={{ flex: 1, minWidth: 140, textAlign: "center", fontSize: 14, padding: "13px 18px" }} href={generateWhatsAppLink(selected.wa, ua, `Country-${selected.slug}`)} target="_blank" rel="noreferrer">
                 💬 Beställ {selected.name} — WhatsApp
               </a>
-              <a
-                className="btnSecondary"
-                style={{ flex: 1, minWidth: 130, textAlign: "center", fontSize: 13, padding: "13px 14px" }}
-                href={generateWhatsAppLink(`Hej! Jag vill testa ${selected.name} kanaler gratis 24h.`, ua, `Trial-${selected.slug}`)}
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a className="btnSecondary" style={{ flex: 1, minWidth: 130, textAlign: "center", fontSize: 13, padding: "13px 14px" }} href={generateWhatsAppLink(`Hej! Jag vill testa ${selected.name} kanaler gratis 24h.`, ua, `Trial-${selected.slug}`)} target="_blank" rel="noreferrer">
                 🧪 Testa 24h gratis
               </a>
             </div>
@@ -1392,12 +1276,9 @@ function CinematicIntro({ onDone }: { onDone: () => void }) {
       <div className="cinParticles" aria-hidden="true">
         {particles.map(p => (
           <span key={p.id} className="cinParticle" style={{
-            left: `${p.left}%`,
-            bottom: "-4px",
-            width: `${p.size}px`,
-            height: `${p.size}px`,
-            animationDelay: `${p.delay}s`,
-            animationDuration: `${p.dur}s`,
+            left: `${p.left}%`, bottom: "-4px",
+            width: `${p.size}px`, height: `${p.size}px`,
+            animationDelay: `${p.delay}s`, animationDuration: `${p.dur}s`,
             opacity: 0,
           }} />
         ))}
@@ -1470,23 +1351,16 @@ export default function Page() {
       cover.style.opacity = "0";
       setTimeout(() => cover.parentNode?.removeChild(cover), 260);
     }
-
     setShowIntro(true);
     const detected = detectLangClient();
     setLang(detected);
-
     try { localStorage.setItem("lang", detected); } catch {}
     if (typeof document !== "undefined") document.documentElement.lang = detected;
-
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js").catch(() => {});
-    }
-
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
     const handleInstall = (e: Event) => {
       e.preventDefault();
       setInstallPrompt(e);
     };
-
     window.addEventListener("beforeinstallprompt", handleInstall);
     return () => window.removeEventListener("beforeinstallprompt", handleInstall);
   }, []);
@@ -1494,10 +1368,7 @@ export default function Page() {
   useEffect(() => {
     if (!installPrompt) return;
     const key = "pwa_dismissed_v1";
-    try {
-      if (localStorage.getItem(key)) return;
-    } catch {}
-
+    try { if (localStorage.getItem(key)) return; } catch {}
     const show = () => setShowPWABar(true);
     const timer = window.setTimeout(show, 2600);
     return () => window.clearTimeout(timer);
@@ -1507,12 +1378,8 @@ export default function Page() {
     const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
     const isInStandalone = (window.navigator as any).standalone === true;
     if (!isIOS || isInStandalone) return;
-
     const key = "ios_pwa_dismissed_v1";
-    try {
-      if (localStorage.getItem(key)) return;
-    } catch {}
-
+    try { if (localStorage.getItem(key)) return; } catch {}
     const timer = window.setTimeout(() => setShowIOSBar(true), 3500);
     return () => window.clearTimeout(timer);
   }, []);
@@ -1527,16 +1394,12 @@ export default function Page() {
     setShowPWABar(false);
     try { localStorage.removeItem("pwa_dismissed_v1"); } catch {}
     installPrompt.prompt();
-    installPrompt.userChoice.then((c: any) => {
-      if (c.outcome === "accepted") setInstallPrompt(null);
-    });
+    installPrompt.userChoice.then((c: any) => { if (c.outcome === "accepted") setInstallPrompt(null); });
   };
-
   const handlePWADismiss = () => {
     setShowPWABar(false);
     try { localStorage.setItem("pwa_dismissed_v1", "1"); } catch {}
   };
-
   const handleIOSDismiss = () => {
     setShowIOSBar(false);
     try { localStorage.setItem("ios_pwa_dismissed_v1", "1"); } catch {}
@@ -1550,7 +1413,6 @@ export default function Page() {
     name: SITE.brand,
     url: SITE.domain,
   };
-
   const shippingDetails = {
     "@type": "OfferShippingDetails",
     shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "SEK" },
@@ -1558,10 +1420,9 @@ export default function Page() {
     deliveryTime: {
       "@type": "ShippingDeliveryTime",
       handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 0, unitCode: "MIN" },
-      transitTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 10, unitCode: "MIN" },
+      transitTime:  { "@type": "QuantitativeValue", minValue: 0, maxValue: 10, unitCode: "MIN" },
     },
   };
-
   const returnPolicy = {
     "@type": "MerchantReturnPolicy",
     applicableCountry: "SE",
@@ -1664,7 +1525,7 @@ export default function Page() {
       contactOption: "https://schema.org/TollFree",
       hoursAvailable: {
         "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
         opens: "08:00",
         closes: "23:00",
       },
@@ -1694,24 +1555,15 @@ export default function Page() {
   return (
     <LanguageContext.Provider value={{ lang, setLang }}>
       {showIntro && <CinematicIntro onDone={() => setShowIntro(false)} />}
-
       <div id="__next_cover" style={{
-        position: "fixed",
-        inset: 0,
-        background: "#060407",
-        zIndex: 99997,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        pointerEvents: "none",
+        position:"fixed",inset:0,background:"#060407",
+        zIndex:99997,display:"flex",alignItems:"center",justifyContent:"center",
+        pointerEvents:"none"
       }} />
-
       <div className="app">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
-
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta property="og:title" content="Sverige TV — 20 000+ kanaler, 4K & Sport" />
         <meta property="og:description" content="Sveriges #1 TV-tjänst. 20 000+ kanaler, 100 000+ filmer & serier. Från 83 kr/mån. Aktivering på 10 min via WhatsApp." />
         <meta property="og:image" content="https://sverigetv.se/og-image.jpg" />
@@ -1735,6 +1587,7 @@ export default function Page() {
 
         <div className="bg" />
 
+        {/* TOP BAR */}
         <div className="topBar">
           <div className="topBarInner">
             <span><span className="greenDot" /> {t.top.status}</span>
@@ -1742,13 +1595,12 @@ export default function Page() {
           </div>
         </div>
 
+        {/* HEADER */}
         <header className="header">
           <nav className="nav">
             <a href="#" className="brand"><SverigeLogo size={34} showText={true} /></a>
-
             <div className="links">
               {navLinks.map(l => <a key={l.href} href={l.href}>{l.label}</a>)}
-
               <div className="langSwitch">
                 {(["sv", "en", "fr"] as Locale[]).map(l => (
                   <button key={l} className={`langBtn ${lang === l ? "active" : ""}`} onClick={() => setLang(l)} type="button">
@@ -1756,58 +1608,36 @@ export default function Page() {
                   </button>
                 ))}
               </div>
-
               {installPrompt && (
                 <button onClick={handleInstallClick} className="installBtn" type="button">📲 {t.nav.install}</button>
               )}
             </div>
-
-            <button
-              className="hamburger"
-              onClick={() => setMenuOpen(v => !v)}
-              aria-label="Meny"
-              aria-expanded={menuOpen}
-              aria-controls="mobile-nav"
-              type="button"
-            >
+            <button className="hamburger" onClick={() => setMenuOpen(v => !v)} aria-label="Meny" type="button">
               {menuOpen ? "✕" : "☰"}
             </button>
           </nav>
         </header>
 
+        {/* MOBILE MENU */}
         {menuOpen && (
-          <div className="mobileMenu" id="mobile-nav" onClick={() => setMenuOpen(false)}>
+          <div className="mobileMenu" onClick={() => setMenuOpen(false)}>
             <div className="mobileMenuLogo"><SverigeLogo size={40} showText={true} /></div>
             {navLinks.map(l => <a key={l.href} href={l.href}>{l.label}</a>)}
             <div className="mobileLangSwitch">
               {(["sv", "en", "fr"] as Locale[]).map(l => (
-                <button
-                  key={l}
-                  className={`langBtn ${lang === l ? "active" : ""}`}
-                  onClick={e => {
-                    e.stopPropagation();
-                    setLang(l);
-                    setMenuOpen(false);
-                  }}
-                  type="button"
-                >
+                <button key={l} className={`langBtn ${lang === l ? "active" : ""}`} onClick={e => { e.stopPropagation(); setLang(l); setMenuOpen(false); }} type="button">
                   {l.toUpperCase()}
                 </button>
               ))}
             </div>
-            <a
-              className="btnPrimary"
-              href={generateWhatsAppLink(t.whatsapp.generic, ua, "Mobile-Menu")}
-              target="_blank"
-              rel="noreferrer"
-              style={{ textAlign: "center", marginTop: 8 }}
-            >
+            <a className="btnPrimary" href={generateWhatsAppLink(t.whatsapp.generic, ua, "Mobile-Menu")} target="_blank" rel="noreferrer" style={{ textAlign: "center", marginTop: 8 }}>
               💬 WhatsApp
             </a>
           </div>
         )}
 
         <main className="main">
+          {/* HERO */}
           <section className="hero">
             <div className="heroContent">
               <div className="heroLogo"><SverigeLogo size={52} showText={false} /></div>
@@ -1827,53 +1657,45 @@ export default function Page() {
             </div>
           </section>
 
+          {/* TRIAL BANNER */}
           <TrialBanner ua={ua} />
+
+          {/* TRUST SECTION */}
           <TrustSection />
 
+          {/* OFFERS */}
           <section id="offers" className="section">
             <div className="sectionHead">
               <h2>{t.offers.title}</h2>
               <p>{t.offers.sub}</p>
             </div>
-
             <div className="grid">
               {plans.map(p => {
                 const pricePerMonth = Math.round(p.price / p.months);
                 const saving = Math.round((1 - pricePerMonth / 120) * 100);
-
                 return (
                   <article key={p.key} className={`card ${p.highlight ? "highlight" : ""}`}>
                     {saving > 0 && (
                       <div className="saveBadge">{t.offers.save} {saving}%</div>
                     )}
-
                     <div className="cardHeader">
                       <h3>{t.planNames[p.key]}</h3>
                       {p.highlight && <span className="bestSellerBadge">{t.offers.bestSeller}</span>}
                     </div>
-
                     <div className="priceLockup">
                       <span className="currency">{SITE.currencyLabel}</span>
                       <span className="bigNumber">{pricePerMonth}</span>
                       <span className="perMonth">{t.offers.perMonth}</span>
                     </div>
-
                     <div className="billedInfo">
                       {t.offers.billedOnce} {p.price} {SITE.currencyLabel}{p.months > 1 && ` (${t.offers.totalLabel})`}
                     </div>
-
                     <ul className="perks">
                       {t.planPerks[p.key].map(perk => (
                         <li key={perk}><span className="check">✓</span> {perk}</li>
                       ))}
                     </ul>
-
-                    <a
-                      className="btnPlan"
-                      href={generateWhatsAppLink(t.whatsapp.orderMessage(t.planNames[p.key], p.price, SITE.currencyLabel), ua, `Plan-${p.key}`)}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
+                    <a className="btnPlan" href={generateWhatsAppLink(t.whatsapp.orderMessage(t.planNames[p.key], p.price, SITE.currencyLabel), ua, `Plan-${p.key}`)} target="_blank" rel="noreferrer">
                       {t.offers.order}
                     </a>
                   </article>
@@ -1882,15 +1704,31 @@ export default function Page() {
             </div>
           </section>
 
+          {/* VOD STATS */}
           <VODSection />
+
+          {/* COMPARE */}
           <CompareSection />
+
+          {/* CHANNEL EXPLORER */}
           <ChannelExplorer />
+
+          {/* COUNTRIES SECTION — NEW from code 2 */}
           <CountriesSection ua={ua} />
+
+          {/* DEVICE SECTION */}
           <DeviceSection ua={ua} />
+
+          {/* REVIEWS */}
           <ReviewsSection />
+
+          {/* CITIES */}
           <SwedenCities ua={ua} />
+
+          {/* QUICK SETUP */}
           <QuickSetup ua={ua} />
 
+          {/* FAQ */}
           <section id="faq" className="section">
             <div className="sectionHead"><h2>{t.faq.title}</h2></div>
             <div className="faq">
@@ -1904,6 +1742,7 @@ export default function Page() {
           </section>
         </main>
 
+        {/* FOOTER */}
         <footer className="footer">
           <div className="footerLogo"><SverigeLogo size={32} showText={true} /></div>
           <p>© {new Date().getFullYear()} {SITE.brand}. {t.footer.rights}</p>
@@ -1923,28 +1762,26 @@ export default function Page() {
               <strong>{lang === "sv" ? "Installera som app" : lang === "en" ? "Install as app" : "Installer comme app"}</strong>
               <span>{lang === "sv" ? "Snabbare åtkomst, offline-support" : lang === "en" ? "Faster access, offline support" : "Accès rapide, hors-ligne"}</span>
             </div>
-            <button className="pwaAccept" onClick={handleInstallClick} type="button">
+            <button className="pwaAccept" onClick={handleInstallClick}>
               {lang === "sv" ? "Installera" : lang === "en" ? "Install" : "Installer"}
             </button>
-            <button className="pwaDismiss" onClick={handlePWADismiss} aria-label="Stäng" type="button">✕</button>
+            <button className="pwaDismiss" onClick={handlePWADismiss} aria-label="Stäng">✕</button>
           </div>
         )}
-
         {showIOSBar && (
           <div className="pwaBar pwaBarIOS">
             <span className="pwaIcon">📲</span>
             <div className="pwaText">
               <strong>{lang === "sv" ? "Installera som app" : lang === "en" ? "Add to Home Screen" : "Ajouter à l'écran"}</strong>
               <span>
-                {lang === "sv" ? "Tryck på" : lang === "en" ? "Tap" : "Appuyez sur"}{" "}
-                <span className="iosShareIcon">⬆</span>{" "}
-                {lang === "sv" ? 'sedan "Lägg till hemskärm"' : lang === "en" ? 'then "Add to Home Screen"' : 'puis "Sur l’écran d’accueil"'}
+                {lang === "sv" ? 'Tryck på' : lang === "en" ? 'Tap' : 'Appuyez sur'}{' '}
+                <span className="iosShareIcon">⬆</span>{' '}
+                {lang === "sv" ? 'sedan "Lägg till hemskärm"' : lang === "en" ? 'then "Add to Home Screen"' : "puis \"Sur l\u2019\u00e9cran d\u2019accueil\""}
               </span>
             </div>
-            <button className="pwaDismiss" onClick={handleIOSDismiss} aria-label="Stäng" type="button">✕</button>
+            <button className="pwaDismiss" onClick={handleIOSDismiss} aria-label="Stäng">✕</button>
           </div>
         )}
-
         <LiveActivityWidget userAgent={ua} />
         <MoaChat userAgent={ua} />
 
@@ -1965,16 +1802,12 @@ export default function Page() {
             --border-accent: rgba(124,19,38,0.35);
             --gold: #c8a96e;
           }
-
           html {
             scroll-behavior: smooth;
-            scroll-padding-top: 88px;
             -webkit-text-size-adjust: 100%;
             background: #060407;
             overflow-x: hidden;
-            max-width: 100%;
           }
-
           body {
             margin: 0;
             background: #060407;
@@ -1982,535 +1815,126 @@ export default function Page() {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             -webkit-font-smoothing: antialiased;
             overscroll-behavior-y: contain;
-            overflow-x: hidden;
-            max-width: 100%;
-            touch-action: pan-y;
           }
-
           *, *::before, *::after { box-sizing: border-box; }
-
-          img, svg, video, canvas {
-            max-width: 100%;
-            height: auto;
-          }
-
-          a, button, summary, [role="button"] {
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: rgba(201,168,76,0.16);
-          }
-
-          button, input, textarea, select {
-            font: inherit;
-          }
-
           #__next_cover::after {
             content: "";
-            width: 26px;
-            height: 26px;
+            width: 26px; height: 26px;
             border: 2px solid rgba(139,23,40,0.2);
             border-top-color: #7c1326;
             border-radius: 50%;
             animation: __spin 0.65s linear infinite;
           }
-
           @keyframes __spin { to { transform: rotate(360deg); } }
-
           .bg {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
+            position: fixed; inset: 0; z-index: -1;
             background:
               radial-gradient(ellipse 80% 40% at 50% -5%, #1a0409 0%, transparent 60%),
               radial-gradient(ellipse 100% 60% at 50% 100%, #0a0008 0%, transparent 70%),
               #020202;
           }
-
-          .app {
-            min-height: 100vh;
-          }
-
           .main { max-width: 1100px; margin: 0 auto; padding: 0 20px 80px; }
           .section { margin-bottom: 80px; }
           .sectionHead { text-align: center; margin-bottom: 40px; }
           .sectionHead h2 { font-size: 2rem; margin: 0 0 10px; }
           .sectionHead p { color: var(--muted); }
 
-          .topBar {
-            background: #020103;
-            font-size: 12px;
-            border-bottom: 1px solid rgba(139,23,40,0.2);
-            padding: 8px 0;
-          }
-
-          .topBarInner {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            gap: 14px;
-            flex-wrap: wrap;
-          }
-
-          .greenDot {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            background: #22c55e;
-            border-radius: 50%;
-            margin-right: 6px;
-            box-shadow: 0 0 5px #22c55e;
-          }
-
+          /* TOP BAR */
+          .topBar { background: #020103; font-size: 12px; border-bottom: 1px solid rgba(139,23,40,0.2); padding: 8px 0; }
+          .topBarInner { max-width: 1100px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+          .greenDot { display: inline-block; width: 6px; height: 6px; background: #22c55e; border-radius: 50%; margin-right: 6px; box-shadow: 0 0 5px #22c55e; }
           .urgency { color: #fbbf24; font-weight: 700; }
 
-          .header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            background: rgba(6,4,7,0.92);
-            border-bottom: 1px solid rgba(139,23,40,0.15);
-          }
-
-          .nav {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-          }
-
-          .brand {
-            font-weight: 900;
-            font-size: 1.2rem;
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            letter-spacing: -0.5px;
-            transition: opacity 0.2s;
-            flex-shrink: 0;
-          }
-
-          .heroLogo {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 18px rgba(139,23,40,0.5));
-          }
-
-          .footerLogo {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 16px;
-            opacity: 0.8;
-          }
-
-          .mobileMenuLogo {
-            padding: 16px 0 8px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            margin-bottom: 8px;
-          }
-
-          .links {
-            display: flex;
-            gap: 18px;
-            font-weight: 500;
-            font-size: 14px;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-          }
-
-          .links a {
-            color: var(--muted);
-            text-decoration: none;
-            transition: color 0.2s;
-          }
-
+          /* HEADER */
+          .header { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); background: rgba(6,4,7,0.92); border-bottom: 1px solid rgba(139,23,40,0.15); }
+          .nav { max-width: 1100px; margin: 0 auto; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+          .brand { font-weight: 900; font-size: 1.2rem; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; letter-spacing: -0.5px; transition: opacity 0.2s; }
+          .brand:hover { opacity: 0.85; }
+          .heroLogo { display: flex; justify-content: center; margin-bottom: 20px; filter: drop-shadow(0 0 18px rgba(139,23,40,0.5)); }
+          .footerLogo { display: flex; justify-content: center; margin-bottom: 16px; opacity: 0.8; }
+          .mobileMenuLogo { padding: 16px 0 8px; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 8px; }
+          .links { display: flex; gap: 18px; font-weight: 500; font-size: 14px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+          .links a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+          .links a:hover { color: #fff; }
           .langSwitch { display: flex; align-items: center; gap: 8px; }
+          .langBtn { background: none; border: 1px solid var(--border); cursor: pointer; padding: 4px 8px; border-radius: 6px; color: #fff; font-size: 12px; transition: 0.2s; }
+          .langBtn.active { border-color: var(--accent-hi); background: rgba(139,23,40,0.18); }
+          .installBtn { background: rgba(255,255,255,0.1); border: 1px solid var(--accent); color: #fff; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 700; }
 
-          .langBtn {
-            background: none;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 6px;
-            color: #fff;
-            font-size: 12px;
-            transition: 0.2s;
-          }
+          /* HAMBURGER */
+          .hamburger { display: none; background: none; border: 1px solid var(--border); color: #fff; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 16px; }
+          .mobileMenu { position: fixed; inset: 0; top: 0; padding-top: 70px; background: rgba(6,4,7,0.99); z-index: 99; display: flex; flex-direction: column; padding: 20px 24px 40px; gap: 4px; overflow-y: auto; }
+          .mobileMenu a { font-size: 18px; color: #fff; text-decoration: none; padding: 14px 0; border-bottom: 1px solid var(--border); display: block; }
+          .mobileLangSwitch { display: flex; gap: 10px; padding: 16px 0; border-bottom: 1px solid var(--border); }
 
-          .langBtn.active {
-            border-color: var(--accent-hi);
-            background: rgba(139,23,40,0.18);
-          }
-
-          .installBtn {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid var(--accent);
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 700;
-          }
-
-          .hamburger {
-            display: none;
-            background: none;
-            border: 1px solid var(--border);
-            color: #fff;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            min-width: 44px;
-            min-height: 44px;
-            align-items: center;
-            justify-content: center;
-          }
-
-          .mobileMenu {
-            position: fixed;
-            inset: 0;
-            top: 0;
-            padding-top: calc(70px + env(safe-area-inset-top, 0px));
-            padding-bottom: max(40px, env(safe-area-inset-bottom, 0px) + 24px);
-            background: rgba(6,4,7,0.99);
-            z-index: 99;
-            display: flex;
-            flex-direction: column;
-            padding-left: 24px;
-            padding-right: 24px;
-            gap: 4px;
-            overflow-y: auto;
-            overscroll-behavior: contain;
-            -webkit-overflow-scrolling: touch;
-          }
-
-          .mobileMenu a {
-            font-size: 18px;
-            color: #fff;
-            text-decoration: none;
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border);
-            display: block;
-          }
-
-          .mobileLangSwitch {
-            display: flex;
-            gap: 10px;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border);
-          }
-
+          /* HERO */
           .hero { padding: 80px 0 60px; text-align: center; }
           .heroContent { max-width: 780px; margin: 0 auto; }
+          .pill { display: inline-block; padding: 6px 16px; border: 1px solid var(--border-accent); color: var(--gold); background: rgba(139,23,40,0.07); border-radius: 99px; font-size: 12px; font-weight: 700; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px; }
+          h1 { font-size: clamp(2.2rem, 6vw, 4.2rem); line-height: 1.05; font-weight: 800; margin: 0 0 24px; letter-spacing: -1px; }
+          .accent { background: linear-gradient(135deg, #f5f0f5 0%, var(--gold) 60%, #e0d0d0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+          .lead { color: var(--muted); font-size: 1.1rem; max-width: 620px; margin: 0 auto 32px; line-height: 1.6; }
+          .actions { display: flex; gap: 12px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+          .btnPrimary { background: linear-gradient(135deg, var(--accent-hi) 0%, var(--accent) 100%); color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 700; transition: transform 0.2s, box-shadow 0.2s; border: none; cursor: pointer; display: inline-block; letter-spacing: 0.01em; }
+          .btnPrimary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -6px var(--accent-glow); background: linear-gradient(135deg, var(--gold) 0%, var(--accent-hi) 100%); }
+          .btnSecondary { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: background 0.2s; display: inline-block; }
+          .btnSecondary:hover { background: rgba(255,255,255,0.1); }
+          .heroTrust { color: var(--muted); font-size: 13px; font-weight: 500; line-height: 1.6; }
 
-          .pill {
-            display: inline-block;
-            padding: 6px 16px;
-            border: 1px solid var(--border-accent);
-            color: var(--gold);
-            background: rgba(139,23,40,0.07);
-            border-radius: 99px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-          }
-
-          h1 {
-            font-size: clamp(2.2rem, 6vw, 4.2rem);
-            line-height: 1.05;
-            font-weight: 800;
-            margin: 0 0 24px;
-            letter-spacing: -1px;
-          }
-
-          .accent {
-            background: linear-gradient(135deg, #f5f0f5 0%, var(--gold) 60%, #e0d0d0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-          }
-
-          .lead {
-            color: var(--muted);
-            font-size: 1.1rem;
-            max-width: 620px;
-            margin: 0 auto 32px;
-            line-height: 1.6;
-          }
-
-          .actions {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-          }
-
-          .btnPrimary {
-            background: linear-gradient(135deg, var(--accent-hi) 0%, var(--accent) 100%);
-            color: white;
-            padding: 14px 32px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-            border: none;
-            cursor: pointer;
-            display: inline-block;
-            letter-spacing: 0.01em;
-          }
-
-          .btnSecondary {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            color: white;
-            padding: 14px 32px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background 0.2s;
-            display: inline-block;
-          }
-
-          .heroTrust {
-            color: var(--muted);
-            font-size: 13px;
-            font-weight: 500;
-            line-height: 1.6;
-          }
-
-          .trialBanner {
-            background: linear-gradient(135deg, rgba(139,23,40,0.1), rgba(100,10,25,0.05));
-            border: 1px solid rgba(139,23,40,0.28);
-            border-radius: 16px;
-            padding: 32px;
-            margin-bottom: 80px;
-            display: flex;
-            gap: 24px;
-            align-items: flex-start;
-            flex-wrap: wrap;
-          }
-
-          .trialBadge {
-            display: inline-flex;
-            align-items: center;
-            padding: 6px 14px;
-            background: linear-gradient(135deg, var(--accent-hi), var(--accent));
-            color: #fff;
-            font-size: 11px;
-            font-weight: 800;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            flex-shrink: 0;
-            height: fit-content;
-            margin-top: 4px;
-          }
-
+          /* TRIAL BANNER */
+          .trialBanner { background: linear-gradient(135deg, rgba(139,23,40,0.1), rgba(100,10,25,0.05)); border: 1px solid rgba(139,23,40,0.28); border-radius: 16px; padding: 32px; margin-bottom: 80px; display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
+          .trialBadge { display: inline-flex; align-items: center; padding: 6px 14px; background: linear-gradient(135deg, var(--accent-hi), var(--accent)); color: #fff; font-size: 11px; font-weight: 800; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; height: fit-content; margin-top: 4px; }
           .trialContent { flex: 1; min-width: 220px; }
           .trialContent h3 { margin: 0 0 8px; font-size: 1.3rem; font-weight: 800; }
           .trialContent p { margin: 0 0 6px; color: var(--muted); font-size: 14px; line-height: 1.6; }
           .trialNote { font-size: 12px !important; opacity: 0.6; }
+          .trialCta { display: inline-flex; align-items: center; background: #22c55e; color: #000; font-weight: 800; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-size: 14px; white-space: nowrap; transition: 0.2s; align-self: center; flex-shrink: 0; }
+          .trialCta:hover { background: #16a34a; transform: translateY(-1px); }
 
-          .trialCta {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: #22c55e;
-            color: #000;
-            font-weight: 800;
-            padding: 14px 28px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 14px;
-            white-space: nowrap;
-            transition: 0.2s;
-            align-self: center;
-            flex-shrink: 0;
-          }
-
+          /* TRUST SECTION */
           .trustSection { margin-bottom: 80px; }
-
-          .trustGrid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 16px;
-          }
-
-          .trustCard {
-            background: var(--card);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            transition: 0.2s;
-          }
-
-          .trustIcon,
-          .deviceIcon,
-          .ctryFlag,
-          .countryModalFlag {
-            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
-            line-height: 1;
-            font-style: normal;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-          }
-
-          .trustIcon { font-size: 28px; margin-bottom: 10px; }
+          .trustGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+          .trustCard { background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 20px; text-align: center; transition: 0.2s; }
+          .trustCard:hover { border-color: rgba(255,255,255,0.25); }
+          .trustIcon { font-size: 28px; display: block; margin-bottom: 10px; }
           .trustCard h4 { margin: 0 0 6px; font-size: 13px; font-weight: 700; }
           .trustCard p { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.5; }
 
+          /* OFFERS */
           .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
-
-          .card {
-            position: relative;
-            background: var(--card);
-            border: 1px solid rgba(255,255,255,0.06);
-            padding: 32px 24px;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-          }
-
-          .card.highlight {
-            border: 1px solid var(--border-accent);
-            box-shadow: 0 0 40px rgba(139,23,40,0.14), 0 0 1px rgba(200,40,60,0.3);
-            background: linear-gradient(180deg, rgba(139,23,40,0.09) 0%, rgba(14,11,15,0) 100%);
-          }
-
-          .saveBadge {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, var(--accent-hi), var(--accent));
-            color: white;
-            font-weight: 800;
-            font-size: 11px;
-            padding: 6px 14px;
-            border-radius: 20px;
-            box-shadow: 0 4px 14px rgba(139,23,40,0.5);
-            z-index: 2;
-          }
-
+          .card { position: relative; background: var(--card); border: 1px solid rgba(255,255,255,0.06); padding: 32px 24px; border-radius: 16px; display: flex; flex-direction: column; transition: transform 0.3s, border-color 0.3s; }
+          .card:hover { transform: translateY(-5px); border-color: rgba(139,23,40,0.3); box-shadow: 0 8px 30px rgba(100,10,25,0.15); }
+          .card.highlight { border: 1px solid var(--border-accent); box-shadow: 0 0 40px rgba(139,23,40,0.14), 0 0 1px rgba(200,40,60,0.3); background: linear-gradient(180deg, rgba(139,23,40,0.09) 0%, rgba(14,11,15,0) 100%); }
+          .saveBadge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--accent-hi), var(--accent)); color: white; font-weight: 800; font-size: 11px; padding: 6px 14px; border-radius: 20px; box-shadow: 0 4px 14px rgba(139,23,40,0.5); z-index: 2; }
           .cardHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 10px; }
           .cardHeader h3 { margin: 0; font-size: 1.1rem; }
-
-          .bestSellerBadge {
-            font-size: 10px;
-            background: #fbbf24;
-            color: #000;
-            font-weight: 800;
-            padding: 3px 8px;
-            border-radius: 4px;
-            text-transform: uppercase;
-          }
-
+          .bestSellerBadge { font-size: 10px; background: #fbbf24; color: #000; font-weight: 800; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
           .priceLockup { display: flex; align-items: baseline; justify-content: center; line-height: 1; margin-bottom: 8px; }
           .currency { font-size: 1.2rem; font-weight: 500; margin-right: 4px; color: var(--muted); }
           .bigNumber { font-size: 3.8rem; font-weight: 800; letter-spacing: -2px; }
           .perMonth { font-size: 1rem; color: var(--muted); margin-left: 6px; }
           .billedInfo { text-align: center; color: var(--muted); font-size: 13px; margin-bottom: 24px; font-weight: 500; }
-
           .perks { list-style: none; padding: 0; margin: 0 0 24px 0; flex-grow: 1; }
-          .perks li {
-            padding: 8px 0;
-            font-size: 14px;
-            color: #e5e5e5;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-          }
-
+          .perks li { padding: 8px 0; font-size: 14px; color: #e5e5e5; display: flex; gap: 10px; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.03); }
           .perks li:last-child { border-bottom: none; }
           .check { color: var(--gold); font-weight: bold; }
+          .btnPlan { display: block; width: 100%; text-align: center; background: #fff; color: #000; font-weight: 800; padding: 14px; border-radius: 8px; text-decoration: none; transition: 0.2s; }
+          .btnPlan:hover { background: #e5e5e5; transform: scale(1.02); }
+          .highlight .btnPlan { background: linear-gradient(135deg, var(--accent-hi), var(--accent)); color: white; box-shadow: 0 4px 18px rgba(139,23,40,0.45); }
+          .highlight .btnPlan:hover { background: linear-gradient(135deg, var(--gold), var(--accent-hi)); }
 
-          .btnPlan {
-            display: block;
-            width: 100%;
-            text-align: center;
-            background: #fff;
-            color: #000;
-            font-weight: 800;
-            padding: 14px;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: 0.2s;
-          }
-
-          .highlight .btnPlan {
-            background: linear-gradient(135deg, var(--accent-hi), var(--accent));
-            color: white;
-            box-shadow: 0 4px 18px rgba(139,23,40,0.45);
-          }
-
-          .statsGrid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 20px;
-          }
-
-          .statCard {
-            background: var(--card);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 14px;
-            padding: 28px 20px;
-            text-align: center;
-          }
-
+          /* VOD STATS */
+          .statsGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; }
+          .statCard { background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 28px 20px; text-align: center; }
           .statValue { font-size: 2rem; font-weight: 800; color: #fff; letter-spacing: -1px; }
           .statLabel { font-size: 13px; color: var(--muted); margin-top: 6px; }
 
-          .compareWrap {
-            overflow-x: auto;
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            -webkit-overflow-scrolling: touch;
-          }
-
-          .compareTable {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-            min-width: 560px;
-          }
-
+          /* COMPARE TABLE */
+          .compareWrap { overflow-x: auto; border-radius: 14px; border: 1px solid var(--border); }
+          .compareTable { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 560px; }
           .compareTable thead tr { background: rgba(255,255,255,0.04); }
-
-          .compareTable th {
-            padding: 14px 16px;
-            text-align: left;
-            font-weight: 700;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--muted);
-            border-bottom: 1px solid var(--border);
-          }
-
-          .compareTable td {
-            padding: 14px 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            color: #ccc;
-          }
-
+          .compareTable th { padding: 14px 16px; text-align: left; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); border-bottom: 1px solid var(--border); }
+          .compareTable td { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #ccc; }
           .highlightRow { background: rgba(139,23,40,0.1); }
           .highlightRow td { color: #fff; font-weight: 600; border-bottom: 1px solid rgba(139,23,40,0.2); }
           .accentPrice { color: var(--gold) !important; font-weight: 800 !important; font-size: 15px; }
@@ -2518,56 +1942,21 @@ export default function Page() {
           .bestTag { color: #4ade80; font-weight: 900; }
           .compareTable tr:last-child td { border-bottom: none; }
 
-          .explorerBox {
-            background: var(--card);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.06);
-          }
-
-          .tabs {
-            display: flex;
-            background: rgba(0,0,0,0.3);
-            border-bottom: 1px solid var(--border);
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-          }
-
-          .tabBtn {
-            flex: 1;
-            padding: 16px;
-            background: none;
-            border: none;
-            color: var(--muted);
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            min-width: 100px;
-            white-space: nowrap;
-          }
-
-          .tabBtn.active {
-            color: white;
-            background: rgba(255,255,255,0.04);
-            border-bottom: 2px solid var(--accent-hi);
-          }
-
-          .channelList {
-            padding: 24px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 16px;
-          }
-
-          .channelItem { font-size: 13px; color: #ccc; display: flex; align-items: center; gap: 8px; min-width: 0; }
+          /* CHANNELS */
+          .explorerBox { background: var(--card); border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); }
+          .tabs { display: flex; background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--border); overflow-x: auto; }
+          .tabBtn { flex: 1; padding: 16px; background: none; border: none; color: var(--muted); cursor: pointer; font-weight: 600; font-size: 14px; min-width: 100px; white-space: nowrap; }
+          .tabBtn.active { color: white; background: rgba(255,255,255,0.04); border-bottom: 2px solid var(--accent-hi); }
+          .channelList { padding: 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+          .channelItem { font-size: 13px; color: #ccc; display: flex; align-items: center; gap: 8px; }
           .more { color: var(--muted); font-style: italic; }
 
+          /* ── COUNTRIES SECTION (NEW) ── */
           .countriesGrid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 10px;
           }
-
           .countryCard {
             background: var(--card);
             border: 1px solid var(--border);
@@ -2581,33 +1970,24 @@ export default function Page() {
             text-align: left;
             width: 100%;
             -webkit-tap-highlight-color: rgba(201,168,76,0.2);
-            -webkit-appearance: none;
-            appearance: none;
           }
-
-          .ctryFlag {
-            font-size: 22px;
-            flex-shrink: 0;
-            width: 1.6em;
-            min-width: 1.6em;
-            height: 1.6em;
+          .countryCard:hover {
+            transform: translateY(-2px) translateX(2px);
+            border-color: rgba(201,168,76,0.5);
+            background: #130d18;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.5);
           }
-
+          .countryCard:active { transform: scale(0.97); }
+          .ctryFlag { font-size: 22px; flex-shrink: 0; }
           .ctryInfo { flex: 1; min-width: 0; overflow: hidden; }
-          .ctryName { font-weight: 700; font-size: 14px; color: #f0ecf5; min-width: 0; }
-          .ctrySub { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+          .ctryName { font-weight: 700; font-size: 14px; color: #f0ecf5; }
+          .ctrySub { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+          .ctryArrow { color: rgba(201,168,76,0.5); font-size: 18px; flex-shrink: 0; transition: transform 0.2s; }
+          .countryCard:hover .ctryArrow { transform: translateX(4px); color: #C9A84C; }
 
-          .ctryArrow {
-            color: rgba(201,168,76,0.5);
-            font-size: 18px;
-            flex-shrink: 0;
-            transition: transform 0.2s;
-          }
-
+          /* COUNTRY MODAL */
           .countryModalOverlay {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
+            position: fixed; inset: 0; z-index: 9999;
             background: rgba(0,0,0,0.82);
             backdrop-filter: blur(8px);
             display: flex;
@@ -2615,16 +1995,11 @@ export default function Page() {
             justify-content: center;
             animation: fadeIn 0.2s ease;
             overflow: hidden;
-            padding-bottom: env(safe-area-inset-bottom, 0px);
-            overscroll-behavior: contain;
           }
-
           @media (min-width: 640px) {
             .countryModalOverlay { align-items: center; padding: 20px; }
           }
-
           @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
           .countryModalBox {
             background: #0d0a12;
             border: 1px solid rgba(255,255,255,0.12);
@@ -2637,19 +2012,9 @@ export default function Page() {
             overflow: hidden;
             animation: slideUp 0.3s ease;
           }
-
-          @supports (height: 100dvh) {
-            .countryModalOverlay { min-height: 100dvh; }
-            .countryModalBox { max-height: 90dvh; }
-            .mobileMenu { min-height: 100dvh; }
-            .miliBox { max-height: 72dvh; }
-            .cinWrap { min-height: 100dvh; }
-          }
-
           @media (min-width: 640px) {
             .countryModalBox { border-radius: 20px; max-height: 88vh; }
           }
-
           .countryModalHd {
             padding: 20px 20px 0;
             display: flex;
@@ -2658,26 +2023,16 @@ export default function Page() {
             flex-shrink: 0;
             min-width: 0;
             overflow: hidden;
-          }
-
-          .countryModalFlag {
-            font-size: 44px;
-            width: 1.2em;
-            min-width: 1.2em;
-            height: 1.2em;
-            flex-shrink: 0;
-          }
-
+}
+          .countryModalFlag { font-size: 44px; line-height: 1; flex-shrink: 0; }
           .countryModalTb { flex: 1; min-width: 0; overflow: hidden; overflow-wrap: break-word; }
           .countryModalTb h2 { font-size: 22px; font-weight: 800; color: #fff; margin: 0 0 4px; word-break: break-word; overflow-wrap: break-word; }
           .countryModalTb p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; word-break: break-word; overflow-wrap: break-word; white-space: normal; }
-
           .countryModalClose {
             background: rgba(255,255,255,0.08);
             border: none;
             border-radius: 50%;
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             color: var(--muted);
             font-size: 18px;
             display: flex;
@@ -2686,23 +2041,18 @@ export default function Page() {
             flex-shrink: 0;
             cursor: pointer;
             transition: 0.15s;
-            min-width: 36px;
-            min-height: 36px;
           }
-
+          .countryModalClose:hover { background: rgba(255,255,255,0.15); color: #f0ecf5; }
           .countryModalBd {
             overflow-y: auto;
-            overflow-x: hidden;
             padding: 16px 20px 24px;
             flex: 1;
             min-width: 0;
-            -webkit-overflow-scrolling: touch;
+            overflow-x: hidden;
           }
-
           .countryModalBd::-webkit-scrollbar { width: 4px; }
           .countryModalBd::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
           .countryModalSec { margin-bottom: 24px; }
-
           .countryModalSecTitle {
             font-size: 11px;
             font-weight: 700;
@@ -2711,13 +2061,11 @@ export default function Page() {
             color: rgba(201,168,76,0.7);
             margin-bottom: 12px;
           }
-
           .countryChGrid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 7px;
           }
-
           .countryChChip {
             background: #130d18;
             border: 1px solid rgba(255,255,255,0.07);
@@ -2727,34 +2075,14 @@ export default function Page() {
             align-items: center;
             justify-content: space-between;
             gap: 6px;
-            min-width: 0;
           }
-
           .countryChChipGold {
             background: rgba(201,168,76,0.06);
             border-color: rgba(201,168,76,0.2);
           }
-
-          .countryChName {
-            font-size: 13px;
-            font-weight: 600;
-            color: #f0ecf5;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            min-width: 0;
-          }
-
-          .countryChIcon { font-size: 14px; flex-shrink: 0; }
-
-          .countryKwWrap {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 7px;
-            max-width: 100%;
-            overflow: hidden;
-          }
-
+          .countryChName { font-size: 13px; font-weight: 600; color: #f0ecf5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+          .countryChIcon { font-size: 14px; }
+          .countryKwWrap { display: flex; flex-wrap: wrap; gap: 7px; max-width: 100%; overflow: hidden; }
           .countryKwPill {
             background: rgba(0,106,167,0.1);
             border: 1px solid rgba(0,106,167,0.25);
@@ -2763,27 +2091,9 @@ export default function Page() {
             display: flex;
             align-items: center;
             gap: 6px;
-            max-width: 100%;
-            min-width: 0;
           }
-
-          .countryKwText {
-            font-size: 12px;
-            color: rgba(240,236,245,0.75);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            min-width: 0;
-            max-width: calc(100vw - 190px);
-          }
-
-          .countryKwVol {
-            font-size: 11px;
-            color: #4AB4E8;
-            font-weight: 700;
-            flex-shrink: 0;
-          }
-
+          .countryKwText { font-size: 12px; color: rgba(240,236,245,0.75); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+          .countryKwVol { font-size: 11px; color: #4AB4E8; font-weight: 700; }
           .countryPriceBox {
             background: rgba(61,190,122,0.06);
             border: 1px solid rgba(61,190,122,0.2);
@@ -2793,7 +2103,6 @@ export default function Page() {
             align-items: center;
             gap: 12px;
           }
-
           .countryModalFt {
             padding: 14px 20px 20px;
             border-top: 1px solid rgba(255,255,255,0.07);
@@ -2802,175 +2111,58 @@ export default function Page() {
             gap: 10px;
             flex-wrap: wrap;
           }
+          /* ── END COUNTRIES ── */
 
+          /* DEVICES */
           .deviceGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px; }
-
-          .deviceCard {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            transition: 0.2s;
-            text-align: center;
-          }
-
+          .deviceCard { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 12px; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: 0.2s; text-align: center; }
+          .deviceCard:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-3px); }
           .deviceIcon { font-size: 32px; }
           .deviceName { font-size: 13px; font-weight: 600; color: #ccc; }
 
+          /* REVIEWS */
           .reviewsGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-
-          .reviewCard {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-          }
-
+          .reviewCard { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
           .reviewStars { font-size: 14px; letter-spacing: 1px; }
           .reviewText { margin: 0; font-size: 14px; color: #d4d4d8; line-height: 1.6; font-style: italic; flex: 1; }
-
-          .reviewMeta {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-          }
-
+          .reviewMeta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12px; }
           .reviewName { font-weight: 700; color: #fff; }
           .reviewCity { color: var(--muted); }
+          .reviewPlan { margin-left: auto; background: rgba(139,23,40,0.12); border: 1px solid rgba(139,23,40,0.25); color: var(--gold); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
 
-          .reviewPlan {
-            margin-left: auto;
-            background: rgba(139,23,40,0.12);
-            border: 1px solid rgba(139,23,40,0.25);
-            color: var(--gold);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-          }
-
+          /* CITIES */
           .cityText { color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
 
+          /* SETUP */
           .stepsGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-
-          .stepCard {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 24px;
-          }
-
-          .stepNumber {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-hi), var(--accent));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            margin-bottom: 14px;
-          }
-
+          .stepCard { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+          .stepNumber { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-hi), var(--accent)); display: flex; align-items: center; justify-content: center; font-weight: 800; margin-bottom: 14px; }
           .stepCard p { margin: 0; color: var(--muted); line-height: 1.6; }
           .stepsCtaWrap { display: flex; justify-content: center; margin-top: 24px; }
 
+          /* FAQ */
           .faqItem { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; }
           .faqItem[open] { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.2); }
-
-          .faqSummary {
-            padding: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 15px;
-            user-select: none;
-            -webkit-user-select: none;
-          }
-
+          .faqSummary { padding: 18px; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; font-size: 15px; }
           .faqSummary::-webkit-details-marker { display: none; }
           .faqSummary::after { content: "+"; font-size: 18px; color: var(--muted); }
           .faqItem[open] .faqSummary::after { content: "−"; }
           .faqAnswer { padding: 0 18px 18px; margin: 0; color: var(--muted); line-height: 1.6; font-size: 14px; }
 
-          .footer {
-            padding: 60px 20px;
-            text-align: center;
-            color: #555;
-            font-size: 13px;
-            border-top: 1px solid var(--border);
-            margin-top: 80px;
-          }
-
-          .footerLinks {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 14px;
-          }
-
+          /* FOOTER */
+          .footer { padding: 60px 20px; text-align: center; color: #555; font-size: 13px; border-top: 1px solid var(--border); margin-top: 80px; }
+          .footerLinks { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
           .footerLinks a { color: #555; text-decoration: none; font-size: 12px; transition: color 0.2s; }
+          .footerLinks a:hover { color: var(--muted); }
 
-          .miliFab {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            background: #000;
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 0;
-            border-radius: 30px;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            overflow: hidden;
-            transition: transform 0.2s;
-          }
-
+          /* CHAT FAB */
+          .miliFab { position: fixed; bottom: 25px; left: 25px; background: #000; border: 1px solid rgba(255,255,255,0.2); padding: 0; border-radius: 30px; cursor: pointer; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden; transition: transform 0.2s; }
+          .miliFab:hover { transform: scale(1.05); }
           .fabContent { display: flex; align-items: center; padding: 6px 16px 6px 6px; gap: 12px; position: relative; }
           .fabAvatar { border-radius: 50%; border: 2px solid #3dbe7a; object-fit: cover; object-position: top center; background: #130810; }
           .fabText { font-weight: 700; font-size: 13px; color: #fff; }
-
-          .fabPulse {
-            position: absolute;
-            top: 8px;
-            left: 32px;
-            width: 10px;
-            height: 10px;
-            background: #22c55e;
-            border-radius: 50%;
-            border: 2px solid #000;
-          }
-
-          .miliTeaser {
-            position: fixed;
-            bottom: 95px;
-            left: 25px;
-            width: 300px;
-            max-width: calc(100vw - 32px);
-            background: rgba(20,20,20,0.95);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 14px;
-            padding: 10px 12px;
-            z-index: 999;
-            cursor: pointer;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.45);
-            text-align: left;
-          }
-
+          .fabPulse { position: absolute; top: 8px; left: 32px; width: 10px; height: 10px; background: #22c55e; border-radius: 50%; border: 2px solid #000; }
+          .miliTeaser { position: fixed; bottom: 95px; left: 25px; width: 300px; background: rgba(20,20,20,0.95); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 10px 12px; z-index: 999; cursor: pointer; box-shadow: 0 12px 30px rgba(0,0,0,0.45); text-align: left; }
           .miliTeaserHead { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
           .miliTeaserAvatar { border-radius: 50%; object-fit: cover; object-position: top center; background: #130810; }
           .miliTeaserTitle { font-weight: 800; font-size: 12px; color: #fff; }
@@ -2978,276 +2170,143 @@ export default function Page() {
           .miliTeaserLine { font-size: 12px; color: #d4d4d8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
           .miliBadge { background: linear-gradient(135deg, var(--accent-hi), var(--accent)); color: #fff; font-weight: 900; font-size: 11px; padding: 2px 7px; border-radius: 999px; margin-left: auto; }
           .miliBadgeFab { position: absolute; top: -6px; right: -6px; margin-left: 0; }
-
-          .miliBox {
-            position: fixed;
-            bottom: 85px;
-            left: 25px;
-            width: 320px;
-            max-width: calc(100vw - 24px);
-            max-height: 75vh;
-            background: #18181b;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            z-index: 1000;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            animation: slideUp 0.3s cubic-bezier(0.16,1,0.3,1);
-            display: flex;
-            flex-direction: column;
-          }
-
+          .miliBox { position: fixed; bottom: 85px; left: 25px; width: 320px; max-height: 75vh; background: #18181b; border: 1px solid var(--border); border-radius: 16px; z-index: 1000; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: slideUp 0.3s cubic-bezier(0.16,1,0.3,1); display: flex; flex-direction: column; }
           @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-          .miliHeader {
-            padding: 16px;
-            background: #27272a;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-          }
-
-          .miliClose {
-            background: none;
-            border: 1px solid rgba(255,255,255,0.12);
-            color: #fff;
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-          }
-
+          .miliHeader { padding: 16px; background: #27272a; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+          .miliClose { background: none; border: 1px solid rgba(255,255,255,0.12); color: #fff; width: 34px; height: 34px; border-radius: 10px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
           .headerAvatarWrapper { position: relative; }
           .headerAvatar { border-radius: 50%; object-fit: cover; object-position: top center; background: #130810; }
-
-          .onlineIndicator {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 10px;
-            height: 10px;
-            background: #22c55e;
-            border-radius: 50%;
-            border: 2px solid #27272a;
-          }
-
+          .onlineIndicator { position: absolute; bottom: 0; right: 0; width: 10px; height: 10px; background: #22c55e; border-radius: 50%; border: 2px solid #27272a; }
           .miliBody { display: flex; flex-direction: column; min-height: 0; flex: 1; }
-
-          .miliMsgs {
-            flex: 1;
-            min-height: 0;
-            overflow-y: auto;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            -webkit-overflow-scrolling: touch;
-          }
-
-          .miliMsgBot {
-            align-self: flex-start;
-            background: #3f3f46;
-            color: #fff;
-            padding: 10px 14px;
-            border-radius: 12px 12px 12px 2px;
-            font-size: 14px;
-            line-height: 1.4;
-            max-width: 85%;
-          }
-
-          .miliMsgUser {
-            align-self: flex-end;
-            background: linear-gradient(135deg, var(--accent-hi), var(--accent));
-            color: white;
-            padding: 10px 14px;
-            border-radius: 12px 12px 2px 12px;
-            font-size: 14px;
-            max-width: 85%;
-          }
-
+          .miliMsgs { flex: 1; min-height: 0; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+          .miliMsgBot { align-self: flex-start; background: #3f3f46; color: #fff; padding: 10px 14px; border-radius: 12px 12px 12px 2px; font-size: 14px; line-height: 1.4; max-width: 85%; }
+          .miliMsgUser { align-self: flex-end; background: linear-gradient(135deg, var(--accent-hi), var(--accent)); color: white; padding: 10px 14px; border-radius: 12px 12px 2px 12px; font-size: 14px; max-width: 85%; }
           .quickReplies { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 12px 0; }
-
-          .quickReply {
-            background: rgba(255,255,255,0.07);
-            border: 1px solid rgba(255,255,255,0.15);
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 16px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: 0.15s;
-            white-space: nowrap;
-          }
-
-          .miliInputRow {
-            display: flex;
-            padding: 12px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            background: #27272a;
-            gap: 8px;
-          }
-
-          .miliInputRow input {
-            flex: 1;
-            background: #18181b;
-            border: 1px solid #3f3f46;
-            border-radius: 20px;
-            padding: 10px 12px;
-            color: white;
-            outline: none;
-            font-size: 16px;
-            min-width: 0;
-          }
-
-          .miliInputRow button {
-            background: none;
-            border: none;
-            color: var(--gold);
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 0 6px;
-            min-width: 36px;
-            min-height: 36px;
-          }
-
+          .quickReply { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 6px 12px; border-radius: 16px; font-size: 12px; cursor: pointer; transition: 0.15s; white-space: nowrap; }
+          .quickReply:hover { background: rgba(255,255,255,0.14); }
+          .miliInputRow { display: flex; padding: 12px; border-top: 1px solid rgba(255,255,255,0.1); background: #27272a; gap: 8px; }
+          .miliInputRow input { flex: 1; background: #18181b; border: 1px solid #3f3f46; border-radius: 20px; padding: 8px 12px; color: white; outline: none; font-size: 14px; }
+          .miliInputRow button { background: none; border: none; color: var(--gold); font-weight: bold; font-size: 18px; cursor: pointer; padding: 0; }
           .typingIndicator { padding: 0 16px 8px; font-size: 20px; color: #666; display: flex; gap: 2px; line-height: 10px; }
           .typingIndicator span { animation: blink 1.4s infinite both; }
           .typingIndicator span:nth-child(2) { animation-delay: 0.2s; }
           .typingIndicator span:nth-child(3) { animation-delay: 0.4s; }
           @keyframes blink { 0% { opacity: 0.2; } 20% { opacity: 1; } 100% { opacity: 0.2; } }
 
-          .liveBadge {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 8px 16px;
-            border-radius: 99px;
-            color: #fff;
-            cursor: pointer;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: 0.2s;
-          }
-
-          .liveDot {
-            width: 8px;
-            height: 8px;
-            background: #22c55e;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #22c55e;
-            animation: pulseLive 2s infinite;
-            flex-shrink: 0;
-          }
-
+          /* LIVE BADGE */
+          .liveBadge { position: fixed; bottom: 25px; right: 25px; background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 99px; color: #fff; cursor: pointer; z-index: 1000; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+          .liveBadge:hover { background: rgba(255,255,255,0.15); }
+          .liveDot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 8px #22c55e; animation: pulseLive 2s infinite; flex-shrink: 0; }
           @keyframes pulseLive { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
-
           .liveBadgeText { font-weight: 700; font-size: 13px; }
-
-          .livePanel {
-            position: fixed;
-            bottom: 80px;
-            right: 25px;
-            width: 260px;
-            background: #18181b;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px;
-            z-index: 1000;
-            animation: slideUp 0.3s;
-          }
-
+          .livePanel { position: fixed; bottom: 80px; right: 25px; width: 260px; background: #18181b; border: 1px solid var(--border); border-radius: 16px; padding: 16px; z-index: 1000; animation: slideUp 0.3s; }
           .liveHead { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 10px; }
           .liveSub { font-size: 11px; color: var(--muted); margin-top: 3px; }
           .liveStats { margin-bottom: 12px; }
           .liveRow { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: #e4e4e7; }
-
-          .liveCta {
-            width: 100%;
-            background: linear-gradient(135deg, var(--accent-hi), var(--accent));
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-          }
-
-          .liveToast {
-            position: fixed;
-            bottom: 85px;
-            right: 25px;
-            background: rgba(20,20,20,0.97);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-accent);
-            border-left: 4px solid var(--accent-hi);
-            padding: 14px 16px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 1100;
-            animation: slideLeft 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
-            width: 300px;
-            max-width: calc(100vw - 24px);
-          }
-
+          .liveCta { width: 100%; background: linear-gradient(135deg, var(--accent-hi), var(--accent)); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+          .liveToast { position: fixed; bottom: 85px; right: 25px; background: rgba(20,20,20,0.97); backdrop-filter: blur(12px); border: 1px solid var(--border-accent); border-left: 4px solid var(--accent-hi); padding: 14px 16px; border-radius: 8px; display: flex; align-items: center; gap: 12px; z-index: 1100; animation: slideLeft 0.4s cubic-bezier(0.175,0.885,0.32,1.275); width: 300px; }
           @keyframes slideLeft { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
           .liveToastTitle { font-weight: 800; font-size: 13px; color: #fff; margin-bottom: 2px; }
           .liveToastSub { font-size: 12px; color: #ccc; }
+          .liveToastBtn { margin-left: auto; background: rgba(255,255,255,0.1); border: none; color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; }
 
-          .liveToastBtn {
-            margin-left: auto;
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 11px;
-            cursor: pointer;
-            min-width: 36px;
-            min-height: 28px;
+          /* ── RESPONSIVE ── */
+          @media (max-width: 900px) {
+            .links a { display: none; }
+            .langSwitch { display: none; }
+            .installBtn { display: none; }
+            .hamburger { display: flex; }
+          }
+          @media (max-width: 640px) {
+            .main { padding: 0 16px env(safe-area-inset-bottom, 100px); padding-bottom: max(120px, env(safe-area-inset-bottom, 0px) + 100px); }
+            .section { margin-bottom: 52px; }
+            .sectionHead { margin-bottom: 28px; }
+            .sectionHead h2 { font-size: 1.55rem; }
+            .topBarInner { flex-direction: column; gap: 4px; font-size: 11px; }
+            .urgency { font-size: 11px; }
+            .nav { padding: 12px 16px; }
+            .brand { font-size: 1rem; }
+            .hero { padding: 44px 0 36px; }
+            h1 { font-size: clamp(1.9rem, 9vw, 2.8rem); letter-spacing: -0.5px; margin-bottom: 16px; }
+            .pill { font-size: 10px; padding: 5px 12px; margin-bottom: 16px; }
+            .lead { font-size: 0.95rem; margin-bottom: 24px; }
+            .actions { gap: 10px; flex-direction: column; align-items: center; }
+            .btnPrimary, .btnSecondary { width: 100%; max-width: 320px; padding: 16px 24px; font-size: 15px; text-align: center; }
+            .heroTrust { font-size: 11px; padding: 0 8px; }
+            .trialBanner { flex-direction: column; align-items: stretch; padding: 20px 16px; gap: 16px; }
+            .trialCta { text-align: center; justify-content: center; padding: 16px 20px; font-size: 15px; }
+            .trustGrid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .trustCard { padding: 14px 10px; }
+            .trustIcon { font-size: 22px; margin-bottom: 7px; }
+            .trustCard h4 { font-size: 12px; }
+            .trustCard p { font-size: 11px; }
+            .grid { grid-template-columns: 1fr; gap: 20px; }
+            .card { padding: 24px 18px; }
+            .bigNumber { font-size: 3.2rem; }
+            .statsGrid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .statCard { padding: 20px 14px; }
+            .statValue { font-size: 1.7rem; }
+            .compareWrap { border-radius: 10px; }
+            .compareTable { font-size: 11px; min-width: 420px; }
+            .compareTable th, .compareTable td { padding: 10px 8px; }
+            .tabBtn { font-size: 12px; padding: 12px 10px; min-width: 80px; }
+            .channelList { padding: 16px; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+            /* Countries mobile — FIXED */
+            .countriesGrid { grid-template-columns: repeat(2, 1fr); }
+            .countryModalFlag { font-size: 32px; }
+            .countryModalHd { gap: 10px; padding: 16px 16px 0; }
+            .countryModalTb h2 { font-size: 18px; }
+            .countryModalTb p { font-size: 12px; }
+            .countryModalClose { width: 32px; height: 32px; font-size: 15px; }
+            .countryModalBd { padding: 12px 16px 20px; }
+            .countryChGrid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+            .countryChChip { padding: 7px 10px; }
+            .countryChName { font-size: 12px; }
+            .countryPriceBox { padding: 12px 14px; gap: 10px; }
+            .countryModalFt { flex-direction: column; padding: 12px 16px 16px; }
+            .countryModalFt a { min-width: unset; width: 100%; }
+            .deviceGrid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .deviceCard { padding: 14px 8px; gap: 6px; }
+            .deviceIcon { font-size: 24px; }
+            .deviceName { font-size: 11px; }
+            .reviewsGrid { grid-template-columns: 1fr; gap: 14px; }
+            .reviewCard { padding: 18px; }
+            .stepsGrid { grid-template-columns: 1fr; gap: 14px; }
+            .faqSummary { padding: 15px; font-size: 14px; }
+            .footer { padding: 40px 16px; }
+            .footerLinks { gap: 14px; }
+            .liveBadge { display: none; }
+            .liveToast { bottom: max(16px, env(safe-area-inset-bottom, 0px)); left: 12px; right: 12px; width: auto; }
+            .miliFab { bottom: max(16px, env(safe-area-inset-bottom, 0px)); left: auto; right: 16px; border-radius: 999px; }
+            .miliTeaser { bottom: max(88px, env(safe-area-inset-bottom, 0px) + 72px); left: auto; right: 16px; width: min(300px, calc(100vw - 32px)); }
+            .miliBox { bottom: max(88px, env(safe-area-inset-bottom, 0px) + 72px); left: 12px; right: 12px; width: auto; max-height: 72vh; }
+            .fabText { display: none; }
+            .fabContent { padding: 8px; gap: 0; }
+            .pwaBar { left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom, 0px)); width: auto; }
+          }
+          @media (hover: none) {
+            .btnPrimary, .btnSecondary, .btnPlan, .trialCta,
+            .tabBtn, .faqSummary, .quickReply, .hamburger,
+            .countryCard { min-height: 48px; }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .miliBox, .liveToast, .miliFab, .liveDot, .urgency, .installBtn,
+            .countryModalBox, .countryModalOverlay { animation: none; transition: none; }
+            .typingIndicator span { animation: none; }
           }
 
+          /* ── CINEMATIC INTRO ── */
           .cinWrap { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; overflow: hidden; }
           .cinWrap.cinExit { animation: cinFadeOut 0.42s cubic-bezier(0.4,0,1,1) forwards; }
           @keyframes cinFadeOut { to { opacity: 0; transform: scale(1.04); } }
-
           .cinBg { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 40%, #001830 0%, #000810 55%, #000000 100%); }
           .cinVignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(0,0,0,0.85) 100%); pointer-events: none; }
           .cinParticles { position: absolute; inset: 0; pointer-events: none; }
           .cinParticle { position: absolute; border-radius: 50%; background: #FECC02; animation: cinFloat linear infinite; }
-
-          @keyframes cinFloat {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
-            8% { opacity: 0.55; }
-            90% { opacity: 0.3; }
-            100% { transform: translateY(-105vh) scale(0.4); opacity: 0; }
-          }
-
-          .cinLensFlare {
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 60%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(254,204,2,0.04), rgba(254,204,2,0.09), rgba(254,204,2,0.04), transparent);
-            animation: cinLens 0.7s ease-out 1.0s forwards;
-            pointer-events: none;
-          }
-
+          @keyframes cinFloat { 0% { transform: translateY(0) scale(1); opacity: 0; } 8% { opacity: 0.55; } 90% { opacity: 0.3; } 100% { transform: translateY(-105vh) scale(0.4); opacity: 0; } }
+          .cinLensFlare { position: absolute; top: 0; left: -100%; width: 60%; height: 100%; background: linear-gradient(90deg, transparent, rgba(254,204,2,0.04), rgba(254,204,2,0.09), rgba(254,204,2,0.04), transparent); animation: cinLens 0.7s ease-out 1.0s forwards; pointer-events: none; }
           @keyframes cinLens { to { left: 140%; } }
-
           .cinEmblemWrap { position: relative; margin-bottom: 28px; }
           .cinEmblemGlow { position: absolute; inset: -30px; border-radius: 50%; background: radial-gradient(ellipse, rgba(254,204,2,0.18) 0%, transparent 70%); animation: cinGlowPulse 2s ease-in-out 1.1s infinite; }
           @keyframes cinGlowPulse { 0%,100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.15); opacity: 1; } }
@@ -3261,346 +2320,33 @@ export default function Page() {
           .cinCrown1 { animation: cinCrownPop 0.32s cubic-bezier(0.34,1.56,0.64,1) 1.18s forwards; }
           .cinCrown2 { animation: cinCrownPop 0.32s cubic-bezier(0.34,1.56,0.64,1) 1.38s forwards; }
           .cinCrown3 { animation: cinCrownPop 0.32s cubic-bezier(0.34,1.4,0.64,1) 1.55s forwards; }
-
-          @keyframes cinCrownPop {
-            0% { opacity: 0; transform: scale(0) translateY(4px) rotate(-6deg); }
-            60% { opacity: 1; }
-            100% { opacity: 1; transform: scale(1) translateY(0) rotate(0); }
-          }
-
+          @keyframes cinCrownPop { 0% { opacity: 0; transform: scale(0) translateY(4px) rotate(-6deg); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1) translateY(0) rotate(0); } }
           .cinContent { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0; }
           .cinTitleWrap { margin-bottom: 14px; }
-
-          .cinTitle {
-            font-size: clamp(2.4rem, 8vw, 5rem);
-            font-weight: 900;
-            letter-spacing: 0.32em;
-            color: #FECC02;
-            text-shadow: 0 0 32px rgba(254,204,2,0.7), 0 0 64px rgba(254,204,2,0.28);
-            margin: 0 0 8px;
-            opacity: 0;
-            animation: cinTitleIn 0.48s cubic-bezier(0.16,1,0.3,1) 1.72s forwards;
-          }
-
-          @keyframes cinTitleIn {
-            0% { opacity: 0; letter-spacing: 0.6em; transform: scale(1.04); filter: blur(6px); }
-            65% { filter: blur(0); }
-            100% { opacity: 1; letter-spacing: 0.32em; transform: scale(1); filter: blur(0); }
-          }
-
+          .cinTitle { font-size: clamp(2.4rem, 8vw, 5rem); font-weight: 900; letter-spacing: 0.32em; color: #FECC02; text-shadow: 0 0 32px rgba(254,204,2,0.7), 0 0 64px rgba(254,204,2,0.28); margin: 0 0 8px; opacity: 0; animation: cinTitleIn 0.48s cubic-bezier(0.16,1,0.3,1) 1.72s forwards; }
+          @keyframes cinTitleIn { 0% { opacity: 0; letter-spacing: 0.6em; transform: scale(1.04); filter: blur(6px); } 65% { filter: blur(0); } 100% { opacity: 1; letter-spacing: 0.32em; transform: scale(1); filter: blur(0); } }
           .cinTitleLine { height: 1px; background: linear-gradient(90deg, transparent, #FECC02, transparent); width: 0; margin: 0 auto; animation: cinLineExpand 0.38s ease 2.02s forwards; }
           @keyframes cinLineExpand { to { width: 220px; } }
-
-          .cinTagline {
-            font-size: 0.88rem;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.62);
-            font-weight: 400;
-            margin: 0 0 8px;
-            opacity: 0;
-            animation: cinFadeUp 0.35s ease 2.2s forwards;
-          }
-
-          .cinSub {
-            font-size: 11px;
-            letter-spacing: 0.08em;
-            color: rgba(254,204,2,0.5);
-            margin: 0;
-            opacity: 0;
-            animation: cinFadeUp 0.3s ease 2.42s forwards;
-          }
-
+          .cinTagline { font-size: 0.88rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.62); font-weight: 400; margin: 0 0 8px; opacity: 0; animation: cinFadeUp 0.35s ease 2.2s forwards; }
+          .cinSub { font-size: 11px; letter-spacing: 0.08em; color: rgba(254,204,2,0.5); margin: 0; opacity: 0; animation: cinFadeUp 0.3s ease 2.42s forwards; }
           @keyframes cinFadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+          .cinSkip { position: absolute; bottom: 28px; right: 20px; background: rgba(0,0,0,0.35); border: 1px solid rgba(254,204,2,0.2); color: rgba(254,204,2,0.45); font-size: 12px; letter-spacing: 0.08em; padding: 8px 18px; border-radius: 20px; cursor: pointer; transition: border-color 0.18s, color 0.18s, background 0.18s; z-index: 10; min-height: 40px; opacity: 0; animation: cinFadeIn 0.3s ease 0.6s forwards; }
+          .cinSkip:hover { border-color: #FECC02; color: #FECC02; background: rgba(254,204,2,0.06); }
+          @media (prefers-reduced-motion: reduce) { .cinWrap { display: none !important; } }
 
-          .cinSkip {
-            position: absolute;
-            bottom: 28px;
-            right: 20px;
-            background: rgba(0,0,0,0.35);
-            border: 1px solid rgba(254,204,2,0.2);
-            color: rgba(254,204,2,0.45);
-            font-size: 12px;
-            letter-spacing: 0.08em;
-            padding: 8px 18px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: border-color 0.18s, color 0.18s, background 0.18s;
-            z-index: 10;
-            min-height: 40px;
-            opacity: 0;
-            animation: cinFadeIn 0.3s ease 0.6s forwards;
-          }
-
-          .pwaBar {
-            position: fixed;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: min(460px, calc(100vw - 32px));
-            background: var(--card-hi);
-            border: 1px solid var(--border-accent);
-            border-radius: 14px;
-            padding: 12px 14px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 1050;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 1px rgba(139,23,40,0.4);
-            animation: pwaSlideUp 0.4s cubic-bezier(0.16,1,0.3,1);
-          }
-
-          @keyframes pwaSlideUp {
-            from { transform: translateX(-50%) translateY(20px); opacity: 0; }
-            to { transform: translateX(-50%) translateY(0); opacity: 1; }
-          }
-
+          /* ── PWA INSTALL BAR ── */
+          .pwaBar { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); width: min(460px, calc(100vw - 32px)); background: var(--card-hi); border: 1px solid var(--border-accent); border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; z-index: 1050; box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 1px rgba(139,23,40,0.4); animation: pwaSlideUp 0.4s cubic-bezier(0.16,1,0.3,1); }
+          @keyframes pwaSlideUp { from { transform: translateX(-50%) translateY(20px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
           .pwaIcon { font-size: 24px; flex-shrink: 0; }
-
-          .pwaText {
-            flex: 1;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
-          }
-
+          .pwaText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
           .pwaText strong { font-size: 13px; font-weight: 700; color: var(--fg); }
           .pwaText span { font-size: 11px; color: var(--muted); }
-
-          .pwaAccept {
-            background: linear-gradient(135deg, var(--accent-hi), var(--accent));
-            color: #fff;
-            border: none;
-            padding: 9px 18px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: 0.15s;
-          }
-
-          .pwaDismiss {
-            background: none;
-            border: none;
-            color: var(--muted);
-            font-size: 14px;
-            cursor: pointer;
-            padding: 4px 6px;
-            flex-shrink: 0;
-            transition: color 0.15s;
-          }
-
+          .pwaAccept { background: linear-gradient(135deg, var(--accent-hi), var(--accent)); color: #fff; border: none; padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: 0.15s; }
+          .pwaAccept:hover { background: linear-gradient(135deg, var(--gold), var(--accent-hi)); }
+          .pwaDismiss { background: none; border: none; color: var(--muted); font-size: 14px; cursor: pointer; padding: 4px 6px; flex-shrink: 0; transition: color 0.15s; }
+          .pwaDismiss:hover { color: var(--fg); }
           .pwaBarIOS { bottom: max(80px, env(safe-area-inset-bottom, 0px) + 70px); }
-
-          .iosShareIcon {
-            display: inline-block;
-            background: rgba(254,204,2,0.15);
-            border: 1px solid rgba(254,204,2,0.3);
-            border-radius: 4px;
-            padding: 1px 5px;
-            font-size: 11px;
-            color: #FECC02;
-            margin: 0 1px;
-            vertical-align: middle;
-          }
-
-          @media (hover: hover) and (pointer: fine) {
-            .brand:hover { opacity: 0.85; }
-            .links a:hover { color: #fff; }
-            .btnPrimary:hover {
-              transform: translateY(-2px);
-              box-shadow: 0 12px 28px -6px var(--accent-glow);
-              background: linear-gradient(135deg, var(--gold) 0%, var(--accent-hi) 100%);
-            }
-            .btnSecondary:hover { background: rgba(255,255,255,0.1); }
-            .trialCta:hover { background: #16a34a; transform: translateY(-1px); }
-            .trustCard:hover { border-color: rgba(255,255,255,0.25); }
-            .card:hover {
-              transform: translateY(-5px);
-              border-color: rgba(139,23,40,0.3);
-              box-shadow: 0 8px 30px rgba(100,10,25,0.15);
-            }
-            .btnPlan:hover { background: #e5e5e5; transform: scale(1.02); }
-            .highlight .btnPlan:hover { background: linear-gradient(135deg, var(--gold), var(--accent-hi)); }
-            .countryCard:hover {
-              transform: translateY(-2px) translateX(2px);
-              border-color: rgba(201,168,76,0.5);
-              background: #130d18;
-              box-shadow: 0 6px 24px rgba(0,0,0,0.5);
-            }
-            .countryCard:hover .ctryArrow { transform: translateX(4px); color: #C9A84C; }
-            .countryModalClose:hover { background: rgba(255,255,255,0.15); color: #f0ecf5; }
-            .deviceCard:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-3px); }
-            .quickReply:hover { background: rgba(255,255,255,0.14); }
-            .liveBadge:hover { background: rgba(255,255,255,0.15); }
-            .miliFab:hover { transform: scale(1.05); }
-            .footerLinks a:hover { color: var(--muted); }
-            .cinSkip:hover { border-color: #FECC02; color: #FECC02; background: rgba(254,204,2,0.06); }
-            .pwaAccept:hover { background: linear-gradient(135deg, var(--gold), var(--accent-hi)); }
-            .pwaDismiss:hover { color: var(--fg); }
-          }
-
-          @media (max-width: 900px) {
-            .links a { display: none; }
-            .langSwitch { display: none; }
-            .installBtn { display: none; }
-            .hamburger { display: inline-flex; }
-          }
-
-          @media (max-width: 640px) {
-            .main {
-              padding: 0 16px env(safe-area-inset-bottom, 100px);
-              padding-bottom: max(120px, env(safe-area-inset-bottom, 0px) + 100px);
-            }
-
-            .section { margin-bottom: 52px; }
-            .sectionHead { margin-bottom: 28px; }
-            .sectionHead h2 { font-size: 1.55rem; }
-            .topBarInner { flex-direction: column; gap: 4px; font-size: 11px; }
-            .urgency { font-size: 11px; }
-            .nav { padding: 12px 16px; }
-            .brand { font-size: 1rem; min-width: 0; }
-            .hero { padding: 44px 0 36px; }
-            h1 { font-size: clamp(1.9rem, 9vw, 2.8rem); letter-spacing: -0.5px; margin-bottom: 16px; }
-            .pill { font-size: 10px; padding: 5px 12px; margin-bottom: 16px; }
-            .lead { font-size: 0.95rem; margin-bottom: 24px; }
-            .actions { gap: 10px; flex-direction: column; align-items: center; }
-            .btnPrimary, .btnSecondary { width: 100%; max-width: 320px; padding: 16px 24px; font-size: 15px; text-align: center; }
-            .heroTrust { font-size: 11px; padding: 0 8px; }
-
-            .trialBanner { flex-direction: column; align-items: stretch; padding: 20px 16px; gap: 16px; }
-            .trialCta { text-align: center; justify-content: center; padding: 16px 20px; font-size: 15px; white-space: normal; }
-
-            .trustGrid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .trustCard { padding: 14px 10px; }
-            .trustIcon { font-size: 22px; margin-bottom: 7px; }
-            .trustCard h4 { font-size: 12px; }
-            .trustCard p { font-size: 11px; }
-
-            .grid { grid-template-columns: 1fr; gap: 20px; }
-            .card { padding: 24px 18px; }
-            .bigNumber { font-size: 3.2rem; }
-
-            .statsGrid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .statCard { padding: 20px 14px; }
-            .statValue { font-size: 1.7rem; }
-
-            .compareWrap { border-radius: 10px; }
-            .compareTable { font-size: 11px; min-width: 420px; }
-            .compareTable th, .compareTable td { padding: 10px 8px; }
-
-            .tabBtn { font-size: 12px; padding: 12px 10px; min-width: 80px; }
-            .channelList { padding: 16px; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
-
-            .countriesGrid { grid-template-columns: repeat(2, 1fr); }
-            .countryCard { padding: 12px 12px; gap: 9px; }
-            .ctryFlag { font-size: 20px; width: 1.5em; min-width: 1.5em; height: 1.5em; }
-            .ctryName { font-size: 13px; }
-            .ctrySub { font-size: 10px; }
-
-            .countryModalFlag { font-size: 32px; }
-            .countryModalHd { gap: 10px; padding: 16px 16px 0; }
-            .countryModalTb h2 { font-size: 18px; }
-            .countryModalTb p { font-size: 12px; }
-            .countryModalClose { width: 32px; height: 32px; font-size: 15px; }
-            .countryModalBd { padding: 12px 16px 20px; }
-            .countryChGrid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
-            .countryChChip { padding: 7px 10px; }
-            .countryChName { font-size: 12px; }
-            .countryKwText { max-width: calc(100vw - 170px); }
-            .countryPriceBox { padding: 12px 14px; gap: 10px; }
-            .countryModalFt { flex-direction: column; padding: 12px 16px 16px; }
-            .countryModalFt a { min-width: unset; width: 100%; }
-
-            .deviceGrid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
-            .deviceCard { padding: 14px 8px; gap: 6px; }
-            .deviceIcon { font-size: 24px; }
-            .deviceName { font-size: 11px; }
-
-            .reviewsGrid { grid-template-columns: 1fr; gap: 14px; }
-            .reviewCard { padding: 18px; }
-
-            .stepsGrid { grid-template-columns: 1fr; gap: 14px; }
-            .faqSummary { padding: 15px; font-size: 14px; }
-            .footer { padding: 40px 16px; }
-            .footerLinks { gap: 14px; }
-
-            .liveBadge { display: none; }
-            .liveToast {
-              bottom: max(16px, env(safe-area-inset-bottom, 0px));
-              left: 12px;
-              right: 12px;
-              width: auto;
-            }
-
-            .miliFab {
-              bottom: max(16px, env(safe-area-inset-bottom, 0px));
-              left: auto;
-              right: 16px;
-              border-radius: 999px;
-            }
-
-            .miliTeaser {
-              bottom: max(88px, env(safe-area-inset-bottom, 0px) + 72px);
-              left: auto;
-              right: 16px;
-              width: min(300px, calc(100vw - 32px));
-            }
-
-            .miliBox {
-              bottom: max(88px, env(safe-area-inset-bottom, 0px) + 72px);
-              left: 12px;
-              right: 12px;
-              width: auto;
-              max-height: 72vh;
-            }
-
-            .fabText { display: none; }
-            .fabContent { padding: 8px; gap: 0; }
-
-            .pwaBar {
-              left: 12px;
-              right: 12px;
-              bottom: max(12px, env(safe-area-inset-bottom, 0px));
-              width: auto;
-              transform: none;
-            }
-
-            .pwaBarIOS {
-              bottom: max(12px, env(safe-area-inset-bottom, 0px));
-            }
-          }
-
-          @media (hover: none) {
-            .btnPrimary, .btnSecondary, .btnPlan, .trialCta,
-            .tabBtn, .faqSummary, .quickReply, .hamburger,
-            .countryCard, .langBtn, .installBtn,
-            .miliFab, .miliClose, .countryModalClose,
-            .pwaAccept, .pwaDismiss, .liveBadge, .liveToastBtn, .liveCta {
-              min-height: 48px;
-            }
-
-            .countryCard:active { transform: scale(0.98); }
-          }
-
-          @media (prefers-reduced-motion: reduce) {
-            .miliBox, .liveToast, .miliFab, .liveDot, .urgency, .installBtn,
-            .countryModalBox, .countryModalOverlay, .liveBadge, .card, .deviceCard,
-            .btnPrimary, .btnSecondary, .btnPlan, .trialCta, .cinWrap, .cinParticle,
-            .cinLensFlare, .cinEmblemGlow, .cinTitle, .cinTitleLine, .cinTagline,
-            .cinSub, .cinCrown, .cinShieldFill, .cinShieldBorder, .cinShieldBorderGlow,
-            .pwaBar {
-              animation: none !important;
-              transition: none !important;
-            }
-            .typingIndicator span { animation: none; }
-          }
-
-          @media (prefers-reduced-motion: reduce) {
-            .cinWrap { display: none !important; }
-          }
+          .iosShareIcon { display: inline-block; background: rgba(254,204,2,0.15); border: 1px solid rgba(254,204,2,0.3); border-radius: 4px; padding: 1px 5px; font-size: 11px; color: #FECC02; margin: 0 1px; vertical-align: middle; }
         `}</style>
       </div>
     </LanguageContext.Provider>
