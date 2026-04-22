@@ -1,0 +1,26 @@
+{
+  "name": "Sverige TV — Premium IPTV Sverige",
+  "short_name": "Sverige TV",
+  "description": "Premium IPTV Sverige — 20 000+ kanaler, 4K, Sport, Film — 83 kr/mån",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060407",
+  "theme_color": "#7c1326",
+  "orientation": "portrait-primary",
+  "lang": "sv-SE",
+  "categories": ["entertainment", "video", "tv"],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
