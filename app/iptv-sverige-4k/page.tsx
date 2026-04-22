@@ -34,3 +34,7 @@ h1,h2,h3,h4{font-family:system-ui,-apple-system,sans-serif;line-height:1.15}
 .hmeta{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted);margin-bottom:36px}
 .hmeta strong{color:#fff}
 .cw{display:inline-flex;align-items:center;gap:10px;background:var(--green);color:#000;font-weight:800;padding:16px 32px;border-radius:10px;text-decoration:none;font-size:15px;transition:transform .2s}
+`}} />
+    </div>
+  );
+}
