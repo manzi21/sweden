@@ -576,3 +576,43 @@ img:not([width]):not([height]) {
 [class*="Placeholder"] {
   min-height: 20px;
   }
+
+
+/* ===== MOBILE RESPONSIVE + PROFESSIONAL POLISH ===== */
+html, body { overflow-x: hidden; max-width: 100vw; -webkit-text-size-adjust: 100%; }
+* { box-sizing: border-box; }
+img, video, iframe, svg, picture { max-width: 100%; height: auto; }
+table { max-width: 100%; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+a, button, [role="button"], .cta, .cw, .cta-primary, .cta-secondary, .btn, input[type="submit"], .nav a, .tab, .tag {
+  min-height: 44px; touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+}
+p a, li a, td a, .narrative a { min-height: auto; }
+a[href*="wa.me"], a[href*="whatsapp"], a[href*="api.whatsapp.com"] {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 28px; min-width: 220px; min-height: 48px; font-weight: 700;
+  border-radius: 8px; text-decoration: none;
+}
+@media (max-width: 768px) {
+  .hero, section, .nav, .bc, .nw, .testimonial-grid, .cta-block, .grid {
+    padding-left: 16px !important; padding-right: 16px !important;
+  }
+  h1 { font-size: clamp(1.5rem, 6vw, 2.4rem) !important; word-wrap: break-word; line-height: 1.15; }
+  h2 { font-size: clamp(1.2rem, 5vw, 1.7rem) !important; word-wrap: break-word; }
+  .grid-3, .grid-4, .testimonial-grid, .cta-row { grid-template-columns: 1fr !important; flex-direction: column; align-items: stretch; }
+  a, p, li, td, th { word-break: break-word; overflow-wrap: break-word; }
+  table { font-size: 0.85rem; }
+  .cat, .testimonial, .faq details { padding: 16px !important; }
+}
+@media (max-width: 380px) {
+  h1 { font-size: 1.4rem !important; }
+  .hero { padding-top: 24px !important; padding-bottom: 20px !important; }
+  .cta { width: 100%; justify-content: center; }
+}
+:focus-visible { outline: 2px solid var(--gold, #c8a96e); outline-offset: 2px; border-radius: 4px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+@media print {
+  .nw, .footer, .cta-block, .cw, .moa-system { display: none !important; }
+  body { color: #000; background: #fff; }
+}
