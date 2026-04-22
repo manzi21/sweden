@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Sverige TV — Premium IPTV">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b0b0d"/>
+      <stop offset="1" stop-color="#060407"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e6c98a"/>
+      <stop offset="0.5" stop-color="#c8a96e"/>
+      <stop offset="1" stop-color="#a08350"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9a1a32"/>
+      <stop offset="1" stop-color="#7c1326"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded square background -->
+  <rect x="0" y="0" width="512" height="512" rx="96" fill="url(#bgGrad)"/>
+
+  <!-- Inner border with accent color -->
+  <rect x="24" y="24" width="464" height="464" rx="76" fill="none" stroke="url(#accentGrad)" stroke-width="3" opacity="0.4"/>
+
+  <!-- Royal crown shield centerpiece -->
+  <g transform="translate(256 256)">
+    <!-- Shield outline -->
+    <path d="M 0 -130
+             L 110 -100
+             L 110 50
+             Q 110 110 55 145
+             Q 30 160 0 165
+             Q -30 160 -55 145
+             Q -110 110 -110 50
+             L -110 -100
+             Z"
+          fill="url(#accentGrad)"
+          stroke="url(#goldGrad)"
+          stroke-width="5"/>
+
+    <!-- Crown on shield -->
+    <g transform="translate(0 -75)">
+      <!-- Crown base -->
+      <rect x="-65" y="0" width="130" height="22" rx="3" fill="url(#goldGrad)"/>
+      <!-- Crown spikes -->
+      <polygon points="-60,0 -45,-30 -30,0" fill="url(#goldGrad)"/>
+      <polygon points="-25,0 -10,-42 5,0" fill="url(#goldGrad)"/>
+      <polygon points="10,0 25,-30 40,0" fill="url(#goldGrad)"/>
+      <polygon points="45,0 60,-22 65,0" fill="url(#goldGrad)"/>
+      <!-- Gems -->
+      <circle cx="-45" cy="-25" r="4" fill="#9a1a32"/>
+      <circle cx="-10" cy="-37" r="5" fill="#9a1a32"/>
+      <circle cx="25" cy="-25" r="4" fill="#9a1a32"/>
+    </g>
+
+    <!-- Stylized "S" in shield center -->
+    <text x="0" y="60"
+          text-anchor="middle"
+          font-family="Georgia, 'Playfair Display', serif"
+          font-size="120"
+          font-weight="900"
+          fill="url(#goldGrad)"
+          stroke="#000"
+          stroke-width="1">S</text>
+  </g>
+
+  <!-- "SVERIGE TV" text under shield -->
+  <text x="256" y="450"
+        text-anchor="middle"
+        font-family="system-ui, -apple-system, sans-serif"
+        font-size="34"
+        font-weight="800"
+        letter-spacing="6"
+        fill="url(#goldGrad)">SVERIGE TV</text>
+</svg>
