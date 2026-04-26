@@ -1863,7 +1863,7 @@ export default function Page() {
 
           /* HAMBURGER */
           .hamburger { display: none; background: none; border: 1px solid var(--border); color: #fff; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 16px; }
-          .mobileMenu { position: fixed; inset: 0; top: 0; padding-top: 70px; background: rgba(6,4,7,0.99); z-index: 99; display: flex; flex-direction: column; padding: 20px 24px 40px; gap: 4px; overflow-y: auto; }
+          .mobileMenu { position: fixed; inset: 0; background: rgba(6, 4, 7, 0.99); z-index: 99; display: flex; flex-direction: column; padding: 78px 24px max(40px, env(safe-area-inset-bottom, 40px)); gap: 4px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
           .mobileMenu a { font-size: 18px; color: #fff; text-decoration: none; padding: 14px 0; border-bottom: 1px solid var(--border); display: block; }
           .mobileLangSwitch { display: flex; gap: 10px; padding: 16px 0; border-bottom: 1px solid var(--border); }
 
