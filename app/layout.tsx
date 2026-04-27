@@ -8,7 +8,7 @@ const geistSans = Geist({
   display: "swap",
 });
 
-const SITE_URL = "https://sverigetv.se";
+const SITE_URL = "https://premiumiptv.se";
 const SITE_NAME = "Sverige TV";
 const OG_IMAGE = SITE_URL + "/og-image.jpg";
 
@@ -117,8 +117,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@sverigetv",
-    creator: "@sverigetv",
+    site: "@premiumiptv",
+    creator: "@premiumiptv",
     title: "Sverige TV - 20,000+ Channels, 4K, Worldwide",
     description:
       "Premium streaming built in Sweden. Available worldwide. Activated in 10 minutes.",

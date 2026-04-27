@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = "https://sverigetv.se";
+const SITE_URL = "https://premiumiptv.se";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();

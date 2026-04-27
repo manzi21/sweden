@@ -38,7 +38,7 @@ type Copy = {
   bot: { greeting1: string; greeting2: string; price1: string; price2: string; install1: string; install2: string; trial1: string; trial2: string; default1: string; default2: string; quick: string[] };
 };
 
-const SITE = { domain: "https://sverigetv.se", brand: "Sverige TV", whatsappPhone: "447307410512", currencyLabel: "kr" } as const;
+const SITE = { domain: "https://premiumiptv.se", brand: "Sverige TV", whatsappPhone: "447307410512", currencyLabel: "kr" } as const;
 
 const plans: Plan[] = [
   { key: "p1", price: 120, months: 1, currency: "SEK", priceValidUntil: "2027-12-31" },
