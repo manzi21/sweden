@@ -1,155 +1,159 @@
 @import "tailwindcss";
 
 :root {
-      --background: #ffffff;
-      --foreground: #171717;
+  --background: #ffffff;
+  --foreground: #171717;
 }
 
 @theme inline {
-      --color-background: var(--background);
-      --color-foreground: var(--foreground);
-      --font-sans: var(--font-geist-sans);
-      --font-mono: var(--font-geist-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
-      :root {
-              --background: #0a0a0a;
-              --foreground: #ededed;
-      }
+  :root {
+    --background: #060407;
+    --foreground: #ededed;
+  }
 }
 
 /* ===========================================================
-   FIX: ajustement exact à la largeur de l'écran sur mobile
-   - on utilise 100% (et non 100vw qui inclut la scrollbar)
-   - on bloque tout débordement horizontal au niveau racine
+   ANTI-DÉBORDEMENT GLOBAL — niveau racine
+   - 100% (pas 100vw : exclut la scrollbar)
+   - overflow-x: clip pour supprimer définitivement le scroll
+     horizontal sans casser sticky/positionnement
+   - scroll-padding-top : les ancres ne passent plus sous le
+     header sticky
    =========================================================== */
 html,
 body {
-      width: 100%;
-      max-width: 100%;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-      position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: clip;
+  position: relative;
 }
 
 html {
-      -webkit-text-size-adjust: 100%;
-      -webkit-tap-highlight-color: transparent;
-      scroll-behavior: smooth;
-      text-rendering: optimizeLegibility;
-      /* iOS / Android encoches : on gère les safe-areas pour ne pas
-         avoir de bandes blanches ou de contenu sous la barre */
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  text-rendering: optimizeLegibility;
+  /* iOS / Android encoches */
   padding-left: env(safe-area-inset-left);
-      padding-right: env(safe-area-inset-right);
-      box-sizing: border-box;
+  padding-right: env(safe-area-inset-right);
+  box-sizing: border-box;
 }
 
 body {
-      background: var(--background);
-      color: var(--foreground);
-      font-family: Arial, Helvetica, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      overscroll-behavior-y: none;
-      min-height: 100vh;
-      min-height: 100dvh; /* dynamic viewport pour Chrome Android */
+  background: var(--background);
+  color: var(--foreground);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-y: none;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 *,
 *::before,
 *::after {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Garde-fou : aucun enfant direct ne peut dépasser la largeur de l'écran */
 body > * {
-      max-width: 100%;
+  max-width: 100%;
 }
 
-/* Empeche le zoom auto iOS/Android Chrome sur les champs de saisie */
+/* Empêche le zoom auto iOS/Android Chrome sur les champs de saisie */
 @media (max-width: 768px) {
-      input,
-      select,
-      textarea {
-              font-size: 16px !important;
-      }
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
 }
 
 /* Cibles tactiles minimales WCAG (44x44) sur mobile */
 @media (max-width: 768px) and (pointer: coarse) {
-      a,
-      button,
-      [role="button"],
-      input[type="button"],
-      input[type="submit"] {
-              min-height: 44px;
-      }
-      nav a,
-      footer a {
-              padding-block: 8px;
-      }
+  a,
+  button,
+  [role="button"],
+  input[type="button"],
+  input[type="submit"] {
+    min-height: 44px;
+  }
+  nav a,
+  footer a {
+    padding-block: 8px;
+  }
 }
 
 /* Médias responsives par défaut */
 img,
 video,
 iframe,
-canvas,
-svg {
-      max-width: 100%;
-      height: auto;
+canvas {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Tableaux : confinés dans leur conteneur, scroll horizontal interne si besoin */
 .compareTable,
 table {
-      max-width: 100%;
+  max-width: 100%;
 }
 
 .compareWrap,
 [data-scroll-x],
 .tableWrap {
-      max-width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
 
 /* Pre / code : pas de débordement silencieux */
 pre,
 code {
-      max-width: 100%;
-      overflow-x: auto;
-      white-space: pre-wrap;
-      word-break: break-word;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 /* Optimisation perf : composition GPU sur éléments fixes */
 .fixed,
 [data-fixed="true"] {
-      will-change: transform;
-      transform: translateZ(0);
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 /* Réduit les animations si l'utilisateur le préfère */
 @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-              animation-duration: 0.01ms !important;
-              animation-iteration-count: 1 !important;
-              transition-duration: 0.01ms !important;
-              scroll-behavior: auto !important;
-      }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Focus visible accessible (clavier) sans casser le tap mobile */
 :focus-visible {
-      outline: 2px solid #d4af37;
-      outline-offset: 2px;
-      border-radius: 4px;
+  outline: 2px solid #c8a96e;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* Anti-débordement long mots / URLs */
@@ -163,8 +167,15 @@ h6,
 li,
 a,
 span {
-      overflow-wrap: anywhere;
-      word-break: break-word;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* Titres : équilibre des sauts de ligne (modern) */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
 }
 
 /* Conteneurs génériques : on les force à ne jamais dépasser */
@@ -175,5 +186,70 @@ footer,
 nav,
 article,
 aside {
-      max-width: 100%;
+  max-width: 100%;
+}
+
+/* Évite le blowout des grids/flex enfants avec contenu long */
+.grid > *,
+[class^="Grid"] > *,
+[class*="Grid"] > * {
+  min-width: 0;
+}
+
+/* ===========================================================
+   SOFT CONTENT PROTECTION
+   - Désactive la sélection sur les éléments brand & prix
+   - Soft deterrent uniquement, pas une protection forte
+   - Ne touche PAS aux paragraphes / FAQ / contenu utile
+   =========================================================== */
+.brand,
+.pill,
+.saveBadge,
+.bestSellerBadge,
+.priceLockup,
+.bigNumber,
+.currency,
+.perMonth,
+.billedInfo,
+.trialBadge,
+.intlEyebrow,
+.fabText,
+.miliBadge,
+.cinTitle,
+.cinTagline,
+.cinSub {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Désactive le drag des emojis / icônes décoratives */
+.ctryFlag,
+.intlFlag,
+.deviceIcon,
+.trustIcon,
+.fabAvatar,
+.miliTeaserAvatar,
+.headerAvatar {
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: auto;
+}
+
+/* Print stylesheet — masque les widgets non pertinents en cas d'impression */
+@media print {
+  .miliFab,
+  .miliTeaser,
+  .miliBox,
+  .liveBadge,
+  .liveToast,
+  .livePanel,
+  .pwaBar,
+  .cinWrap,
+  .hamburger,
+  .mobileMenu {
+    display: none !important;
+  }
 }

@@ -748,11 +748,17 @@ function MoaChat({ userAgent }: { userAgent: string }) {
 
   useEffect(() => {
     if (dismissed || msgs.length > 0) return;
+    // Skip auto-greet on mobile — too intrusive on small screens.
+    // Skip auto-greet on return visits within session.
+    if (typeof window === "undefined") return;
+    if (window.innerWidth < 768) return;
+    try { if (sessionStorage.getItem("svtv_chat_greeted") === "1") return; } catch {}
     const b = dict[lang].bot;
     const t = window.setTimeout(() => {
       pushBot(b.greeting1, 0).then(() => pushBot(b.greeting2, 1200));
       setUnread(2);
-    }, 3500);
+      try { sessionStorage.setItem("svtv_chat_greeted", "1"); } catch {}
+    }, 4500);
     return () => window.clearTimeout(t);
   }, [dismissed, msgs.length, lang]);
 
@@ -993,6 +999,153 @@ function CountriesSection({ ua }: { ua: string }) {
         </div>
       )}
     </>
+  );
+}
+
+// ─── INTERNATIONAL / EXPATS SECTION ──────────────────────────────────────────
+// Targets: Swedes & Nordic citizens living abroad (Dubai, USA, UK, Germany, Spain).
+// SEO long-tail: "Swedish TV abroad", "watch SVT outside Sweden", "Allsvenskan worldwide".
+
+const EXPAT_COUNTRIES: { flag: string; code: string; name: string; en: string; sv: string; fr: string }[] = [
+  { flag: "🇦🇪", code: "ae", name: "UAE / Dubai", en: "Watch Swedish TV in Dubai & UAE — low latency, 4K stable.", sv: "Svensk TV i Dubai — stabil 4K-stream, låg latens.", fr: "TV suédoise à Dubaï — 4K stable, faible latence." },
+  { flag: "🇺🇸", code: "us", name: "USA",         en: "Swedish & Nordic channels for expats across the United States.", sv: "Svenska & nordiska kanaler för svenskar i USA.", fr: "Chaînes suédoises pour expatriés aux États-Unis." },
+  { flag: "🇬🇧", code: "gb", name: "United Kingdom", en: "Watch SVT, TV4 & Allsvenskan in London, Manchester or anywhere in the UK.", sv: "Se SVT, TV4 & Allsvenskan från London eller hela UK.", fr: "Regardez SVT, TV4 & Allsvenskan depuis tout le Royaume-Uni." },
+  { flag: "🇩🇪", code: "de", name: "Deutschland",  en: "Schwedisches Fernsehen in Deutschland — SVT, TV4, Sport in 4K.", sv: "Svensk TV i Tyskland — SVT, TV4 & sport i 4K.", fr: "TV suédoise en Allemagne — SVT, TV4 & sport en 4K." },
+  { flag: "🇪🇸", code: "es", name: "España",       en: "Swedish TV in Spain — perfect for Swedish snowbirds & retirees on Costa del Sol.", sv: "Svensk TV i Spanien — för pensionärer och permanentboende på Costa del Sol.", fr: "TV suédoise en Espagne — idéal pour retraités sur la Costa del Sol." },
+  { flag: "🇳🇴", code: "no", name: "Norge",        en: "Nordic streaming — Norwegian, Swedish & Danish channels in HD.", sv: "Nordisk streaming — norska, svenska & danska kanaler i HD.", fr: "Streaming nordique — chaînes norvégiennes, suédoises et danoises HD." },
+  { flag: "🇩🇰", code: "dk", name: "Danmark",      en: "Danish & Swedish channels — DR1, TV2 Danmark, SVT and more.", sv: "Danska och svenska kanaler — DR1, TV2 Danmark, SVT med fler.", fr: "Chaînes danoises et suédoises — DR1, TV2 Danmark, SVT et plus." },
+  { flag: "🇫🇮", code: "fi", name: "Suomi",        en: "Finnish & Swedish — Yle, MTV3, SVT and Nordic channels in one package.", sv: "Finska & svenska — Yle, MTV3, SVT och nordiska kanaler i ett paket.", fr: "Finlandais & suédois — Yle, MTV3, SVT et chaînes nordiques en un pack." },
+  { flag: "🇨🇭", code: "ch", name: "Schweiz",      en: "Swedish TV in Switzerland — ideal for cross-border expats.", sv: "Svensk TV i Schweiz — perfekt för svenskar i Schweiz.", fr: "TV suédoise en Suisse — idéal pour expatriés transfrontaliers." },
+  { flag: "🇸🇦", code: "sa", name: "Saudi Arabia",  en: "Watch Swedish & Nordic channels across Saudi Arabia.", sv: "Se svenska & nordiska kanaler i Saudiarabien.", fr: "Regardez les chaînes suédoises et nordiques en Arabie Saoudite." },
+  { flag: "🇨🇦", code: "ca", name: "Canada",       en: "Swedish IPTV across Canada — Toronto, Vancouver, Montréal.", sv: "Svensk IPTV i Kanada — Toronto, Vancouver, Montréal.", fr: "IPTV suédoise au Canada — Toronto, Vancouver, Montréal." },
+  { flag: "🇦🇺", code: "au", name: "Australia",    en: "Swedish channels Down Under — built to handle the latency.", sv: "Svenska kanaler i Australien — anpassad för långa avstånd.", fr: "Chaînes suédoises en Australie — optimisé pour la latence." },
+];
+
+const EXPAT_COPY: Record<Locale, {
+  title: string; sub: string; tagline: string;
+  benefitsTitle: string; benefits: { icon: string; title: string; desc: string }[];
+  cta: string; ctaSecondary: string; eyebrow: string; selectCountry: string;
+}> = {
+  sv: {
+    eyebrow: "GLOBAL TÄCKNING",
+    title: "Sverige TV — för svenskar och nordbor i hela världen",
+    sub: "20 000+ live-kanaler i 4K. Optimerat för svenska och nordiska expatriater i Dubai, USA, UK, Tyskland, Spanien och hela världen. Inga geo-blockeringar. SVT, TV4, Allsvenskan och SHL var du än är.",
+    tagline: "Klicka på ditt land — vi optimerar streamen för din region.",
+    benefitsTitle: "Varför 1 200+ svenskar utomlands väljer Sverige TV",
+    benefits: [
+      { icon: "🌍", title: "Fungerar i 50+ länder", desc: "Lågt-latensservrar i Europa, USA, Mellanöstern och Asien. Stabil 4K oavsett kontinent." },
+      { icon: "📺", title: "Alla svenska kanaler", desc: "SVT 1, SVT 2, TV4, Kanal 5, TV3, Kanal 9, SVT Play Live + Allsvenskan, SHL och C More Sport." },
+      { icon: "⚡", title: "Inga geo-blockeringar", desc: "Tjänsten fungerar utan VPN. Du behöver inget extra abonnemang för att se SVT utomlands." },
+      { icon: "💬", title: "Support på svenska", desc: "WhatsApp-support på svenska 7 dagar i veckan, oavsett tidszon." },
+    ],
+    cta: "Beställ via WhatsApp",
+    ctaSecondary: "Mitt land finns inte här",
+    selectCountry: "Välj region",
+  },
+  en: {
+    eyebrow: "WORLDWIDE COVERAGE",
+    title: "Sverige TV — Swedish & Nordic streaming for expats worldwide",
+    sub: "20,000+ live channels in 4K. Built for Swedish and Nordic expatriates living in Dubai, the United States, the UK, Germany, Spain and beyond. No geo-blocking. Watch SVT, TV4, Allsvenskan and SHL from anywhere.",
+    tagline: "Tap your country — we route the stream through the closest low-latency edge.",
+    benefitsTitle: "Why 1,200+ Swedish expats trust Sverige TV abroad",
+    benefits: [
+      { icon: "🌍", title: "Works in 50+ countries", desc: "Low-latency edge servers across Europe, the US, the Middle East and Asia. Reliable 4K wherever you are." },
+      { icon: "📺", title: "Every Swedish channel", desc: "SVT 1, SVT 2, TV4, Kanal 5, TV3, Kanal 9, SVT Play Live + Allsvenskan, SHL and C More Sport — included." },
+      { icon: "⚡", title: "No geo-blocking", desc: "The service works without a VPN. You don't need a separate Swedish subscription to watch SVT abroad." },
+      { icon: "💬", title: "English & Swedish support", desc: "WhatsApp support 7 days a week, in English, Swedish, French and Arabic." },
+    ],
+    cta: "Order via WhatsApp",
+    ctaSecondary: "My country isn't listed",
+    selectCountry: "Pick your region",
+  },
+  fr: {
+    eyebrow: "COUVERTURE MONDIALE",
+    title: "Sverige TV — streaming suédois et nordique pour expatriés du monde entier",
+    sub: "20 000+ chaînes live en 4K. Conçu pour les expatriés suédois et nordiques à Dubaï, aux États-Unis, au Royaume-Uni, en Allemagne, en Espagne et partout ailleurs. Sans géo-blocage. Regardez SVT, TV4, Allsvenskan et SHL où que vous soyez.",
+    tagline: "Choisissez votre pays — on optimise le stream via le serveur le plus proche.",
+    benefitsTitle: "Pourquoi 1 200+ expatriés suédois choisissent Sverige TV",
+    benefits: [
+      { icon: "🌍", title: "Fonctionne dans 50+ pays", desc: "Serveurs edge basse latence en Europe, USA, Moyen-Orient et Asie. 4K stable sur tous les continents." },
+      { icon: "📺", title: "Toutes les chaînes suédoises", desc: "SVT 1, SVT 2, TV4, Kanal 5, TV3, Kanal 9, SVT Play Live + Allsvenskan, SHL et C More Sport — inclus." },
+      { icon: "⚡", title: "Sans géo-blocage", desc: "Le service fonctionne sans VPN. Pas besoin d'abonnement supplémentaire pour regarder SVT à l'étranger." },
+      { icon: "💬", title: "Support en français", desc: "Assistance WhatsApp 7 j/7 en français, anglais, suédois et arabe." },
+    ],
+    cta: "Commander via WhatsApp",
+    ctaSecondary: "Mon pays n'est pas listé",
+    selectCountry: "Choisissez votre région",
+  },
+};
+
+function InternationalSection({ ua }: { ua: string }) {
+  const { lang } = useLanguage();
+  const c = EXPAT_COPY[lang];
+  const buildMsg = (countryName: string) => {
+    if (lang === "sv") return `Hej! Jag bor i ${countryName} och vill ha Sverige TV.`;
+    if (lang === "fr") return `Bonjour ! Je vis à ${countryName} et je veux Sverige TV.`;
+    return `Hi! I'm based in ${countryName} and I'd like Sverige TV.`;
+  };
+  const notListed = lang === "sv"
+    ? "Hej! Mitt land är inte i listan — kan jag använda Sverige TV?"
+    : lang === "fr"
+      ? "Bonjour ! Mon pays n'est pas listé — Sverige TV est-il disponible ?"
+      : "Hi! My country isn't listed — is Sverige TV available there?";
+  return (
+    <section id="international" className="section">
+      <div className="sectionHead">
+        <span className="intlEyebrow">{c.eyebrow}</span>
+        <h2>{c.title}</h2>
+        <p>{c.sub}</p>
+      </div>
+
+      <p className="intlTagline">{c.tagline}</p>
+
+      <div className="intlGrid" role="list">
+        {EXPAT_COUNTRIES.map((country) => {
+          const desc = country[lang];
+          return (
+            <a
+              key={country.code}
+              role="listitem"
+              className="intlCard"
+              href={generateWhatsAppLink(buildMsg(country.name), ua, `Intl-${country.code}`)}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${country.name} — ${desc}`}
+            >
+              <span className="intlFlag" aria-hidden="true">{country.flag}</span>
+              <div className="intlBody">
+                <h3 className="intlName">{country.name}</h3>
+                <p className="intlDesc">{desc}</p>
+              </div>
+              <span className="intlArrow" aria-hidden="true">›</span>
+            </a>
+          );
+        })}
+      </div>
+
+      {/* Benefits — keyword-rich for E-E-A-T */}
+      <div className="intlBenefits">
+        <h3 className="intlBenefitsTitle">{c.benefitsTitle}</h3>
+        <div className="intlBenefitsGrid">
+          {c.benefits.map((b) => (
+            <div key={b.title} className="intlBenefit">
+              <span className="intlBenefitIcon" aria-hidden="true">{b.icon}</span>
+              <h4>{b.title}</h4>
+              <p>{b.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="stepsCtaWrap" style={{ marginTop: 28, flexDirection: "column", gap: 10 }}>
+        <a className="btnPrimary" href={generateWhatsAppLink(buildMsg("[your country]"), ua, "Intl-Generic")} target="_blank" rel="noreferrer">
+          {c.cta}
+        </a>
+        <a className="btnSecondary" href={generateWhatsAppLink(notListed, ua, "Intl-NotListed")} target="_blank" rel="noreferrer">
+          {c.ctaSecondary}
+        </a>
+      </div>
+    </section>
   );
 }
 
@@ -1351,7 +1504,14 @@ export default function Page() {
       cover.style.opacity = "0";
       setTimeout(() => cover.parentNode?.removeChild(cover), 260);
     }
-    setShowIntro(true);
+    // Cinematic intro: skip on mobile (perf, LCP) + only first visit per session
+    const isSmallScreen = typeof window !== "undefined" && window.innerWidth < 768;
+    let alreadySeen = false;
+    try { alreadySeen = sessionStorage.getItem("svtv_intro_v1") === "1"; } catch {}
+    if (!isSmallScreen && !alreadySeen) {
+      setShowIntro(true);
+      try { sessionStorage.setItem("svtv_intro_v1", "1"); } catch {}
+    }
     const detected = detectLangClient();
     setLang(detected);
     try { localStorage.setItem("lang", detected); } catch {}
@@ -1542,10 +1702,100 @@ export default function Page() {
     paymentAccepted: "Swish, Bank Transfer",
   };
 
+  // Organization — for E-E-A-T signals + brand entity in Google Knowledge Graph
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${SITE.domain}/#organization`,
+    name: SITE.brand,
+    legalName: "Sverige TV",
+    url: SITE.domain,
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE.domain}/og-image.jpg`,
+      width: 1200,
+      height: 630,
+    },
+    image: `${SITE.domain}/og-image.jpg`,
+    description:
+      "Sverige TV — premium streaming-tjänst med 20 000+ live-kanaler, 100 000+ filmer & serier. Trusted by Swedish & Nordic expats worldwide.",
+    foundingDate: "2024",
+    areaServed: [
+      "Sweden",
+      "Norway",
+      "Denmark",
+      "Finland",
+      "United Kingdom",
+      "Germany",
+      "Spain",
+      "France",
+      "United States",
+      "United Arab Emirates",
+      "Worldwide",
+    ],
+    knowsLanguage: ["sv", "en", "fr", "ar"],
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        telephone: `+${SITE.whatsappPhone}`,
+        availableLanguage: ["Swedish", "English", "French", "Arabic"],
+        contactOption: "TollFree",
+        areaServed: "Worldwide",
+      },
+      {
+        "@type": "ContactPoint",
+        contactType: "sales",
+        telephone: `+${SITE.whatsappPhone}`,
+        availableLanguage: ["Swedish", "English", "French"],
+        areaServed: "Worldwide",
+      },
+    ],
+    sameAs: [
+      `https://wa.me/${SITE.whatsappPhone}`,
+    ],
+  };
+
+  // WebSite — enables sitelinks searchbox in Google
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE.domain}/#website`,
+    url: SITE.domain,
+    name: SITE.brand,
+    description:
+      "Premium IPTV streaming for Sweden & Nordic expats worldwide — 20 000+ channels in 4K.",
+    inLanguage: ["sv-SE", "en-US", "fr-FR"],
+    publisher: { "@id": `${SITE.domain}/#organization` },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE.domain}/?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+
+  // BreadcrumbList — helps Google understand site structure
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE.domain },
+      { "@type": "ListItem", position: 2, name: "Plans", item: `${SITE.domain}/#offers` },
+      { "@type": "ListItem", position: 3, name: "Channels", item: `${SITE.domain}/#channels` },
+      { "@type": "ListItem", position: 4, name: "International", item: `${SITE.domain}/#international` },
+      { "@type": "ListItem", position: 5, name: "Setup", item: `${SITE.domain}/#setup` },
+      { "@type": "ListItem", position: 6, name: "FAQ", item: `${SITE.domain}/#faq` },
+    ],
+  };
+
   const navLinks = [
     { href: "#offers", label: t.nav.offers },
     { href: "#channels", label: t.nav.channels },
     { href: "#countries", label: "TV-länder" },
+    { href: "#international", label: lang === "sv" ? "Världen" : lang === "fr" ? "Monde" : "Worldwide" },
     { href: "#devices", label: t.nav.devices },
     { href: "#cities", label: t.nav.cities },
     { href: "#faq", label: t.nav.faq },
@@ -1561,28 +1811,13 @@ export default function Page() {
         pointerEvents:"none"
       }} />
       <div className="app">
+        {/* JSON-LD structured data — server-rendered for Google + LLM crawlers */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
-        <meta property="og:title" content="Sverige TV — 20 000+ kanaler, 4K & Sport" />
-        <meta property="og:description" content="Sveriges #1 TV-tjänst. 20 000+ kanaler, 100 000+ filmer & serier. Från 83 kr/mån. Aktivering på 10 min via WhatsApp." />
-        <meta property="og:image" content="https://sverigetv.se/og-image.jpg" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:url" content="https://sverigetv.se" />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Sverige TV" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Sverige TV — 20 000+ kanaler" />
-        <meta name="twitter:description" content="Sveriges #1 TV-tjänst. Från 83 kr/mån." />
-        <meta name="twitter:image" content="https://sverigetv.se/og-image.jpg" />
-        <title>Sverige TV — 20 000+ kanaler, 4K, Sport &amp; Film</title>
-        <meta name="description" content="Sveriges #1 TV-tjänst. 20 000+ live-kanaler, 4K/UHD, sport, filmer och serier. Aktivering på 10 min via WhatsApp. Fungerar på Firestick, Smart TV, iPhone och Android." />
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#060407" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="Sverige TV" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
         <link rel="apple-touch-icon" href="/icon-192.png" />
 
         <div className="bg" />
@@ -1649,11 +1884,27 @@ export default function Page() {
               <p className="lead">{t.hero.lead}</p>
               <div className="actions">
                 <a className="btnPrimary" href="#offers">{t.hero.ctaPrices}</a>
-                <a className="btnSecondary" href={generateWhatsAppLink(t.whatsapp.generic, ua, "Hero-Generic")} target="_blank" rel="noreferrer">
-                  {t.hero.ctaAdvisor}
-                </a>
               </div>
+              <a
+                className="btnGhost"
+                href={generateWhatsAppLink(t.whatsapp.generic, ua, "Hero-Generic")}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {t.hero.ctaAdvisor} →
+              </a>
               <div className="heroTrust">{t.hero.trust}</div>
+
+              {/* Trust strip — premium social proof */}
+              <div className="trustStrip" aria-label="Sverige TV trust signals">
+                <span className="trustStripItem"><span className="gold">★ 4.9/5</span> &nbsp;<strong>1 200+</strong> {lang === "sv" ? "kunder" : lang === "fr" ? "clients" : "customers"}</span>
+                <span className="trustStripDot" aria-hidden="true" />
+                <span className="trustStripItem">⚡ <strong>{lang === "sv" ? "Aktivering på 10 min" : lang === "fr" ? "Activation en 10 min" : "Activated in 10 min"}</strong></span>
+                <span className="trustStripDot" aria-hidden="true" />
+                <span className="trustStripItem">🌍 <strong>50+ {lang === "sv" ? "länder" : lang === "fr" ? "pays" : "countries"}</strong></span>
+                <span className="trustStripDot" aria-hidden="true" />
+                <span className="trustStripItem">🛡️ <strong>{lang === "sv" ? "Nöjd-kund-garanti" : lang === "fr" ? "Garantie satisfaction" : "Satisfaction guarantee"}</strong></span>
+              </div>
             </div>
           </section>
 
@@ -1715,6 +1966,9 @@ export default function Page() {
 
           {/* COUNTRIES SECTION — NEW from code 2 */}
           <CountriesSection ua={ua} />
+
+          {/* INTERNATIONAL — Swedes & Nordic expats worldwide */}
+          <InternationalSection ua={ua} />
 
           {/* DEVICE SECTION */}
           <DeviceSection ua={ua} />
@@ -1782,38 +2036,50 @@ export default function Page() {
             <button className="pwaDismiss" onClick={handleIOSDismiss} aria-label="Stäng">✕</button>
           </div>
         )}
-        <LiveActivityWidget userAgent={ua} />
+        {/* LiveActivityWidget removed — fake social proof, low credibility, visual noise */}
         <MoaChat userAgent={ua} />
 
         <style jsx global>{`
           :root {
-            --bg: #020202;
-            --card: #0b0b0d;
-            --card-hi: #111114;
+            /* Cinema true-black foundation */
+            --bg: #000000;
+            --card: #0a0a0a;
+            --card-hi: #141414;
+            /* Sverige TV royal red (kept) */
             --accent: #7c1326;
-            --accent-hi: #9a1830;
-            --accent-glow: rgba(124,19,38,0.38);
-            --accent-faint: rgba(124,19,38,0.08);
-            --fg: #f0eff0;
-            --muted: #7a7a86;
-            --muted-hi: #9898a4;
-            --border: rgba(255,255,255,0.07);
-            --border-hi: rgba(255,255,255,0.14);
-            --border-accent: rgba(124,19,38,0.35);
+            /* Netflix-grade attention red — for primary CTAs */
+            --accent-hi: #c4001d;
+            --accent-glow: rgba(196,0,29,0.42);
+            --accent-faint: rgba(196,0,29,0.06);
+            /* Cleaner type colors */
+            --fg: #f5f5f5;
+            --muted: #8a8a8a;
+            --muted-hi: #b8b8b8;
+            --border: rgba(255,255,255,0.08);
+            --border-hi: rgba(255,255,255,0.18);
+            --border-accent: rgba(196,0,29,0.45);
+            /* Gold royal accent (kept) */
             --gold: #c8a96e;
+            --gold-hi: #e8c97a;
+            /* Sharp serious radius system */
+            --r-cta: 4px;
+            --r-secondary: 6px;
+            --r-card: 12px;
+            --r-modal: 16px;
           }
           html {
             scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
-            background: #060407;
+            background: #000;
           }
           body {
             margin: 0;
-            background: #060407;
-            color: #f5f0f5;
+            background: #000;
+            color: var(--fg);
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             -webkit-font-smoothing: antialiased;
             overscroll-behavior-y: contain;
+            letter-spacing: -0.005em;
           }
           *, *::before, *::after { box-sizing: border-box; }
           #__next_cover::after {
@@ -1828,26 +2094,38 @@ export default function Page() {
           .bg {
             position: fixed; inset: 0; z-index: -1;
             background:
-              radial-gradient(ellipse 80% 40% at 50% -5%, #1a0409 0%, transparent 60%),
-              radial-gradient(ellipse 100% 60% at 50% 100%, #0a0008 0%, transparent 70%),
-              #020202;
+              radial-gradient(ellipse 70% 35% at 50% -5%, rgba(196,0,29,0.06) 0%, transparent 65%),
+              radial-gradient(ellipse 90% 50% at 50% 100%, rgba(124,19,38,0.04) 0%, transparent 70%),
+              #000;
           }
-          .main { max-width: 1100px; margin: 0 auto; padding: 0 20px 80px; }
-          .section { margin-bottom: 80px; }
-          .sectionHead { text-align: center; margin-bottom: 40px; }
-          .sectionHead h2 { font-size: 2rem; margin: 0 0 10px; }
-          .sectionHead p { color: var(--muted); }
+          .main { max-width: 1100px; margin: 0 auto; padding: 0 20px 80px; min-width: 0; }
+          .section { margin-bottom: 80px; min-width: 0; }
+          .sectionHead { text-align: center; margin-bottom: 40px; max-width: 760px; margin-left: auto; margin-right: auto; }
+          .sectionHead h2 { font-size: clamp(1.6rem, 4vw, 2.1rem); line-height: 1.15; margin: 0 0 10px; letter-spacing: -0.5px; }
+          .sectionHead p { color: var(--muted); line-height: 1.55; }
 
-          /* TOP BAR */
-          .topBar { background: #020103; font-size: 12px; border-bottom: 1px solid rgba(139,23,40,0.2); padding: 8px 0; }
-          .topBarInner { max-width: 1100px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
-          .greenDot { display: inline-block; width: 6px; height: 6px; background: #22c55e; border-radius: 50%; margin-right: 6px; box-shadow: 0 0 5px #22c55e; }
-          .urgency { color: #fbbf24; font-weight: 700; }
+          /* TOP BAR — minimal, premium */
+          .topBar { background: #000; font-size: 12px; border-bottom: 1px solid var(--border); padding: 8px 0; padding-top: max(8px, env(safe-area-inset-top, 0px)); color: var(--muted-hi); }
+          .topBarInner { max-width: 1100px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; min-width: 0; }
+          .topBarInner > span { min-width: 0; }
+          .greenDot { display: inline-block; width: 6px; height: 6px; background: #22c55e; border-radius: 50%; margin-right: 6px; box-shadow: 0 0 6px rgba(34,197,94,0.6); }
+          .urgency { color: var(--gold-hi); font-weight: 600; letter-spacing: 0.005em; }
 
           /* HEADER */
-          .header { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); background: rgba(6,4,7,0.92); border-bottom: 1px solid rgba(139,23,40,0.15); }
-          .nav { max-width: 1100px; margin: 0 auto; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-          .brand { font-weight: 900; font-size: 1.2rem; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; letter-spacing: -0.5px; transition: opacity 0.2s; }
+          .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(14px) saturate(160%);
+            -webkit-backdrop-filter: blur(14px) saturate(160%);
+            background: rgba(6,4,7,0.85);
+            border-bottom: 1px solid rgba(139,23,40,0.18);
+            padding-top: env(safe-area-inset-top, 0px);
+            transform: translateZ(0);
+          }
+          .nav { max-width: 1100px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-width: 0; }
+          .brand { font-weight: 900; font-size: 1.2rem; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; letter-spacing: -0.5px; transition: opacity 0.2s; min-width: 0; flex-shrink: 1; }
+          .brand svg { max-width: 100%; height: auto; display: block; }
           .brand:hover { opacity: 0.85; }
           .heroLogo { display: flex; justify-content: center; margin-bottom: 20px; filter: drop-shadow(0 0 18px rgba(139,23,40,0.5)); }
           .footerLogo { display: flex; justify-content: center; margin-bottom: 16px; opacity: 0.8; }
@@ -1861,53 +2139,170 @@ export default function Page() {
           .installBtn { background: rgba(255,255,255,0.1); border: 1px solid var(--accent); color: #fff; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 700; }
 
           /* HAMBURGER */
-          .hamburger { display: none; background: none; border: 1px solid var(--border); color: #fff; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 16px; }
-          .mobileMenu { position: fixed; inset: 0; top: 0; padding-top: 70px; background: rgba(6,4,7,0.99); z-index: 99; display: flex; flex-direction: column; padding: 20px 24px 40px; gap: 4px; overflow-y: auto; }
-          .mobileMenu a { font-size: 18px; color: #fff; text-decoration: none; padding: 14px 0; border-bottom: 1px solid var(--border); display: block; }
+          .hamburger { display: none; background: none; border: 1px solid var(--border); color: #fff; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 16px; flex-shrink: 0; }
+          .mobileMenu {
+            position: fixed;
+            inset: 0;
+            background: rgba(6,4,7,0.985);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 110;
+            display: flex;
+            flex-direction: column;
+            padding: calc(72px + env(safe-area-inset-top, 0px)) 24px calc(40px + env(safe-area-inset-bottom, 0px));
+            gap: 4px;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            animation: mobileMenuIn 0.22s cubic-bezier(0.16,1,0.3,1);
+          }
+          @keyframes mobileMenuIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+          .mobileMenu a { font-size: 17px; font-weight: 600; color: #fff; text-decoration: none; padding: 16px 0; border-bottom: 1px solid var(--border); display: block; transition: color 0.15s, transform 0.15s; }
+          .mobileMenu a:active { color: var(--gold); transform: translateX(4px); }
           .mobileLangSwitch { display: flex; gap: 10px; padding: 16px 0; border-bottom: 1px solid var(--border); }
 
           /* HERO */
-          .hero { padding: 80px 0 60px; text-align: center; }
-          .heroContent { max-width: 780px; margin: 0 auto; }
-          .pill { display: inline-block; padding: 6px 16px; border: 1px solid var(--border-accent); color: var(--gold); background: rgba(139,23,40,0.07); border-radius: 99px; font-size: 12px; font-weight: 700; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px; }
-          h1 { font-size: clamp(2.2rem, 6vw, 4.2rem); line-height: 1.05; font-weight: 800; margin: 0 0 24px; letter-spacing: -1px; }
+          .hero { padding: 80px 0 60px; text-align: center; min-width: 0; }
+          .heroContent { max-width: 780px; margin: 0 auto; min-width: 0; }
+          .pill { display: inline-block; padding: 6px 14px; border: 1px solid var(--border-hi); color: var(--gold-hi); background: rgba(255,255,255,0.03); border-radius: 99px; font-size: 11.5px; font-weight: 600; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.12em; max-width: 100%; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+          h1 { font-size: clamp(2.2rem, 6.2vw, 4.4rem); line-height: 1.02; font-weight: 900; margin: 0 0 22px; letter-spacing: -0.035em; }
           .accent { background: linear-gradient(135deg, #f5f0f5 0%, var(--gold) 60%, #e0d0d0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
           .lead { color: var(--muted); font-size: 1.1rem; max-width: 620px; margin: 0 auto 32px; line-height: 1.6; }
+          .heroLogo svg { display: block; max-width: 100%; height: auto; }
           .actions { display: flex; gap: 12px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
-          .btnPrimary { background: linear-gradient(135deg, var(--accent-hi) 0%, var(--accent) 100%); color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 700; transition: transform 0.2s, box-shadow 0.2s; border: none; cursor: pointer; display: inline-block; letter-spacing: 0.01em; }
-          .btnPrimary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -6px var(--accent-glow); background: linear-gradient(135deg, var(--gold) 0%, var(--accent-hi) 100%); }
-          .btnSecondary { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: background 0.2s; display: inline-block; }
-          .btnSecondary:hover { background: rgba(255,255,255,0.1); }
+          .btnPrimary {
+            background: var(--accent-hi);
+            color: #fff;
+            padding: 15px 32px;
+            border-radius: var(--r-cta);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 0.005em;
+            transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 8px 24px -10px var(--accent-glow);
+          }
+          .btnPrimary:hover { background: #e60914; transform: translateY(-1px); box-shadow: 0 1px 0 rgba(255,255,255,0.08) inset, 0 14px 30px -8px var(--accent-glow); }
+          .btnPrimary:active { transform: translateY(0); }
+          .btnSecondary {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--border-hi);
+            color: #fff;
+            padding: 14px 30px;
+            border-radius: var(--r-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14.5px;
+            transition: background 0.18s ease, border-color 0.18s ease;
+            display: inline-block;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+          }
+          .btnSecondary:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.28); }
+          /* Ghost link — discreet secondary path under the dominant CTA */
+          .btnGhost {
+            display: inline-block;
+            color: var(--muted-hi);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px 4px;
+            margin-top: 14px;
+            transition: color 0.18s ease, transform 0.18s ease;
+            letter-spacing: 0.005em;
+          }
+          .btnGhost:hover { color: #fff; transform: translateX(2px); }
           .heroTrust { color: var(--muted); font-size: 13px; font-weight: 500; line-height: 1.6; }
 
-          /* TRIAL BANNER */
-          .trialBanner { background: linear-gradient(135deg, rgba(139,23,40,0.1), rgba(100,10,25,0.05)); border: 1px solid rgba(139,23,40,0.28); border-radius: 16px; padding: 32px; margin-bottom: 80px; display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
-          .trialBadge { display: inline-flex; align-items: center; padding: 6px 14px; background: linear-gradient(135deg, var(--accent-hi), var(--accent)); color: #fff; font-size: 11px; font-weight: 800; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; height: fit-content; margin-top: 4px; }
-          .trialContent { flex: 1; min-width: 220px; }
-          .trialContent h3 { margin: 0 0 8px; font-size: 1.3rem; font-weight: 800; }
-          .trialContent p { margin: 0 0 6px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+          /* TRIAL BANNER — cleaner cinema look */
+          .trialBanner {
+            background:
+              linear-gradient(180deg, rgba(196,0,29,0.07) 0%, rgba(0,0,0,0) 100%),
+              var(--card);
+            border: 1px solid var(--border-accent);
+            border-radius: var(--r-card);
+            padding: 28px 32px;
+            margin-bottom: 72px;
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+            overflow: hidden;
+          }
+          .trialBanner::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 60% 50% at 0% 50%, rgba(200,169,110,0.06), transparent 60%);
+            pointer-events: none;
+          }
+          .trialBadge { display: inline-flex; align-items: center; padding: 5px 12px; background: var(--accent-hi); color: #fff; font-size: 10.5px; font-weight: 800; border-radius: var(--r-cta); text-transform: uppercase; letter-spacing: 0.08em; flex-shrink: 0; height: fit-content; margin-top: 2px; }
+          .trialContent { flex: 1; min-width: 220px; position: relative; }
+          .trialContent h3 { margin: 0 0 8px; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.4px; color: #fff; }
+          .trialContent p { margin: 0 0 6px; color: var(--muted-hi); font-size: 14px; line-height: 1.55; }
           .trialNote { font-size: 12px !important; opacity: 0.6; }
-          .trialCta { display: inline-flex; align-items: center; background: #22c55e; color: #000; font-weight: 800; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-size: 14px; white-space: nowrap; transition: 0.2s; align-self: center; flex-shrink: 0; }
-          .trialCta:hover { background: #16a34a; transform: translateY(-1px); }
+          .trialCta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-hi);
+            color: #fff;
+            font-weight: 800;
+            padding: 14px 26px;
+            border-radius: var(--r-cta);
+            text-decoration: none;
+            font-size: 14.5px;
+            white-space: nowrap;
+            transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+            align-self: center;
+            flex-shrink: 0;
+            box-shadow: 0 8px 22px -8px var(--accent-glow);
+            letter-spacing: 0.01em;
+            position: relative;
+          }
+          .trialCta:hover { background: #e60914; transform: translateY(-1px); box-shadow: 0 14px 30px -8px var(--accent-glow); }
+          .trialCta:active { transform: translateY(0); }
+
+          /* TRUST STRIP — directly under hero */
+          .trustStrip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            padding: 18px 16px;
+            margin-top: 28px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            color: var(--muted-hi);
+            font-size: 12.5px;
+          }
+          .trustStripItem { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+          .trustStripItem strong { color: #fff; font-weight: 700; }
+          .trustStripItem .gold { color: var(--gold-hi); }
+          .trustStripDot { width: 4px; height: 4px; background: var(--muted); border-radius: 50%; opacity: 0.45; }
 
           /* TRUST SECTION */
           .trustSection { margin-bottom: 80px; }
           .trustGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
-          .trustCard { background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 20px; text-align: center; transition: 0.2s; }
-          .trustCard:hover { border-color: rgba(255,255,255,0.25); }
+          .trustCard { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-card); padding: 22px 16px; text-align: center; transition: border-color 0.2s ease, transform 0.2s ease; }
+          .trustCard:hover { border-color: var(--border-hi); transform: translateY(-2px); }
           .trustIcon { font-size: 28px; display: block; margin-bottom: 10px; }
           .trustCard h4 { margin: 0 0 6px; font-size: 13px; font-weight: 700; }
           .trustCard p { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.5; }
 
           /* OFFERS */
           .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
-          .card { position: relative; background: var(--card); border: 1px solid rgba(255,255,255,0.06); padding: 32px 24px; border-radius: 16px; display: flex; flex-direction: column; transition: transform 0.3s, border-color 0.3s; }
-          .card:hover { transform: translateY(-5px); border-color: rgba(139,23,40,0.3); box-shadow: 0 8px 30px rgba(100,10,25,0.15); }
-          .card.highlight { border: 1px solid var(--border-accent); box-shadow: 0 0 40px rgba(139,23,40,0.14), 0 0 1px rgba(200,40,60,0.3); background: linear-gradient(180deg, rgba(139,23,40,0.09) 0%, rgba(14,11,15,0) 100%); }
-          .saveBadge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--accent-hi), var(--accent)); color: white; font-weight: 800; font-size: 11px; padding: 6px 14px; border-radius: 20px; box-shadow: 0 4px 14px rgba(139,23,40,0.5); z-index: 2; }
+          .card { position: relative; background: var(--card); border: 1px solid var(--border); padding: 30px 24px; border-radius: var(--r-card); display: flex; flex-direction: column; transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; }
+          .card:hover { transform: translateY(-4px); border-color: var(--border-hi); box-shadow: 0 12px 36px -8px rgba(0,0,0,0.6); }
+          .card.highlight { border: 1px solid var(--border-accent); box-shadow: 0 0 0 1px rgba(196,0,29,0.18), 0 16px 50px -10px rgba(196,0,29,0.18); background: linear-gradient(180deg, rgba(196,0,29,0.05) 0%, rgba(0,0,0,0) 60%); }
+          .saveBadge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: var(--accent-hi); color: #fff; font-weight: 800; font-size: 10.5px; padding: 5px 12px; border-radius: var(--r-cta); box-shadow: 0 4px 14px -2px var(--accent-glow); z-index: 2; letter-spacing: 0.04em; text-transform: uppercase; }
           .cardHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 10px; }
           .cardHeader h3 { margin: 0; font-size: 1.1rem; }
-          .bestSellerBadge { font-size: 10px; background: #fbbf24; color: #000; font-weight: 800; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+          .bestSellerBadge { font-size: 10px; background: var(--gold-hi); color: #000; font-weight: 800; padding: 3px 8px; border-radius: var(--r-cta); text-transform: uppercase; letter-spacing: 0.04em; }
           .priceLockup { display: flex; align-items: baseline; justify-content: center; line-height: 1; margin-bottom: 8px; }
           .currency { font-size: 1.2rem; font-weight: 500; margin-right: 4px; color: var(--muted); }
           .bigNumber { font-size: 3.8rem; font-weight: 800; letter-spacing: -2px; }
@@ -1917,14 +2312,16 @@ export default function Page() {
           .perks li { padding: 8px 0; font-size: 14px; color: #e5e5e5; display: flex; gap: 10px; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.03); }
           .perks li:last-child { border-bottom: none; }
           .check { color: var(--gold); font-weight: bold; }
-          .btnPlan { display: block; width: 100%; text-align: center; background: #fff; color: #000; font-weight: 800; padding: 14px; border-radius: 8px; text-decoration: none; transition: 0.2s; }
-          .btnPlan:hover { background: #e5e5e5; transform: scale(1.02); }
-          .highlight .btnPlan { background: linear-gradient(135deg, var(--accent-hi), var(--accent)); color: white; box-shadow: 0 4px 18px rgba(139,23,40,0.45); }
-          .highlight .btnPlan:hover { background: linear-gradient(135deg, var(--gold), var(--accent-hi)); }
+          .btnPlan { display: block; width: 100%; text-align: center; background: #fff; color: #000; font-weight: 800; padding: 15px; border-radius: var(--r-cta); text-decoration: none; transition: background 0.18s ease, transform 0.18s ease; letter-spacing: 0.01em; font-size: 14.5px; }
+          .btnPlan:hover { background: #e5e5e5; }
+          .btnPlan:active { transform: scale(0.985); }
+          .highlight .btnPlan { background: var(--accent-hi); color: #fff; box-shadow: 0 8px 22px -8px var(--accent-glow); }
+          .highlight .btnPlan:hover { background: #e60914; }
 
           /* VOD STATS */
           .statsGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; }
-          .statCard { background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 28px 20px; text-align: center; }
+          .statCard { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-card); padding: 28px 20px; text-align: center; transition: border-color 0.2s ease; }
+          .statCard:hover { border-color: var(--border-hi); }
           .statValue { font-size: 2rem; font-weight: 800; color: #fff; letter-spacing: -1px; }
           .statLabel { font-size: 13px; color: var(--muted); margin-top: 6px; }
 
@@ -2107,16 +2504,60 @@ export default function Page() {
           }
           /* ── END COUNTRIES ── */
 
+          /* ── INTERNATIONAL / EXPATS SECTION ── */
+          .intlEyebrow { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-hi); border: 1px solid rgba(200,169,110,0.28); background: rgba(200,169,110,0.04); padding: 5px 12px; border-radius: var(--r-cta); margin-bottom: 14px; }
+          .intlTagline { text-align: center; color: var(--muted); font-size: 13px; margin: 0 0 28px; max-width: 620px; margin-left: auto; margin-right: auto; line-height: 1.55; }
+          .intlGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 12px;
+            margin-bottom: 40px;
+          }
+          .intlCard {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 16px;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s, border-color 0.2s, background 0.2s;
+            min-width: 0;
+          }
+          .intlCard:hover {
+            transform: translateY(-2px);
+            border-color: rgba(201,168,76,0.5);
+            background: linear-gradient(180deg, rgba(201,168,76,0.06) 0%, rgba(124,19,38,0.05) 100%);
+          }
+          .intlCard:active { transform: scale(0.98); }
+          .intlFlag { font-size: 30px; flex-shrink: 0; line-height: 1; }
+          .intlBody { flex: 1; min-width: 0; }
+          .intlName { font-size: 14px; font-weight: 800; color: #fff; margin: 0 0 2px; letter-spacing: -0.2px; }
+          .intlDesc { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.45; }
+          .intlArrow { color: rgba(201,168,76,0.5); font-size: 22px; flex-shrink: 0; transition: transform 0.2s, color 0.2s; }
+          .intlCard:hover .intlArrow { color: var(--gold); transform: translateX(3px); }
+
+          .intlBenefits { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; margin-top: 8px; }
+          .intlBenefitsTitle { text-align: center; font-size: 1.1rem; font-weight: 800; color: #fff; margin: 0 0 22px; letter-spacing: -0.3px; }
+          .intlBenefitsGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; }
+          .intlBenefit { text-align: left; }
+          .intlBenefitIcon { font-size: 24px; display: block; margin-bottom: 6px; }
+          .intlBenefit h4 { font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 4px; letter-spacing: -0.1px; }
+          .intlBenefit p { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.55; }
+
           /* DEVICES */
           .deviceGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px; }
-          .deviceCard { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 12px; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: 0.2s; text-align: center; }
-          .deviceCard:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-3px); }
+          .deviceCard { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-card); padding: 20px 12px; display: flex; flex-direction: column; align-items: center; gap: 10px; transition: border-color 0.2s ease, transform 0.2s ease; text-align: center; }
+          .deviceCard:hover { border-color: var(--border-hi); transform: translateY(-3px); }
           .deviceIcon { font-size: 32px; }
           .deviceName { font-size: 13px; font-weight: 600; color: #ccc; }
 
           /* REVIEWS */
           .reviewsGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-          .reviewCard { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+          .reviewCard { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-card); padding: 24px; display: flex; flex-direction: column; gap: 12px; transition: border-color 0.2s ease; }
+          .reviewCard:hover { border-color: var(--border-hi); }
           .reviewStars { font-size: 14px; letter-spacing: 1px; }
           .reviewText { margin: 0; font-size: 14px; color: #d4d4d8; line-height: 1.6; font-style: italic; flex: 1; }
           .reviewMeta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12px; }
@@ -2129,40 +2570,69 @@ export default function Page() {
 
           /* SETUP */
           .stepsGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-          .stepCard { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
-          .stepNumber { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-hi), var(--accent)); display: flex; align-items: center; justify-content: center; font-weight: 800; margin-bottom: 14px; }
+          .stepCard { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-card); padding: 24px; transition: border-color 0.2s ease; }
+          .stepCard:hover { border-color: var(--border-hi); }
+          .stepNumber { width: 38px; height: 38px; border-radius: var(--r-cta); background: var(--accent-hi); display: flex; align-items: center; justify-content: center; font-weight: 800; margin-bottom: 14px; color: #fff; box-shadow: 0 6px 18px -6px var(--accent-glow); }
           .stepCard p { margin: 0; color: var(--muted); line-height: 1.6; }
           .stepsCtaWrap { display: flex; justify-content: center; margin-top: 24px; }
 
           /* FAQ */
-          .faqItem { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; }
-          .faqItem[open] { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.2); }
-          .faqSummary { padding: 18px; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; font-size: 15px; }
+          .faqItem { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-card); margin-bottom: 10px; transition: border-color 0.2s ease, background 0.2s ease; }
+          .faqItem[open] { background: var(--card-hi); border-color: var(--border-hi); }
+          .faqSummary { padding: 18px 20px; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; font-size: 15px; color: #fff; gap: 12px; }
           .faqSummary::-webkit-details-marker { display: none; }
           .faqSummary::after { content: "+"; font-size: 18px; color: var(--muted); }
           .faqItem[open] .faqSummary::after { content: "−"; }
           .faqAnswer { padding: 0 18px 18px; margin: 0; color: var(--muted); line-height: 1.6; font-size: 14px; }
 
           /* FOOTER */
-          .footer { padding: 60px 20px; text-align: center; color: #555; font-size: 13px; border-top: 1px solid var(--border); margin-top: 80px; }
+          .footer { padding: 56px 20px; text-align: center; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); margin-top: 72px; background: #000; }
           .footerLinks { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
           .footerLinks a { color: #555; text-decoration: none; font-size: 12px; transition: color 0.2s; }
           .footerLinks a:hover { color: var(--muted); }
 
           /* CHAT FAB */
-          .miliFab { position: fixed; bottom: 25px; left: 25px; background: #000; border: 1px solid rgba(255,255,255,0.2); padding: 0; border-radius: 30px; cursor: pointer; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden; transition: transform 0.2s; }
-          .miliFab:hover { transform: scale(1.05); }
-          .fabContent { display: flex; align-items: center; padding: 6px 16px 6px 6px; gap: 12px; position: relative; }
-          .fabAvatar { border-radius: 50%; border: 2px solid #3dbe7a; object-fit: cover; object-position: top center; background: #130810; }
-          .fabText { font-weight: 700; font-size: 13px; color: #fff; }
-          .fabPulse { position: absolute; top: 8px; left: 32px; width: 10px; height: 10px; background: #22c55e; border-radius: 50%; border: 2px solid #000; }
-          .miliTeaser { position: fixed; bottom: 95px; left: 25px; width: 300px; background: rgba(20,20,20,0.95); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 10px 12px; z-index: 999; cursor: pointer; box-shadow: 0 12px 30px rgba(0,0,0,0.45); text-align: left; }
+          .miliFab {
+            position: fixed; bottom: 25px; left: 25px;
+            background: rgba(20,20,20,0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-hi);
+            padding: 0;
+            border-radius: 999px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 6px 20px -4px rgba(0,0,0,0.6);
+            overflow: hidden;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.18s ease;
+          }
+          .miliFab:hover { background: rgba(30,30,30,0.95); border-color: rgba(255,255,255,0.3); }
+          .miliFab:active { transform: scale(0.97); }
+          .fabContent { display: flex; align-items: center; padding: 6px 14px 6px 6px; gap: 10px; position: relative; }
+          .fabAvatar { border-radius: 50%; border: 2px solid #22c55e; object-fit: cover; object-position: top center; background: #0a0a0a; }
+          .fabText { font-weight: 600; font-size: 13px; color: #fff; letter-spacing: 0.005em; }
+          .fabPulse { position: absolute; top: 6px; left: 30px; width: 9px; height: 9px; background: #22c55e; border-radius: 50%; border: 2px solid #0a0a0a; }
+          .miliTeaser {
+            position: fixed; bottom: 95px; left: 25px; width: 300px;
+            background: rgba(15,15,15,0.96);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--border-hi);
+            border-radius: var(--r-card);
+            padding: 12px 14px;
+            z-index: 999;
+            cursor: pointer;
+            box-shadow: 0 10px 28px -6px rgba(0,0,0,0.55);
+            text-align: left;
+            transition: border-color 0.2s ease;
+          }
+          .miliTeaser:hover { border-color: rgba(255,255,255,0.28); }
           .miliTeaserHead { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-          .miliTeaserAvatar { border-radius: 50%; object-fit: cover; object-position: top center; background: #130810; }
-          .miliTeaserTitle { font-weight: 800; font-size: 12px; color: #fff; }
+          .miliTeaserAvatar { border-radius: 50%; object-fit: cover; object-position: top center; background: #0a0a0a; }
+          .miliTeaserTitle { font-weight: 700; font-size: 12px; color: #fff; letter-spacing: 0.01em; }
           .miliTeaserLines { display: flex; flex-direction: column; gap: 5px; }
-          .miliTeaserLine { font-size: 12px; color: #d4d4d8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-          .miliBadge { background: linear-gradient(135deg, var(--accent-hi), var(--accent)); color: #fff; font-weight: 900; font-size: 11px; padding: 2px 7px; border-radius: 999px; margin-left: auto; }
+          .miliTeaserLine { font-size: 12px; color: var(--muted-hi); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.4; }
+          .miliBadge { background: var(--accent-hi); color: #fff; font-weight: 700; font-size: 10.5px; padding: 2px 7px; border-radius: 999px; margin-left: auto; letter-spacing: 0.02em; }
           .miliBadgeFab { position: absolute; top: -6px; right: -6px; margin-left: 0; }
           .miliBox { position: fixed; bottom: 85px; left: 25px; width: 320px; max-height: 75vh; background: #18181b; border: 1px solid var(--border); border-radius: 16px; z-index: 1000; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: slideUp 0.3s cubic-bezier(0.16,1,0.3,1); display: flex; flex-direction: column; }
           @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -2205,7 +2675,7 @@ export default function Page() {
           .liveToastSub { font-size: 12px; color: #ccc; }
           .liveToastBtn { margin-left: auto; background: rgba(255,255,255,0.1); border: none; color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; }
 
-          /* ── RESPONSIVE ── */
+          /* RESPONSIVE */
           @media (max-width: 900px) {
             .links a { display: none; }
             .langSwitch { display: none; }
@@ -2213,75 +2683,125 @@ export default function Page() {
             .hamburger { display: flex; }
           }
           @media (max-width: 640px) {
-            .main { padding: 0 16px env(safe-area-inset-bottom, 100px); padding-bottom: max(120px, env(safe-area-inset-bottom, 0px) + 100px); }
-            .section { margin-bottom: 52px; }
+            .main { padding: 0 16px; padding-bottom: max(140px, env(safe-area-inset-bottom, 0px) + 120px); }
+            .section { margin-bottom: 56px; }
             .sectionHead { margin-bottom: 28px; }
-            .sectionHead h2 { font-size: 1.55rem; }
-            .topBarInner { flex-direction: column; gap: 4px; font-size: 11px; }
+            .sectionHead h2 { font-size: clamp(1.4rem, 5.5vw, 1.85rem); line-height: 1.15; }
+            .sectionHead p { font-size: 0.95rem; line-height: 1.55; }
+            .topBarInner { flex-direction: column; gap: 4px; font-size: 11px; padding: 0 16px; }
             .urgency { font-size: 11px; }
-            .nav { padding: 12px 16px; }
-            .brand { font-size: 1rem; }
-            .hero { padding: 44px 0 36px; }
-            h1 { font-size: clamp(1.9rem, 9vw, 2.8rem); letter-spacing: -0.5px; margin-bottom: 16px; }
-            .pill { font-size: 10px; padding: 5px 12px; margin-bottom: 16px; }
-            .lead { font-size: 0.95rem; margin-bottom: 24px; }
-            .actions { gap: 10px; flex-direction: column; align-items: center; }
-            .btnPrimary, .btnSecondary { width: 100%; max-width: 320px; padding: 16px 24px; font-size: 15px; text-align: center; }
-            .heroTrust { font-size: 11px; padding: 0 8px; }
-            .trialBanner { flex-direction: column; align-items: stretch; padding: 20px 16px; gap: 16px; }
-            .trialCta { text-align: center; justify-content: center; padding: 16px 20px; font-size: 15px; }
+            .nav { padding: 12px 16px; gap: 10px; }
+            .brand svg { max-width: clamp(140px, 42vw, 168px); }
+            .hero { padding: 40px 0 36px; }
+            .heroLogo { margin-bottom: 16px; }
+            h1 { font-size: clamp(1.85rem, 9vw, 2.6rem); letter-spacing: -0.5px; margin-bottom: 14px; line-height: 1.1; }
+            .pill { font-size: 10px; padding: 5px 12px; margin-bottom: 16px; max-width: 100%; }
+            .lead { font-size: 1rem; margin-bottom: 24px; line-height: 1.55; }
+            .actions { gap: 10px; flex-direction: column; align-items: stretch; padding: 0 4px; }
+            .btnPrimary, .btnSecondary { width: 100%; max-width: 100%; padding: 16px 22px; font-size: 15px; text-align: center; }
+            .heroTrust { font-size: 12px; padding: 0 8px; line-height: 1.55; }
+            .trustStrip { gap: 12px 18px; padding: 14px 12px; margin-top: 22px; font-size: 11.5px; }
+            .trustStripItem { font-size: 11.5px; }
+            .trustStripDot { display: none; }
+            .trialBanner { flex-direction: column; align-items: stretch; padding: 22px 18px; gap: 14px; border-radius: var(--r-card); margin-bottom: 56px; }
+            .trialContent h3 { font-size: 1.15rem; }
+            .trialCta { text-align: center; justify-content: center; padding: 15px 20px; font-size: 15px; width: 100%; }
             .trustGrid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .trustCard { padding: 14px 10px; }
             .trustIcon { font-size: 22px; margin-bottom: 7px; }
             .trustCard h4 { font-size: 12px; }
             .trustCard p { font-size: 11px; }
-            .grid { grid-template-columns: 1fr; gap: 20px; }
+            .grid { grid-template-columns: 1fr; gap: 18px; }
             .card { padding: 24px 18px; }
+            .card.highlight { transform: none; }
             .bigNumber { font-size: 3.2rem; }
             .statsGrid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
             .statCard { padding: 20px 14px; }
-            .statValue { font-size: 1.7rem; }
+            .statValue { font-size: 1.65rem; }
             .compareWrap { border-radius: 10px; }
             .compareTable { font-size: 11px; min-width: 420px; }
             .compareTable th, .compareTable td { padding: 10px 8px; }
             .tabBtn { font-size: 12px; padding: 12px 10px; min-width: 80px; }
-            .channelList { padding: 16px; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
-            /* Countries mobile */
-            .countriesGrid { grid-template-columns: repeat(2, 1fr); }
+            .channelList { padding: 16px; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .countriesGrid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .countryCard { padding: 12px 13px; gap: 9px; }
+            .ctryFlag { font-size: 20px; }
+            .ctryName { font-size: 13px; }
+            .ctrySub { font-size: 10.5px; }
             .countryChGrid { grid-template-columns: repeat(2, 1fr); }
-            .countryModalFt { flex-direction: column; }
+            .countryModalBox { max-height: 92vh; max-height: 92dvh; }
+            .countryModalHd { padding: 18px 18px 0; gap: 12px; }
+            .countryModalFlag { font-size: 38px; }
+            .countryModalTb h2 { font-size: 19px; }
+            .countryModalBd { padding: 14px 18px 22px; }
+            .countryModalFt { flex-direction: column; padding: 12px 18px max(16px, env(safe-area-inset-bottom, 0px)); }
             .countryModalFt a { min-width: unset; width: 100%; }
+            .intlGrid { grid-template-columns: 1fr; gap: 8px; }
+            .intlCard { padding: 12px 14px; gap: 12px; }
+            .intlFlag { font-size: 26px; }
+            .intlName { font-size: 13.5px; }
+            .intlDesc { font-size: 11.5px; }
+            .intlBenefits { padding: 22px 18px; border-radius: 14px; }
+            .intlBenefitsTitle { font-size: 1rem; margin-bottom: 16px; }
+            .intlBenefitsGrid { grid-template-columns: 1fr; gap: 14px; }
+            .intlBenefit h4 { font-size: 13px; }
+            .intlBenefit p { font-size: 12px; }
             .deviceGrid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
             .deviceCard { padding: 14px 8px; gap: 6px; }
             .deviceIcon { font-size: 24px; }
             .deviceName { font-size: 11px; }
             .reviewsGrid { grid-template-columns: 1fr; gap: 14px; }
-            .reviewCard { padding: 18px; }
+            .reviewCard { padding: 20px; }
             .stepsGrid { grid-template-columns: 1fr; gap: 14px; }
-            .faqSummary { padding: 15px; font-size: 14px; }
-            .footer { padding: 40px 16px; }
+            .stepCard { padding: 22px; }
+            .faqSummary { padding: 16px; font-size: 14px; }
+            .faqAnswer { padding: 0 16px 16px; font-size: 13.5px; }
+            .footer { padding: 44px 16px max(44px, env(safe-area-inset-bottom, 0px) + 24px); }
             .footerLinks { gap: 14px; }
             .liveBadge { display: none; }
-            .liveToast { bottom: max(16px, env(safe-area-inset-bottom, 0px)); left: 12px; right: 12px; width: auto; }
+            .liveToast { bottom: max(16px, env(safe-area-inset-bottom, 0px)); left: 12px; right: 12px; width: auto; max-width: calc(100% - 24px); }
             .miliFab { bottom: max(16px, env(safe-area-inset-bottom, 0px)); left: auto; right: 16px; border-radius: 999px; }
-            .miliTeaser { bottom: max(88px, env(safe-area-inset-bottom, 0px) + 72px); left: auto; right: 16px; width: min(300px, calc(100vw - 32px)); }
-            .miliBox { bottom: max(88px, env(safe-area-inset-bottom, 0px) + 72px); left: 12px; right: 12px; width: auto; max-height: 72vh; }
+            .miliTeaser { bottom: max(88px, env(safe-area-inset-bottom, 0px) + 72px); left: auto; right: 16px; width: min(300px, calc(100% - 32px)); max-width: calc(100% - 32px); }
+            .miliBox { bottom: max(88px, env(safe-area-inset-bottom, 0px) + 72px); left: 12px; right: 12px; width: auto; max-width: calc(100% - 24px); max-height: 72vh; max-height: 72dvh; }
             .fabText { display: none; }
             .fabContent { padding: 8px; gap: 0; }
-            .pwaBar { left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom, 0px)); width: auto; }
+            .pwaBar { left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom, 0px)); width: auto; max-width: calc(100% - 24px); transform: none; }
           }
           @media (hover: none) {
             .btnPrimary, .btnSecondary, .btnPlan, .trialCta,
             .tabBtn, .faqSummary, .quickReply, .hamburger,
             .countryCard { min-height: 48px; }
+            .card:hover, .trustCard:hover, .deviceCard:hover, .reviewCard:hover, .stepCard:hover, .countryCard:hover, .intlCard:hover { transform: none; box-shadow: none; border-color: rgba(255,255,255,0.06); background: var(--card); }
+            .card:active { transform: scale(0.985); transition: transform 0.12s ease; }
+            .trustCard:active, .deviceCard:active, .reviewCard:active, .stepCard:active, .intlCard:active { transform: scale(0.97); transition: transform 0.12s ease; }
+            .btnPrimary:active, .btnPlan:active, .trialCta:active { transform: scale(0.97); transition: transform 0.1s ease; }
+            .btnSecondary:active { background: rgba(255,255,255,0.12); transition: background 0.1s ease; }
+            .countryCard:active { transform: scale(0.96); border-color: rgba(201,168,76,0.5); }
+            .tabBtn:active { background: rgba(255,255,255,0.07); }
+            .faqSummary { transition: background 0.15s; }
+            .faqSummary:active { background: rgba(255,255,255,0.04); }
           }
           @media (prefers-reduced-motion: reduce) {
             .miliBox, .liveToast, .miliFab, .liveDot, .urgency, .installBtn,
-            .countryModalBox, .countryModalOverlay { animation: none; transition: none; }
+            .countryModalBox, .countryModalOverlay, .mobileMenu { animation: none; transition: none; }
             .typingIndicator span { animation: none; }
           }
+          @media (max-width: 359px) {
+            .main { padding: 0 12px; padding-bottom: max(140px, env(safe-area-inset-bottom, 0px) + 120px); }
+            .nav { padding: 11px 12px; gap: 8px; }
+            .brand svg { max-width: 132px; }
+            .topBarInner { padding: 0 12px; font-size: 10.5px; }
+            .pill { font-size: 9.5px; padding: 4px 10px; letter-spacing: 0.3px; }
+            .bigNumber { font-size: 2.9rem; }
+            .statValue { font-size: 1.45rem; }
+            .countriesGrid { gap: 6px; }
+            .countryCard { padding: 11px 10px; gap: 8px; }
+            .ctrySub { font-size: 10px; }
+          }
+          .heroLogo, .cinSvg, .saveBadge, .bestSellerBadge { will-change: transform; transform: translateZ(0); }
+          .card, .trustCard, .deviceCard, .reviewCard, .stepCard, .countryCard, .intlCard { contain: layout style; }
 
-          /* ── CINEMATIC INTRO ── */
+          /* CINEMATIC INTRO */
           .cinWrap { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; overflow: hidden; }
           .cinWrap.cinExit { animation: cinFadeOut 0.42s cubic-bezier(0.4,0,1,1) forwards; }
           @keyframes cinFadeOut { to { opacity: 0; transform: scale(1.04); } }
@@ -2306,28 +2826,28 @@ export default function Page() {
           .cinCrown2 { animation: cinCrownPop 0.32s cubic-bezier(0.34,1.56,0.64,1) 1.38s forwards; }
           .cinCrown3 { animation: cinCrownPop 0.32s cubic-bezier(0.34,1.4,0.64,1) 1.55s forwards; }
           @keyframes cinCrownPop { 0% { opacity: 0; transform: scale(0) translateY(4px) rotate(-6deg); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1) translateY(0) rotate(0); } }
-          .cinContent { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0; }
-          .cinTitleWrap { margin-bottom: 14px; }
-          .cinTitle { font-size: clamp(2.4rem, 8vw, 5rem); font-weight: 900; letter-spacing: 0.32em; color: #FECC02; text-shadow: 0 0 32px rgba(254,204,2,0.7), 0 0 64px rgba(254,204,2,0.28); margin: 0 0 8px; opacity: 0; animation: cinTitleIn 0.48s cubic-bezier(0.16,1,0.3,1) 1.72s forwards; }
-          @keyframes cinTitleIn { 0% { opacity: 0; letter-spacing: 0.6em; transform: scale(1.04); filter: blur(6px); } 65% { filter: blur(0); } 100% { opacity: 1; letter-spacing: 0.32em; transform: scale(1); filter: blur(0); } }
-          .cinTitleLine { height: 1px; background: linear-gradient(90deg, transparent, #FECC02, transparent); width: 0; margin: 0 auto; animation: cinLineExpand 0.38s ease 2.02s forwards; }
-          @keyframes cinLineExpand { to { width: 220px; } }
-          .cinTagline { font-size: 0.88rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.62); font-weight: 400; margin: 0 0 8px; opacity: 0; animation: cinFadeUp 0.35s ease 2.2s forwards; }
-          .cinSub { font-size: 11px; letter-spacing: 0.08em; color: rgba(254,204,2,0.5); margin: 0; opacity: 0; animation: cinFadeUp 0.3s ease 2.42s forwards; }
+          .cinContent { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0; max-width: 100%; padding: 0 20px; box-sizing: border-box; }
+          .cinTitleWrap { margin-bottom: 14px; max-width: 100%; }
+          .cinTitle { font-size: clamp(2rem, 8vw, 5rem); font-weight: 900; letter-spacing: 0.28em; color: #FECC02; text-shadow: 0 0 32px rgba(254,204,2,0.7), 0 0 64px rgba(254,204,2,0.28); margin: 0 0 8px; opacity: 0; max-width: 100%; white-space: nowrap; animation: cinTitleIn 0.48s cubic-bezier(0.16,1,0.3,1) 1.72s forwards; }
+          @keyframes cinTitleIn { 0% { opacity: 0; letter-spacing: 0.42em; transform: scale(1.04); filter: blur(6px); } 65% { filter: blur(0); } 100% { opacity: 1; letter-spacing: 0.28em; transform: scale(1); filter: blur(0); } }
+          .cinTitleLine { height: 1px; background: linear-gradient(90deg, transparent, #FECC02, transparent); width: 0; max-width: 100%; margin: 0 auto; animation: cinLineExpand 0.38s ease 2.02s forwards; }
+          @keyframes cinLineExpand { to { width: min(220px, 60vw); } }
+          .cinTagline { font-size: clamp(0.78rem, 3vw, 0.95rem); letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.62); font-weight: 400; margin: 0 0 8px; max-width: 100%; opacity: 0; animation: cinFadeUp 0.35s ease 2.2s forwards; }
+          .cinSub { font-size: clamp(10px, 2.6vw, 12px); letter-spacing: 0.06em; color: rgba(254,204,2,0.5); margin: 0; max-width: 100%; opacity: 0; animation: cinFadeUp 0.3s ease 2.42s forwards; }
           @keyframes cinFadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-          .cinSkip { position: absolute; bottom: 28px; right: 20px; background: rgba(0,0,0,0.35); border: 1px solid rgba(254,204,2,0.2); color: rgba(254,204,2,0.45); font-size: 12px; letter-spacing: 0.08em; padding: 8px 18px; border-radius: 20px; cursor: pointer; transition: border-color 0.18s, color 0.18s, background 0.18s; z-index: 10; min-height: 40px; opacity: 0; animation: cinFadeIn 0.3s ease 0.6s forwards; }
+          .cinSkip { position: absolute; bottom: max(28px, env(safe-area-inset-bottom, 0px) + 16px); right: 20px; background: rgba(0,0,0,0.35); border: 1px solid rgba(254,204,2,0.2); color: rgba(254,204,2,0.45); font-size: 12px; letter-spacing: 0.08em; padding: 8px 18px; border-radius: 20px; cursor: pointer; transition: border-color 0.18s, color 0.18s, background 0.18s; z-index: 10; min-height: 40px; opacity: 0; animation: cinFadeIn 0.3s ease 0.6s forwards; }
           .cinSkip:hover { border-color: #FECC02; color: #FECC02; background: rgba(254,204,2,0.06); }
           @media (prefers-reduced-motion: reduce) { .cinWrap { display: none !important; } }
 
-          /* ── PWA INSTALL BAR ── */
-          .pwaBar { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); width: min(460px, calc(100vw - 32px)); background: var(--card-hi); border: 1px solid var(--border-accent); border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; z-index: 1050; box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 1px rgba(139,23,40,0.4); animation: pwaSlideUp 0.4s cubic-bezier(0.16,1,0.3,1); }
+          /* PWA INSTALL BAR */
+(0,0,0,0.5), 0 0 1px rgba(196,0,29,0.4); animation: pwaSlideUp 0.4s cubic-bezier(0.16,1,0.3,1); }
           @keyframes pwaSlideUp { from { transform: translateX(-50%) translateY(20px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
           .pwaIcon { font-size: 24px; flex-shrink: 0; }
           .pwaText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
           .pwaText strong { font-size: 13px; font-weight: 700; color: var(--fg); }
           .pwaText span { font-size: 11px; color: var(--muted); }
-          .pwaAccept { background: linear-gradient(135deg, var(--accent-hi), var(--accent)); color: #fff; border: none; padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: 0.15s; }
-          .pwaAccept:hover { background: linear-gradient(135deg, var(--gold), var(--accent-hi)); }
+          .pwaAccept { background: var(--accent-hi); color: #fff; border: none; padding: 9px 18px; border-radius: var(--r-cta); font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background 0.18s ease; }
+          .pwaAccept:hover { background: #e60914; }
           .pwaDismiss { background: none; border: none; color: var(--muted); font-size: 14px; cursor: pointer; padding: 4px 6px; flex-shrink: 0; transition: color 0.15s; }
           .pwaDismiss:hover { color: var(--fg); }
           .pwaBarIOS { bottom: max(80px, env(safe-area-inset-bottom, 0px) + 70px); }
