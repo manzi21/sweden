@@ -111,7 +111,7 @@ const dict: Record<Locale, Copy> = {
       pill: "Skandinavisk excellens • 4K Global CDN • 20 000+ kanaler",
       titleA: "Allt du vill.",
       titleB: "Direkt.",
-      lead: "20 000+ kanaler, sport, filmer och serier — upplåst på några sekunder. Sluta vänta. Se allt.",
+      lead: "20 000+ kanaler i äkta 4K, live sport utan buffring, filmer och serier — upplåsta på några sekunder. Streaming utan gränser. Ingen bindning.",
       ctaPrices: "Omedelbar åtkomst",
       ctaAdvisor: "Prata med en rådgivare",
       trust: "★ 4,9/5 av 1 200+ tittare • Tillgängligt världen över • Inget avtal",
@@ -260,7 +260,7 @@ const dict: Record<Locale, Copy> = {
       pill: "Scandinavian excellence • 4K Global CDN • 20,000+ channels",
       titleA: "Everything you want.",
       titleB: "Instantly.",
-      lead: "20,000+ channels, sports, films and series — unlocked in seconds. Stop waiting. Watch it all.",
+      lead: "20,000+ channels in native 4K, live sports without buffering, films and series — unlocked in seconds. Borderless streaming. No commitment.",
       ctaPrices: "Instant access",
       ctaAdvisor: "Talk to an advisor",
       trust: "★ 4.9/5 from 1,200+ viewers • Available worldwide • No contract",
@@ -409,7 +409,7 @@ const dict: Record<Locale, Copy> = {
       pill: "Excellence scandinave • CDN 4K mondial • 20 000+ chaînes",
       titleA: "Tout ce que vous voulez.",
       titleB: "Instantanément.",
-      lead: "20 000+ chaînes, sports, films et séries — débloqués en quelques secondes. Arrêtez d'attendre. Regardez tout.",
+      lead: "20 000+ chaînes en 4K natif, sport live sans buffer, films et séries — débloqués en quelques secondes. Streaming sans frontières. Sans engagement.",
       ctaPrices: "Accès immédiat",
       ctaAdvisor: "Parler à un conseiller",
       trust: "★ 4,9/5 sur 1 200+ utilisateurs • Disponible dans le monde entier • Aucun contrat",
@@ -1952,6 +1952,28 @@ export default function Page() {
                 );
               })}
             </div>
+
+            {/* Payment trust badges */}
+            <div className="paymentBadges" aria-label="Accepted payment methods">
+              <div className="paymentLabel">
+                {lang === "sv" ? "Säkra betalningar" : lang === "fr" ? "Paiements sécurisés" : "Secure payments"}
+              </div>
+              <div className="paymentList">
+                <span className="payBadge"><img src="https://cdn.simpleicons.org/swish/FFFFFF" alt="" width={16} height={16} loading="lazy" />Swish</span>
+                <span className="payBadge">🏦 Bankgiro</span>
+                <span className="payBadge">🆔 BankID</span>
+                <span className="payBadge">📱 MobilePay</span>
+                <span className="payBadge payBadgeHi"><img src="https://cdn.simpleicons.org/klarna/FFB3C7" alt="" width={16} height={16} loading="lazy" />Klarna</span>
+                <span className="payBadge"><img src="https://cdn.simpleicons.org/paypal/3B7BBF" alt="" width={16} height={16} loading="lazy" />PayPal</span>
+                <span className="payBadge"><img src="https://cdn.simpleicons.org/applepay/FFFFFF" alt="" width={20} height={16} loading="lazy" />Apple Pay</span>
+                <span className="payBadge"><img src="https://cdn.simpleicons.org/googlepay/FFFFFF" alt="" width={20} height={16} loading="lazy" />Google Pay</span>
+                <span className="payBadge"><img src="https://cdn.simpleicons.org/visa/1A1F71" alt="" width={20} height={16} loading="lazy" />Visa</span>
+                <span className="payBadge"><img src="https://cdn.simpleicons.org/mastercard/EB001B" alt="" width={20} height={16} loading="lazy" />Mastercard</span>
+                <span className="payBadge"><img src="https://cdn.simpleicons.org/wise/9FE870" alt="" width={16} height={16} loading="lazy" />Wise</span>
+                <span className="payBadge"><img src="https://cdn.simpleicons.org/revolut/FFFFFF" alt="" width={16} height={16} loading="lazy" />Revolut</span>
+                <span className="payBadge"><img src="https://cdn.simpleicons.org/bitcoin/F7931A" alt="" width={16} height={16} loading="lazy" />Bitcoin</span>
+              </div>
+            </div>
           </section>
 
           {/* VOD STATS */}
@@ -2036,6 +2058,16 @@ export default function Page() {
           </div>
         )}
         {/* LiveActivityWidget removed — fake social proof, low credibility, visual noise */}
+        {/* Sticky mobile CTA — always visible bottom on mobile, biggest conversion lift */}
+        <a
+          className="stickyMobileCta"
+          href={generateWhatsAppLink(t.whatsapp.trial, ua, "Sticky-Mobile")}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Free 24h trial"
+        >
+          ★ {lang === "sv" ? "Testa 24h gratis" : lang === "fr" ? "Essai gratuit 24h" : "Try 24h free"} →
+        </a>
         <MoaChat userAgent={ua} />
 
         <style jsx global>{`
@@ -2138,7 +2170,7 @@ export default function Page() {
           .installBtn { background: rgba(255,255,255,0.1); border: 1px solid var(--accent); color: #fff; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 700; }
 
           /* HAMBURGER */
-          .hamburger { display: none; background: none; border: 1px solid var(--border); color: #fff; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 16px; flex-shrink: 0; }
+          .hamburger { display: none; background: none; border: 1px solid var(--border); color: #fff; min-width: 44px; min-height: 44px; padding: 10px 14px; border-radius: 6px; cursor: pointer; font-size: 16px; flex-shrink: 0; align-items: center; justify-content: center; }
           .mobileMenu {
             position: fixed;
             inset: 0;
@@ -2202,17 +2234,21 @@ export default function Page() {
           .btnSecondary:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.28); }
           /* Ghost link — discreet secondary path under the dominant CTA */
           .btnGhost {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             color: var(--muted-hi);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
-            padding: 10px 4px;
-            margin-top: 14px;
+            padding: 12px 16px;
+            min-height: 44px;
+            margin-top: 10px;
             transition: color 0.18s ease, transform 0.18s ease;
             letter-spacing: 0.005em;
           }
           .btnGhost:hover { color: #fff; transform: translateX(2px); }
+          .btnGhost:active { color: #fff; }
           .heroTrust { color: var(--muted); font-size: 13px; font-weight: 500; line-height: 1.6; }
 
           /* TRIAL BANNER — cleaner cinema look */
@@ -2590,8 +2626,9 @@ export default function Page() {
           /* FOOTER */
           .footer { padding: 56px 20px; text-align: center; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); margin-top: 72px; background: #000; }
           .footerLinks { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
-          .footerLinks a { color: #555; text-decoration: none; font-size: 12px; transition: color 0.2s; }
+          .footerLinks a { color: #555; text-decoration: none; font-size: 12px; transition: color 0.2s; padding: 12px 8px; min-height: 44px; display: inline-flex; align-items: center; }
           .footerLinks a:hover { color: var(--muted); }
+          .footerLinks a:active { color: var(--fg); }
 
           /* CHAT FAB */
           .miliFab {
@@ -2841,6 +2878,58 @@ export default function Page() {
           .cinSkip:hover { border-color: #FECC02; color: #FECC02; background: rgba(254,204,2,0.06); }
           @media (prefers-reduced-motion: reduce) { .cinWrap { display: none !important; } }
 
+          /* STICKY MOBILE CTA — always visible bottom, biggest mobile conversion driver */
+          .stickyMobileCta { display: none; }
+          @media (max-width: 768px) {
+            .stickyMobileCta {
+              position: fixed;
+              bottom: 0;
+              left: 0;
+              right: 0;
+              padding: 14px 16px;
+              padding-bottom: max(14px, env(safe-area-inset-bottom, 0px));
+              background: var(--accent-hi);
+              color: #fff;
+              text-align: center;
+              text-decoration: none;
+              font-weight: 800;
+              font-size: 15px;
+              z-index: 998;
+              box-shadow: 0 -8px 24px -4px rgba(0,0,0,0.5);
+              display: block;
+              letter-spacing: 0.01em;
+              transition: background 0.18s ease;
+            }
+            .stickyMobileCta:active { background: #e60914; }
+            .miliFab { bottom: max(72px, env(safe-area-inset-bottom, 0px) + 64px) !important; }
+            .miliTeaser { bottom: max(140px, env(safe-area-inset-bottom, 0px) + 130px) !important; }
+            .miliBox { bottom: max(140px, env(safe-area-inset-bottom, 0px) + 130px) !important; }
+            .pwaBar { bottom: max(72px, env(safe-area-inset-bottom, 0px) + 64px) !important; }
+            .main { padding-bottom: 180px !important; padding-bottom: max(180px, env(safe-area-inset-bottom, 0px) + 160px) !important; }
+            .footer { padding-bottom: 80px !important; }
+          }
+
+          /* PAYMENT BADGES — trust signals after pricing */
+          .paymentBadges { margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--border); text-align: center; }
+          .paymentLabel { font-size: 11px; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 14px; font-weight: 600; }
+          .paymentList { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+          .payBadge {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--r-cta);
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--muted-hi);
+            letter-spacing: 0.005em;
+            transition: border-color 0.2s ease, color 0.2s ease;
+          }
+          .payBadge:hover { border-color: var(--border-hi); color: #fff; }
+          .payBadge img { display: inline-block; margin-right: 6px; vertical-align: middle; opacity: 0.85; transition: opacity 0.18s ease; }
+          .payBadge:hover img { opacity: 1; }
+          .payBadgeHi { background: rgba(255,179,199,0.06); border-color: rgba(255,179,199,0.3); color: #ffb3c7; }
+          .payBadgeHi:hover { border-color: rgba(255,160,180,0.5); color: #ffc8d0; }
+
           /* PWA INSTALL BAR */
 (0,0,0,0.5), 0 0 1px rgba(196,0,29,0.4); animation: pwaSlideUp 0.4s cubic-bezier(0.16,1,0.3,1); }
           @keyframes pwaSlideUp { from { transform: translateX(-50%) translateY(20px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
@@ -2850,7 +2939,6 @@ export default function Page() {
           .pwaText span { font-size: 11px; color: var(--muted); }
           .pwaAccept { background: var(--accent-hi); color: #fff; border: none; padding: 9px 18px; border-radius: var(--r-cta); font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background 0.18s ease; }
           .pwaAccept:hover { background: #e60914; }
-          .pwaDismiss { background: none; border: none; color: var(--muted); font-size: 14px; cursor: pointer; padding: 4px 6px; flex-shrink: 0; transition: color 0.15s; }
           .pwaBarIOS { bottom: max(80px, env(safe-area-inset-bottom, 0px) + 70px); }
           .iosShareIcon { display: inline-block; background: rgba(254,204,2,0.15); border: 1px solid rgba(254,204,2,0.3); border-radius: 4px; padding: 1px 5px; font-size: 11px; color: #FECC02; margin: 0 1px; vertical-align: middle; }
         `}</style>
