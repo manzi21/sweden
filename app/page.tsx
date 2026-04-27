@@ -726,8 +726,7 @@ function MoaChat({ userAgent }: { userAgent: string }) {
   const [unread, setUnread] = useState(0);
   const [showQuick, setShowQuick] = useState(false);
   const msgsEndRef = useRef<HTMLDivElement | null>(null);
-  const avatarUrl = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjAgMTYwIj4KICA8ZGVmcz4KICAgIDxjbGlwUGF0aCBpZD0iYyI+PGNpcmNsZSBjeD0iODAiIGN5PSI4MCIgcj0iODAiLz48L2NsaXBQYXRoPgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJiZyIgY3g9IjUwJSIgY3k9IjEwMCUiIHI9IjkwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMxZTBjMTIiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMGEwNTA3Ii8+CiAgICA8L3JhZGlhbEdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==";
-
+const avatarUrl = "/support-agent.jpg";
   const pushBot = async (text: string, delay = 900) => {
     setIsTyping(true);
     await new Promise(r => setTimeout(r, delay));
