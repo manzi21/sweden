@@ -1495,6 +1495,23 @@ export default function Page() {
   const [showIntro, setShowIntro] = useState(false);
   const [showPWABar, setShowPWABar] = useState(false);
   const [showIOSBar, setShowIOSBar] = useState(false);
+  const [secondaryReady, setSecondaryReady] = useState(false);
+
+  // Defer non-critical mounts to idle-time → reduces TBT, improves Speed Index
+  useEffect(() => {
+    type IdleHandle = number;
+    const w = window as Window & { requestIdleCallback?: (cb: () => void) => IdleHandle; cancelIdleCallback?: (h: IdleHandle) => void };
+    let handle: IdleHandle | undefined;
+    if (typeof w.requestIdleCallback === "function") {
+      handle = w.requestIdleCallback(() => setSecondaryReady(true));
+    } else {
+      handle = window.setTimeout(() => setSecondaryReady(true), 1200) as unknown as IdleHandle;
+    }
+    return () => {
+      if (typeof w.cancelIdleCallback === "function" && handle !== undefined) w.cancelIdleCallback(handle);
+      else if (handle !== undefined) window.clearTimeout(handle as unknown as number);
+    };
+  }, []);
 
   useEffect(() => {
     const cover = document.getElementById("__next_cover");
@@ -1959,19 +1976,18 @@ export default function Page() {
                 {lang === "sv" ? "Säkra betalningar" : lang === "fr" ? "Paiements sécurisés" : "Secure payments"}
               </div>
               <div className="paymentList">
-                <span className="payBadge"><img src="https://cdn.simpleicons.org/swish/FFFFFF" alt="" width={16} height={16} loading="lazy" />Swish</span>
                 <span className="payBadge">🏦 Bankgiro</span>
                 <span className="payBadge">🆔 BankID</span>
                 <span className="payBadge">📱 MobilePay</span>
-                <span className="payBadge payBadgeHi"><img src="https://cdn.simpleicons.org/klarna/FFB3C7" alt="" width={16} height={16} loading="lazy" />Klarna</span>
-                <span className="payBadge"><img src="https://cdn.simpleicons.org/paypal/3B7BBF" alt="" width={16} height={16} loading="lazy" />PayPal</span>
-                <span className="payBadge"><img src="https://cdn.simpleicons.org/applepay/FFFFFF" alt="" width={20} height={16} loading="lazy" />Apple Pay</span>
-                <span className="payBadge"><img src="https://cdn.simpleicons.org/googlepay/FFFFFF" alt="" width={20} height={16} loading="lazy" />Google Pay</span>
-                <span className="payBadge"><img src="https://cdn.simpleicons.org/visa/1A1F71" alt="" width={20} height={16} loading="lazy" />Visa</span>
-                <span className="payBadge"><img src="https://cdn.simpleicons.org/mastercard/EB001B" alt="" width={20} height={16} loading="lazy" />Mastercard</span>
-                <span className="payBadge"><img src="https://cdn.simpleicons.org/wise/9FE870" alt="" width={16} height={16} loading="lazy" />Wise</span>
-                <span className="payBadge"><img src="https://cdn.simpleicons.org/revolut/FFFFFF" alt="" width={16} height={16} loading="lazy" />Revolut</span>
-                <span className="payBadge"><img src="https://cdn.simpleicons.org/bitcoin/F7931A" alt="" width={16} height={16} loading="lazy" />Bitcoin</span>
+                <span className="payBadge payBadgeHi"><img src="https://cdn.simpleicons.org/klarna/FFB3C7" alt="" width={16} height={16} loading="lazy" onError={(e) => (e.currentTarget.style.display = "none")} />Klarna</span>
+                <span className="payBadge"><img src="https://cdn.simpleicons.org/paypal/3B7BBF" alt="" width={16} height={16} loading="lazy" onError={(e) => (e.currentTarget.style.display = "none")} />PayPal</span>
+                <span className="payBadge"> Apple Pay</span>
+                <span className="payBadge"><img src="https://cdn.simpleicons.org/googlepay/FFFFFF" alt="" width={20} height={16} loading="lazy" onError={(e) => (e.currentTarget.style.display = "none")} />Google Pay</span>
+                <span className="payBadge">💳 Visa</span>
+                <span className="payBadge"><img src="https://cdn.simpleicons.org/mastercard/EB001B" alt="" width={20} height={16} loading="lazy" onError={(e) => (e.currentTarget.style.display = "none")} />Mastercard</span>
+                <span className="payBadge"><img src="https://cdn.simpleicons.org/wise/9FE870" alt="" width={16} height={16} loading="lazy" onError={(e) => (e.currentTarget.style.display = "none")} />Wise</span>
+                <span className="payBadge"><img src="https://cdn.simpleicons.org/revolut/FFFFFF" alt="" width={16} height={16} loading="lazy" onError={(e) => (e.currentTarget.style.display = "none")} />Revolut</span>
+                <span className="payBadge">₿ Bitcoin</span>
               </div>
             </div>
           </section>
@@ -2057,7 +2073,6 @@ export default function Page() {
             <button className="pwaDismiss" onClick={handleIOSDismiss} aria-label="Stäng">✕</button>
           </div>
         )}
-        {/* LiveActivityWidget removed — fake social proof, low credibility, visual noise */}
         {/* Sticky mobile CTA — always visible bottom on mobile, biggest conversion lift */}
         <a
           className="stickyMobileCta"
@@ -2068,7 +2083,7 @@ export default function Page() {
         >
           ★ {lang === "sv" ? "Testa 24h gratis" : lang === "fr" ? "Essai gratuit 24h" : "Try 24h free"} →
         </a>
-        <MoaChat userAgent={ua} />
+        {secondaryReady && <MoaChat userAgent={ua} />}
 
         <style jsx global>{`
           :root {
@@ -2913,25 +2928,14 @@ export default function Page() {
           .paymentBadges { margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--border); text-align: center; }
           .paymentLabel { font-size: 11px; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 14px; font-weight: 600; }
           .paymentList { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-          .payBadge {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: var(--r-cta);
-            padding: 8px 14px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--muted-hi);
-            letter-spacing: 0.005em;
-            transition: border-color 0.2s ease, color 0.2s ease;
-          }
+          .payBadge { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-cta); padding: 8px 14px; font-size: 13px; font-weight: 600; color: var(--muted-hi); letter-spacing: 0.005em; transition: border-color 0.2s ease, color 0.2s ease; display: inline-flex; align-items: center; gap: 6px; }
           .payBadge:hover { border-color: var(--border-hi); color: #fff; }
-          .payBadge img { display: inline-block; margin-right: 6px; vertical-align: middle; opacity: 0.85; transition: opacity 0.18s ease; }
+          .payBadge img { display: inline-block; vertical-align: middle; opacity: 0.85; transition: opacity 0.18s ease; }
           .payBadge:hover img { opacity: 1; }
           .payBadgeHi { background: rgba(255,179,199,0.06); border-color: rgba(255,179,199,0.3); color: #ffb3c7; }
-          .payBadgeHi:hover { border-color: rgba(255,160,180,0.5); color: #ffc8d0; }
 
           /* PWA INSTALL BAR */
-(0,0,0,0.5), 0 0 1px rgba(196,0,29,0.4); animation: pwaSlideUp 0.4s cubic-bezier(0.16,1,0.3,1); }
+          .pwaBar { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); width: min(460px, calc(100% - 32px)); background: var(--card-hi); border: 1px solid var(--border-accent); border-radius: var(--r-card); padding: 12px 14px; display: flex; align-items: center; gap: 12px; z-index: 1050; box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 1px rgba(196,0,29,0.4); animation: pwaSlideUp 0.4s cubic-bezier(0.16,1,0.3,1); }
           @keyframes pwaSlideUp { from { transform: translateX(-50%) translateY(20px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
           .pwaIcon { font-size: 24px; flex-shrink: 0; }
           .pwaText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
@@ -2939,6 +2943,8 @@ export default function Page() {
           .pwaText span { font-size: 11px; color: var(--muted); }
           .pwaAccept { background: var(--accent-hi); color: #fff; border: none; padding: 9px 18px; border-radius: var(--r-cta); font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background 0.18s ease; }
           .pwaAccept:hover { background: #e60914; }
+          .pwaDismiss { background: none; border: none; color: var(--muted); font-size: 14px; cursor: pointer; padding: 4px 6px; flex-shrink: 0; transition: color 0.15s; }
+          .pwaDismiss:hover { color: var(--fg); }
           .pwaBarIOS { bottom: max(80px, env(safe-area-inset-bottom, 0px) + 70px); }
           .iosShareIcon { display: inline-block; background: rgba(254,204,2,0.15); border: 1px solid rgba(254,204,2,0.3); border-radius: 4px; padding: 1px 5px; font-size: 11px; color: #FECC02; margin: 0 1px; vertical-align: middle; }
         `}</style>
