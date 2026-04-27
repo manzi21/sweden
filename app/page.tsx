@@ -2400,6 +2400,8 @@ export default function Page() {
             border: 1px solid rgba(255,255,255,0.12);
             border-radius: 20px 20px 0 0;
             width: 100%;
+            min-width: 0;
+            align-self: stretch;
             max-width: 680px;
             max-height: 90vh;
             display: flex;
@@ -2418,9 +2420,10 @@ export default function Page() {
             flex-shrink: 0;
           }
           .countryModalFlag { font-size: 44px; line-height: 1; flex-shrink: 0; }
-          .countryModalTb { flex: 1; }
-          .countryModalTb h2 { font-size: 22px; font-weight: 800; color: #fff; margin: 0 0 4px; }
-          .countryModalTb p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; }
+          .countryModalTb { flex: 1; min-width: 0; }
+          .countryModalTb h2 { font-size: 22px; font-weight: 800; color: #fff; margin: 0 0 4px; overflow-wrap: break-word; word-break: normal; hyphens: none; }
+          .countryModalTb p { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; overflow-wrap: break-word; word-break: normal; }
+          .countryModalBd, .countryModalSec, .countryChChip, .countryChName, .countryKwPill { min-width: 0; overflow-wrap: break-word; word-break: normal; }
           .countryModalClose {
             background: rgba(255,255,255,0.08);
             border: none;
@@ -2849,7 +2852,6 @@ export default function Page() {
           .pwaAccept { background: var(--accent-hi); color: #fff; border: none; padding: 9px 18px; border-radius: var(--r-cta); font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background 0.18s ease; }
           .pwaAccept:hover { background: #e60914; }
           .pwaDismiss { background: none; border: none; color: var(--muted); font-size: 14px; cursor: pointer; padding: 4px 6px; flex-shrink: 0; transition: color 0.15s; }
-          .pwaDismiss:hover { color: var(--fg); }
           .pwaBarIOS { bottom: max(80px, env(safe-area-inset-bottom, 0px) + 70px); }
           .iosShareIcon { display: inline-block; background: rgba(254,204,2,0.15); border: 1px solid rgba(254,204,2,0.3); border-radius: 4px; padding: 1px 5px; font-size: 11px; color: #FECC02; margin: 0 1px; vertical-align: middle; }
         `}</style>

@@ -156,7 +156,9 @@ code {
   border-radius: 4px;
 }
 
-/* Anti-débordement long mots / URLs */
+/* Anti-débordement long mots / URLs — break-word seulement
+   (anywhere casse au caractère sur iOS Safari quand un parent flex
+    a un min-width: 0, car min-content devient 1ch) */
 p,
 h1,
 h2,
@@ -167,8 +169,9 @@ h6,
 li,
 a,
 span {
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   word-break: normal;
+  hyphens: none;
 }
 
 /* Titres : équilibre des sauts de ligne (modern) */
