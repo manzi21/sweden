@@ -2055,10 +2055,16 @@ export default function Page() {
           <p>© {new Date().getFullYear()} {SITE.brand}. {t.footer.rights}</p>
           <p style={{ marginTop: 6 }}>{t.footer.note}</p>
           <div className="footerLinks">
-            <a href="#faq">{t.footer.legal}</a>
-            <a href="#faq">{t.footer.privacy}</a>
-            <a href="#faq">{t.footer.terms}</a>
-            <a href="#faq">{t.footer.refund}</a>
+            <a href="/om-oss">{lang === "sv" ? "Om oss" : lang === "fr" ? "À propos" : "About"}</a>
+            <a href="/anvandarvillkor">{t.footer.terms}</a>
+            <a href="/integritetspolicy">{t.footer.privacy}</a>
+            <a href="/angerratt-och-aterbetalning">{t.footer.refund}</a>
+            <a href="/recensioner">{lang === "sv" ? "Recensioner" : lang === "fr" ? "Avis" : "Reviews"}</a>
+            <a href="/bloggar">{lang === "sv" ? "Blogg" : lang === "fr" ? "Blog" : "Blog"}</a>
+          </div>
+          <div className="footerLegal">
+            <strong>Sverige TV</strong> · Org.nr: <em>[fylls i]</em> ·
+            Postadress: <em>[fylls i]</em> · WhatsApp: +44 7307 410 512
           </div>
           {/* SEO internal links — keyword-rich anchors to landing pages */}
           <nav className="footerSeo" aria-label="Guider">
@@ -2367,6 +2373,11 @@ export default function Page() {
           .trustIcon { font-size: 28px; display: block; margin-bottom: 10px; }
           .trustCard h4 { margin: 0 0 6px; font-size: 13px; font-weight: 700; }
           .trustCard p { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+          /* Footer legal block — required for E-E-A-T and merchant trust */
+          .footerLegal { margin-top: 14px; padding: 12px 16px; color: var(--muted); font-size: 12px; line-height: 1.6; max-width: 720px; margin-left: auto; margin-right: auto; text-align: center; border-radius: 6px; }
+          .footerLegal strong { color: var(--muted-hi); }
+          .footerLegal em { color: #6a6a6a; font-style: normal; }
 
           /* SEO footer internal links */
           .footerSeo { display: flex; flex-direction: column; gap: 8px; max-width: 720px; margin: 22px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.06); text-align: center; }

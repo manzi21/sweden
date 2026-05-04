@@ -48,6 +48,116 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   productionBrowserSourceMaps: false,
+
+  /**
+   * 301 redirects — recover authority from the legacy WordPress URLs that
+   * Google still has in its index. Without these, every Google referral
+   * to the old WP slugs returns 404 and bleeds ranking signal.
+   *
+   * Strategy: map each old slug to the closest matching new page
+   * (landing page > section anchor > home).
+   */
+  async redirects() {
+    return [
+      // Old IPTV pricing/subscription pages → new offers section / pricing pages
+      {
+        source: "/iptv-abonnemang/1-manad",
+        destination: "/iptv-utan-bindning",
+        permanent: true,
+      },
+      {
+        source: "/iptv-abonnemang/3-manader",
+        destination: "/iptv-utan-bindning",
+        permanent: true,
+      },
+      {
+        source: "/iptv-abonnemang/6-manader",
+        destination: "/iptv-utan-bindning",
+        permanent: true,
+      },
+      {
+        source: "/iptv-abonnemang/12-manader",
+        destination: "/iptv-utan-bindning",
+        permanent: true,
+      },
+      {
+        source: "/iptv-abonnemang/:slug*",
+        destination: "/iptv-utan-bindning",
+        permanent: true,
+      },
+      {
+        source: "/iptv-abonnemang",
+        destination: "/iptv-utan-bindning",
+        permanent: true,
+      },
+
+      // Old blog posts → topic-matched landing pages (preserve intent)
+      {
+        source: "/bloggar-iptv/vad-ar-iptv",
+        destination: "/bloggar/vad-ar-iptv",
+        permanent: true,
+      },
+      {
+        source: "/bloggar/topp-10-iptv-kanaler-sport-sverige",
+        destination: "/iptv-sport-sverige",
+        permanent: true,
+      },
+      {
+        source: "/bloggar/basta-iptv-leverantorer-2024",
+        destination: "/bloggar/basta-iptv-2026",
+        permanent: true,
+      },
+      {
+        source: "/bloggar-iptv/iptv-i-sverige-en-ny-vaerld-av-underhallning-foer-hela-familjen",
+        destination: "/bloggar/vad-ar-iptv",
+        permanent: true,
+      },
+      {
+        source: "/bloggar-iptv/iptv-i-sverige-erfarenhet-2025",
+        destination: "/bloggar/iptv-vs-viaplay",
+        permanent: true,
+      },
+      // Generic blog catch-all (anything we haven't mapped explicitly)
+      {
+        source: "/bloggar-iptv/:slug*",
+        destination: "/bloggar",
+        permanent: true,
+      },
+
+      // Static legal/about pages — both old WP URLs already match the new
+      // pages by slug, so these are safety nets in case Google ever indexed
+      // a www.* variant or a trailing-slash variant.
+      {
+        source: "/om-oss/",
+        destination: "/om-oss",
+        permanent: true,
+      },
+      {
+        source: "/terms",
+        destination: "/anvandarvillkor",
+        permanent: true,
+      },
+      {
+        source: "/terms/",
+        destination: "/anvandarvillkor",
+        permanent: true,
+      },
+      {
+        source: "/recensioner/",
+        destination: "/recensioner",
+        permanent: true,
+      },
+
+      // Force apex domain (drop www.* if anyone hits it).
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.premiumiptv.se" }],
+        destination: "https://premiumiptv.se/:path*",
+        permanent: true,
+      },
+    ];
+  },
+
   async headers() {
     return [
       {
