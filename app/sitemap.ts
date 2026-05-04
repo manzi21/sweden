@@ -2,10 +2,18 @@ import type { MetadataRoute } from "next";
 
 const SITE_URL = "https://premiumiptv.se";
 
+/**
+ * Sitemap — only include real, indexable URLs.
+ *
+ * NOTE: We removed previous "/#offers", "/#faq" entries because Google
+ * does NOT treat fragment URLs as separate documents. Anchor entries
+ * dilute the sitemap and can confuse crawlers — they belong in HTML
+ * navigation, not the sitemap.
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
-  // Pages principales avec alternates hreflang
+  // Core marketing pages (one canonical URL per page).
   const main: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
@@ -21,44 +29,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
       },
     },
-    {
-      url: `${SITE_URL}/?lang=sv`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 1.0,
-    },
-    {
-      url: `${SITE_URL}/?lang=en`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
-    {
-      url: `${SITE_URL}/?lang=fr`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.85,
-    },
   ];
 
-  // Sections-clés (anchors) — utiles pour Google et LLM crawlers
-  const sections = [
-    "offers",
-    "channels",
-    "countries",
-    "international",
-    "devices",
-    "cities",
-    "faq",
-    "setup",
+  // Keyword-targeted landing pages (Phase 12).
+  const landingSlugs = [
+    "iptv-sport-sverige",
+    "iptv-smart-tv-sverige",
+    "iptv-utan-bindning",
+    "iptv-firestick-sverige",
   ];
-
-  const sectionEntries: MetadataRoute.Sitemap = sections.map((section) => ({
-    url: `${SITE_URL}/#${section}`,
+  const landingPages: MetadataRoute.Sitemap = landingSlugs.map((slug) => ({
+    url: `${SITE_URL}/${slug}`,
     lastModified,
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
+    changeFrequency: "weekly",
+    priority: 0.85,
   }));
 
-  return [...main, ...sectionEntries];
+  return [...main, ...landingPages];
 }

@@ -109,9 +109,9 @@ const dict: Record<Locale, Copy> = {
     nav: { offers: "Paket", channels: "Kanaler", faq: "FAQ", setup: "Installation", whatsapp: "WhatsApp", install: "Installera App", cities: "Städer", devices: "Enheter" },
     hero: {
       pill: "Skandinavisk excellens • 4K Global CDN • 20 000+ kanaler",
-      titleA: "Allt du vill.",
-      titleB: "Direkt.",
-      lead: "20 000+ kanaler i äkta 4K, live sport utan buffring, filmer och serier — upplåsta på några sekunder. Streaming utan gränser. Ingen bindning.",
+      titleA: "IPTV i Sverige",
+      titleB: "20 000+ kanaler i 4K",
+      lead: "Bästa IPTV i Sverige 2026. SVT, TV4, Allsvenskan, SHL & 20 000+ kanaler i äkta 4K. Live sport utan buffring. Från 83 kr/mån — gratis test 24h, ingen bindning, aktivering på 10 min via WhatsApp.",
       ctaPrices: "Omedelbar åtkomst",
       ctaAdvisor: "Prata med en rådgivare",
       trust: "★ 4,9/5 av 1 200+ tittare • Tillgängligt världen över • Inget avtal",
@@ -125,7 +125,7 @@ const dict: Record<Locale, Copy> = {
     },
     offers: {
       title: "Välj ditt paket",
-      sub: "Alla paket inkluderar 20 000+ kanaler, VOD, EPG och WhatsApp-support. Beställ direkt via WhatsApp.",
+      sub: "Alla paket inkluderar 20 000+ kanaler, VOD, EPG och WhatsApp-support. Beställ direkt via WhatsApp. Se även IPTV utan bindning för månadsvis.",
       order: "Beställ via WhatsApp",
       billedOnce: "Debiteras",
       perMonth: "/mån",
@@ -205,6 +205,12 @@ const dict: Record<Locale, Copy> = {
         { q: "Vad händer om tjänsten slutar fungera?", a: "Kontakta oss direkt på WhatsApp. Vi löser tekniska problem vanligtvis inom 1–2 timmar. Ingen kund lämnas utan hjälp." },
         { q: "Kan jag se Allsvenskan och svensk sport?", a: "Ja! Svenska sportkanaler ingår — du kan följa Allsvenskan, SHL, VM, EM och all annan svensk och internationell sport." },
         { q: "Kan jag avbryta abonnemanget?", a: "Det finns ingen bindningstid. Du betalar en gång och tjänsten löper ut automatiskt efter vald period." },
+        { q: "Är IPTV lagligt i Sverige?", a: "Ja, att titta på IPTV är lagligt för slutkonsumenter i Sverige. Sverige TV är en streamingtjänst med betald distribution. Vi rekommenderar VPN för extra integritet, särskilt på publika nät." },
+        { q: "Vilken är bästa IPTV i Sverige 2026?", a: "Sverige TV erbjuder 20 000+ kanaler, 4K-kvalitet, gratis 24h-test, inget kontrakt och WhatsApp-support på svenska — från 50 kr/månad i årspaketet. Jämfört med Viaplay, C More och Netflix får du fler kanaler, lägre pris och ingen bindning." },
+        { q: "Hur installerar jag IPTV på Firestick?", a: "Aktivera \"Apps from Unknown Sources\" i Firestick-inställningar, installera Downloader från Amazon Appstore, ladda ned IPTV Smarters Pro eller TiviMate, och logga in med Xtream Codes API. Total tid: 5 minuter. Vi har en komplett guide på /iptv-firestick-sverige." },
+        { q: "Hur installerar jag IPTV på Smart TV (Samsung/LG)?", a: "På Samsung Tizen och LG WebOS installerar du Smart IPTV eller IPTV Smarters Pro direkt från TV:ns appbutik. Skicka oss MAC-adressen via WhatsApp så aktiverar vi din spellista inom 5 minuter. Komplett guide: /iptv-smart-tv-sverige." },
+        { q: "Vilken IPTV är bäst för sport — Allsvenskan, SHL och Premier League?", a: "Sverige TV inkluderar Allsvenskan, SHL, Premier League, Champions League, F1, NHL, NBA och 600+ andra sportkanaler i 4K. Du sparar över 15 000 kr/år jämfört med Viaplay + C More + DAZN. Detaljer: /iptv-sport-sverige." },
+        { q: "Finns IPTV utan bindning i Sverige?", a: "Ja. Sverige TV är 100 % utan bindning — inget kontrakt, ingen automatisk förnyelse, inget kreditkort sparas. Du betalar för 1, 3, 6 eller 12 månader och perioden löper ut automatiskt. Mer info: /iptv-utan-bindning." },
       ],
     },
     cities: {
@@ -258,9 +264,9 @@ const dict: Record<Locale, Copy> = {
     nav: { offers: "Plans", channels: "Channels", faq: "FAQ", setup: "Setup", whatsapp: "WhatsApp", install: "Install App", cities: "Cities", devices: "Devices" },
     hero: {
       pill: "Scandinavian excellence • 4K Global CDN • 20,000+ channels",
-      titleA: "Everything you want.",
-      titleB: "Instantly.",
-      lead: "20,000+ channels in native 4K, live sports without buffering, films and series — unlocked in seconds. Borderless streaming. No commitment.",
+      titleA: "Swedish IPTV",
+      titleB: "20,000+ channels in 4K",
+      lead: "Best Swedish IPTV in 2026. SVT, TV4, Allsvenskan, Premier League & 20,000+ channels in native 4K. From 50 kr/month — free 24h trial, no contract, activated in 10 min via WhatsApp.",
       ctaPrices: "Instant access",
       ctaAdvisor: "Talk to an advisor",
       trust: "★ 4.9/5 from 1,200+ viewers • Available worldwide • No contract",
@@ -354,6 +360,11 @@ const dict: Record<Locale, Copy> = {
         { q: "What if the service stops working?", a: "Contact us directly on WhatsApp. We resolve technical issues usually within 1–2 hours. No customer is left without help." },
         { q: "Can I watch Swedish football (Allsvenskan)?", a: "Yes! Swedish sports channels are included — you can follow Allsvenskan, SHL, and all other Swedish and international sports." },
         { q: "Can I cancel my subscription?", a: "There's no contract. You pay once and the service expires automatically after the chosen period." },
+        { q: "Is IPTV legal in Sweden?", a: "Yes, watching IPTV is legal for end-users in Sweden. Sverige TV is a streaming service with paid distribution. We recommend a VPN for extra privacy, especially on public networks." },
+        { q: "What is the best IPTV in Sweden in 2026?", a: "Sverige TV offers 20,000+ channels, 4K quality, a free 24h trial, no contract and Swedish-language WhatsApp support — from 50 kr/month on the annual plan. You get more channels, lower price and no commitment compared to Viaplay, C More or Netflix." },
+        { q: "How do I install IPTV on Firestick?", a: "Enable \"Apps from Unknown Sources\" in Firestick settings, install Downloader from the Amazon Appstore, download IPTV Smarters Pro or TiviMate, and log in using Xtream Codes API. Total time: 5 minutes. Full guide: /iptv-firestick-sverige." },
+        { q: "Which IPTV is best for sport (Allsvenskan, SHL, Premier League)?", a: "Sverige TV includes Allsvenskan, SHL, Premier League, Champions League, F1, NHL, NBA and 600+ other sports channels in 4K — saving over 15,000 kr/year compared to Viaplay + C More + DAZN. Details: /iptv-sport-sverige." },
+        { q: "Is there IPTV without commitment in Sweden?", a: "Yes. Sverige TV has zero commitment — no contract, no auto-renewal, no card stored. You pay for 1, 3, 6 or 12 months and the period expires on its own. More: /iptv-utan-bindning." },
       ],
     },
     cities: {
@@ -407,9 +418,9 @@ const dict: Record<Locale, Copy> = {
     nav: { offers: "Offres", channels: "Chaînes", faq: "FAQ", setup: "Installation", whatsapp: "WhatsApp", install: "Installer l'App", cities: "Villes", devices: "Appareils" },
     hero: {
       pill: "Excellence scandinave • CDN 4K mondial • 20 000+ chaînes",
-      titleA: "Tout ce que vous voulez.",
-      titleB: "Instantanément.",
-      lead: "20 000+ chaînes en 4K natif, sport live sans buffer, films et séries — débloqués en quelques secondes. Streaming sans frontières. Sans engagement.",
+      titleA: "IPTV Suède",
+      titleB: "20 000+ chaînes en 4K",
+      lead: "Meilleure IPTV en Suède 2026. SVT, TV4, Allsvenskan & 20 000+ chaînes en 4K natif. Sport live sans buffer. Dès 50 kr/mois — essai gratuit 24h, sans engagement, activation en 10 min via WhatsApp.",
       ctaPrices: "Accès immédiat",
       ctaAdvisor: "Parler à un conseiller",
       trust: "★ 4,9/5 sur 1 200+ utilisateurs • Disponible dans le monde entier • Aucun contrat",
@@ -503,6 +514,11 @@ const dict: Record<Locale, Copy> = {
         { q: "Que se passe-t-il si le service ne fonctionne pas ?", a: "Contactez-nous directement sur WhatsApp. Nous résolvons les problèmes techniques généralement en 1 à 2 heures." },
         { q: "Puis-je regarder le football suédois (Allsvenskan) ?", a: "Oui ! Les chaînes sport suédoises sont incluses — Allsvenskan, SHL, Coupe du monde et toutes les compétitions internationales." },
         { q: "Puis-je annuler mon abonnement ?", a: "Il n'y a aucun engagement. Vous payez une fois et le service expire automatiquement après la période choisie." },
+        { q: "L'IPTV est-elle légale en Suède ?", a: "Oui, regarder l'IPTV est légal pour les utilisateurs finaux en Suède. Sverige TV est un service de streaming avec distribution payée. Nous recommandons un VPN pour plus de confidentialité, surtout sur les réseaux publics." },
+        { q: "Quelle est la meilleure IPTV en Suède en 2026 ?", a: "Sverige TV offre 20 000+ chaînes, qualité 4K, essai gratuit 24h, sans contrat et support WhatsApp en suédois — dès 50 kr/mois en abonnement annuel. Plus de chaînes, prix plus bas, et sans engagement vs Viaplay, C More ou Netflix." },
+        { q: "Comment installer l'IPTV sur Firestick ?", a: "Activez « Apps from Unknown Sources » dans les paramètres Firestick, installez Downloader depuis l'Amazon Appstore, téléchargez IPTV Smarters Pro ou TiviMate, et connectez-vous avec Xtream Codes API. Durée totale : 5 minutes. Guide : /iptv-firestick-sverige." },
+        { q: "Quelle IPTV pour le sport (Allsvenskan, Premier League) ?", a: "Sverige TV inclut Allsvenskan, SHL, Premier League, Champions League, F1, NHL, NBA et 600+ autres chaînes sport en 4K — économisez 15 000+ kr/an vs Viaplay + C More + DAZN. Détails : /iptv-sport-sverige." },
+        { q: "Existe-t-il une IPTV sans engagement en Suède ?", a: "Oui. Sverige TV est sans engagement — pas de contrat, pas de renouvellement auto, pas de carte enregistrée. Vous payez pour 1, 3, 6 ou 12 mois et la période expire automatiquement. Plus : /iptv-utan-bindning." },
       ],
     },
     cities: {
@@ -2044,6 +2060,14 @@ export default function Page() {
             <a href="#faq">{t.footer.terms}</a>
             <a href="#faq">{t.footer.refund}</a>
           </div>
+          {/* SEO internal links — keyword-rich anchors to landing pages */}
+          <nav className="footerSeo" aria-label="Guider">
+            <span className="footerSeoTitle">Guider & paket</span>
+            <a href="/iptv-sport-sverige">IPTV Sport Sverige — Allsvenskan, SHL & Premier League</a>
+            <a href="/iptv-smart-tv-sverige">IPTV Smart TV — Samsung, LG & Sony installation</a>
+            <a href="/iptv-firestick-sverige">IPTV Firestick — installation på 5 min</a>
+            <a href="/iptv-utan-bindning">IPTV utan bindning — månadsvis från 83 kr</a>
+          </nav>
         </footer>
 
         {showPWABar && (
@@ -2343,6 +2367,12 @@ export default function Page() {
           .trustIcon { font-size: 28px; display: block; margin-bottom: 10px; }
           .trustCard h4 { margin: 0 0 6px; font-size: 13px; font-weight: 700; }
           .trustCard p { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+          /* SEO footer internal links */
+          .footerSeo { display: flex; flex-direction: column; gap: 8px; max-width: 720px; margin: 22px auto 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.06); text-align: center; }
+          .footerSeoTitle { color: var(--gold-hi); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 4px; }
+          .footerSeo a { color: var(--muted-hi); text-decoration: none; font-size: 13px; font-weight: 500; padding: 4px 0; transition: color 0.18s ease; }
+          .footerSeo a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
 
           /* OFFERS */
           .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
