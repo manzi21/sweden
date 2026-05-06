@@ -1,3 +1,7 @@
+// app/sitemap.ts
+// Dynamic sitemap — Google reads this to discover & re-crawl pages.
+// Includes all language variants + all key sections as anchor URLs.
+
 import type { MetadataRoute } from "next";
 
 const SITE_URL = "https://premiumiptv.se";
@@ -5,7 +9,7 @@ const SITE_URL = "https://premiumiptv.se";
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
-  // Pages principales avec alternates hreflang
+  // Main pages with hreflang alternates (Google sees the multilingual structure)
   const main: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
@@ -41,7 +45,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // Sections-clés (anchors) — utiles pour Google et LLM crawlers
+  // Key sections (anchors) — useful for both Google and LLM crawlers
   const sections = [
     "offers",
     "channels",
@@ -52,7 +56,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "faq",
     "setup",
   ];
-
   const sectionEntries: MetadataRoute.Sitemap = sections.map((section) => ({
     url: `${SITE_URL}/#${section}`,
     lastModified,

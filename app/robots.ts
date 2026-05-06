@@ -1,3 +1,7 @@
+// app/robots.ts
+// Dynamic robots.txt — explicit allow for search engines, block AI scrapers
+// to prevent training-data theft.
+
 import type { MetadataRoute } from "next";
 
 const SITE_URL = "https://premiumiptv.se";
@@ -13,7 +17,7 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "DuckDuckBot", allow: "/" },
       { userAgent: "Slurp", allow: "/" },
       { userAgent: "Applebot", allow: "/" },
-
+      { userAgent: "YandexBot", allow: "/" },
       // 2) AI training & scraping crawlers — blocked
       { userAgent: "GPTBot", disallow: "/" },
       { userAgent: "ChatGPT-User", disallow: "/" },
@@ -34,7 +38,6 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "cohere-ai", disallow: "/" },
       { userAgent: "Diffbot", disallow: "/" },
       { userAgent: "ImagesiftBot", disallow: "/" },
-
       // 3) SEO competitor scrapers — blocked
       { userAgent: "AhrefsBot", disallow: "/" },
       { userAgent: "SemrushBot", disallow: "/" },
@@ -42,7 +45,6 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "DotBot", disallow: "/" },
       { userAgent: "PetalBot", disallow: "/" },
       { userAgent: "BLEXBot", disallow: "/" },
-
       // 4) Default — allow with crawl-delay (soft rate limit hint)
       { userAgent: "*", allow: "/", disallow: ["/api/", "/_next/"], crawlDelay: 5 },
     ],
