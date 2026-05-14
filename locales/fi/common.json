@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "locale": "fi",
+    "country": "FI",
+    "currency": "EUR",
+    "currencySymbol": "€",
+    "htmlLang": "fi-FI"
+  },
+  "nav": {
+    "home": "Etusivu",
+    "pricing": "Hinnat",
+    "channels": "Kanavat",
+    "sports": "Urheilu",
+    "devices": "Laitteet",
+    "faq": "Usein kysytyt kysymykset",
+    "support": "Tuki",
+    "blog": "Blogi",
+    "freeTrial": "Ilmainen 24h-kokeilu",
+    "buyNow": "Tilaa nyt"
+  },
+  "country": {
+    "label": "Suomi",
+    "switcherTitle": "Valitse maa / kieli",
+    "switcherAria": "Vaihda maa ja kieli"
+  },
+  "geoBanner": {
+    "suggest": "Vaikutat olevan maasta {country} — haluatko siirtyä {locale}-versioon?",
+    "accept": "Kyllä, vie minut sinne",
+    "dismiss": "Ei kiitos, jään tänne",
+    "ariaLabel": "Ehdotus maaversion vaihtamiseen"
+  },
+  "hero": {
+    "kicker": "Suomen paras IPTV-palveluntarjoaja",
+    "title": "Paras IPTV Suomi 2026 — Liiga, NHL ja YLE 4K-laadulla",
+    "subtitle": "12 000+ kanavaa. Vakaa yhteys, ei pätkimistä, ei sitovaa sopimusta.",
+    "ctaPrimary": "Aloita ilmainen 24h-kokeilu",
+    "ctaSecondary": "Katso hinnat"
+  },
+  "trust": {
+    "rating": "4,9 / 5 Trustpilotissa",
+    "customers": "20 000+ tyytyväistä asiakasta Pohjoismaissa",
+    "antiFreeze": "Anti-Freeze™ -teknologia",
+    "support247": "Suomeksi tuki 24/7",
+    "guarantee": "Rahat takaisin -takuu"
+  },
+  "payments": {
+    "title": "Turvallinen maksaminen",
+    "swish": "Swish",
+    "klarna": "Klarna",
+    "card": "Kortti",
+    "vipps": "Vipps",
+    "mobilepay": "MobilePay",
+    "applePay": "Apple Pay",
+    "onlineBanking": "Verkkopankki"
+  },
+  "footer": {
+    "tagline": "IPTV Suomessa — Helsinki · Tampere · Turku · Oulu",
+    "rights": "Kaikki oikeudet pidätetään.",
+    "terms": "Käyttöehdot",
+    "privacy": "Tietosuoja",
+    "contact": "Yhteystiedot"
+  },
+  "common": {
+    "month": "kuukausi",
+    "perMonth": "/ kk",
+    "loading": "Ladataan…",
+    "error": "Tapahtui virhe. Yritä uudelleen.",
+    "close": "Sulje"
+  }
+}
