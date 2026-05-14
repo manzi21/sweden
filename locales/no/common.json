@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "locale": "no",
+    "country": "NO",
+    "currency": "NOK",
+    "currencySymbol": "kr",
+    "htmlLang": "nb-NO"
+  },
+  "nav": {
+    "home": "Hjem",
+    "pricing": "Priser",
+    "channels": "Kanaler",
+    "sports": "Sport",
+    "devices": "Enheter",
+    "faq": "Ofte stilte spørsmål",
+    "support": "Support",
+    "blog": "Blogg",
+    "freeTrial": "Gratis 24t-test",
+    "buyNow": "Bestill nå"
+  },
+  "country": {
+    "label": "Norge",
+    "switcherTitle": "Velg land / språk",
+    "switcherAria": "Bytt land og språk"
+  },
+  "geoBanner": {
+    "suggest": "Du ser ut til å være fra {country} — vil du gå til {locale}-versjonen?",
+    "accept": "Ja, ta meg dit",
+    "dismiss": "Nei takk, bli her",
+    "ariaLabel": "Forslag om å bytte landsversjon"
+  },
+  "hero": {
+    "kicker": "Norges beste IPTV-leverandør",
+    "title": "Norges beste IPTV — NRK, TV2 og Eliteserien i 4K",
+    "subtitle": "12 000+ kanaler. Stabil streaming, ingen buffering, uten binding. Betal enkelt med Vipps.",
+    "ctaPrimary": "Start gratis 24t-test",
+    "ctaSecondary": "Se priser i NOK"
+  },
+  "trust": {
+    "rating": "4,9 / 5 på Trustpilot",
+    "customers": "20 000+ fornøyde kunder i Norden",
+    "antiFreeze": "Anti-Freeze™ teknologi",
+    "support247": "Norsk support 24/7",
+    "guarantee": "Pengene tilbake-garanti"
+  },
+  "payments": {
+    "title": "Trygg betaling",
+    "swish": "Swish",
+    "klarna": "Klarna",
+    "card": "Kort",
+    "vipps": "Vipps",
+    "mobilepay": "MobilePay",
+    "applePay": "Apple Pay"
+  },
+  "footer": {
+    "tagline": "IPTV i Norge — Oslo · Bergen · Trondheim · Stavanger",
+    "rights": "Alle rettigheter forbeholdt.",
+    "terms": "Vilkår",
+    "privacy": "Personvern",
+    "contact": "Kontakt"
+  },
+  "common": {
+    "month": "måned",
+    "perMonth": "/ mnd",
+    "loading": "Laster…",
+    "error": "Noe gikk galt. Prøv igjen.",
+    "close": "Lukk"
+  }
+}
