@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Sverige TV — Broadcast Star logo">
+  <title>Sverige TV</title>
+  <defs>
+    <linearGradient id="lBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E7AC4"/>
+      <stop offset="50%" stop-color="#006AA7"/>
+      <stop offset="100%" stop-color="#00345A"/>
+    </linearGradient>
+    <radialGradient id="lHl" cx="0.5" cy="0.15" r="0.7">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.55"/>
+      <stop offset="60%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="lStar" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#FFF7CC"/>
+      <stop offset="100%" stop-color="#FECC00"/>
+    </radialGradient>
+    <filter id="lGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="1.8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Disc with subtle gold edge -->
+  <circle cx="32" cy="32" r="30" fill="url(#lBg)" stroke="#FECC00" stroke-width="1.2"/>
+  <circle cx="32" cy="32" r="30" fill="url(#lHl)"/>
+
+  <!-- Broadcast waves -->
+  <g fill="none" stroke="#FECC00" stroke-linecap="round" opacity="0.85">
+    <path d="M22 32 A10 10 0 0 1 32 22" stroke-width="2"/>
+    <path d="M16 32 A16 16 0 0 1 32 16" stroke-width="1.7" opacity="0.75"/>
+    <path d="M10 32 A22 22 0 0 1 32 10" stroke-width="1.4" opacity="0.55"/>
+  </g>
+
+  <!-- Play -->
+  <path d="M28 22 L48 32 L28 42 Z"
+        fill="#FECC00" stroke="#FFF7CC" stroke-width="0.8"
+        stroke-linejoin="round" filter="url(#lGlow)"/>
+
+  <!-- Premium star -->
+  <g filter="url(#lGlow)" transform="translate(48 14)">
+    <path d="M0 -6 L1.8 -1.8 L6 -1.8 L2.6 1.2 L4 6 L0 3 L-4 6 L-2.6 1.2 L-6 -1.8 L-1.8 -1.8 Z"
+          fill="url(#lStar)" stroke="#FFFFFF" stroke-width="0.4"/>
+  </g>
+</svg>
