@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "locale": "da",
+    "country": "DK",
+    "currency": "DKK",
+    "currencySymbol": "kr",
+    "htmlLang": "da-DK"
+  },
+  "nav": {
+    "home": "Hjem",
+    "pricing": "Priser",
+    "channels": "Kanaler",
+    "sports": "Sport",
+    "devices": "Enheder",
+    "faq": "Ofte stillede spørgsmål",
+    "support": "Support",
+    "blog": "Blog",
+    "freeTrial": "Gratis 24t-test",
+    "buyNow": "Bestil nu"
+  },
+  "country": {
+    "label": "Danmark",
+    "switcherTitle": "Vælg land / sprog",
+    "switcherAria": "Skift land og sprog"
+  },
+  "geoBanner": {
+    "suggest": "Du ser ud til at være fra {country} — vil du gå til {locale}-versionen?",
+    "accept": "Ja tak, gå dertil",
+    "dismiss": "Nej tak, bliv her",
+    "ariaLabel": "Forslag om at skifte landeversion"
+  },
+  "hero": {
+    "kicker": "Danmarks bedste IPTV-udbyder",
+    "title": "Bedste IPTV Danmark 2026 — Superliga og Champions League i 4K",
+    "subtitle": "12 000+ kanaler. Ingen buffering, ingen binding. Betal nemt med MobilePay.",
+    "ctaPrimary": "Start gratis 24t-test",
+    "ctaSecondary": "Se priser i DKK"
+  },
+  "trust": {
+    "rating": "4,9 / 5 på Trustpilot",
+    "customers": "20 000+ tilfredse kunder i Norden",
+    "antiFreeze": "Anti-Freeze™ teknologi",
+    "support247": "Dansk support 24/7",
+    "guarantee": "Pengene tilbage-garanti"
+  },
+  "payments": {
+    "title": "Sikker betaling",
+    "swish": "Swish",
+    "klarna": "Klarna",
+    "card": "Kort",
+    "vipps": "Vipps",
+    "mobilepay": "MobilePay",
+    "applePay": "Apple Pay"
+  },
+  "footer": {
+    "tagline": "IPTV i Danmark — København · Aarhus · Odense · Aalborg",
+    "rights": "Alle rettigheder forbeholdes.",
+    "terms": "Vilkår",
+    "privacy": "Privatlivspolitik",
+    "contact": "Kontakt"
+  },
+  "common": {
+    "month": "måned",
+    "perMonth": "/ md",
+    "loading": "Indlæser…",
+    "error": "Noget gik galt. Prøv igen.",
+    "close": "Luk"
+  }
+}
