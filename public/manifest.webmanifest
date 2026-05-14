@@ -1,0 +1,141 @@
+{
+  "name": "Sverige TV — Bästa IPTV Sverige 2026",
+  "short_name": "Sverige TV",
+  "description": "🇸🇪 Sveriges bästa IPTV — 20 000+ live-kanaler i 4K UHD, 100 000+ filmer & serier, EPG på svenska. SVT, TV4, Allsvenskan, SHL, Premier League + ExYu, arabiska, turkiska, persiska & kurdiska kanaler. Aktivering 10 min via WhatsApp.",
+  "start_url": "/?utm_source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ],
+  "orientation": "portrait-primary",
+  "background_color": "#003E66",
+  "theme_color": "#006AA7",
+  "lang": "sv-SE",
+  "dir": "ltr",
+  "id": "se.premiumiptv.app",
+  "categories": [
+    "entertainment",
+    "video",
+    "lifestyle",
+    "news",
+    "sports"
+  ],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Sverige TV — 20 000+ kanaler i 4K UHD"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Gratis 24h test",
+      "short_name": "Gratis test",
+      "description": "Starta gratis 24-timmars testperiod via WhatsApp",
+      "url": "/?utm_source=pwa_shortcut&utm_campaign=trial#trial",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Se priser",
+      "short_name": "Priser",
+      "description": "Visa abonnemang och priser från 50 kr/mån",
+      "url": "/?utm_source=pwa_shortcut#offers",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Kanaler",
+      "short_name": "Kanaler",
+      "description": "Bläddra bland 20 000+ kanaler",
+      "url": "/?utm_source=pwa_shortcut#channels",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "WhatsApp Support",
+      "short_name": "Support",
+      "description": "Kontakta vår support på WhatsApp",
+      "url": "https://wa.me/447307410512",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "share_target": {
+    "action": "/share",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+iptv",
+      "url": "/open?url=%s"
+    }
+  ]
+}
