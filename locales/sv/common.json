@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "locale": "sv",
+    "country": "SE",
+    "currency": "SEK",
+    "currencySymbol": "kr",
+    "htmlLang": "sv-SE"
+  },
+  "nav": {
+    "home": "Hem",
+    "pricing": "Priser",
+    "channels": "Kanaler",
+    "sports": "Sport",
+    "devices": "Enheter",
+    "faq": "Vanliga frågor",
+    "support": "Support",
+    "blog": "Blogg",
+    "freeTrial": "Gratis 24h-test",
+    "buyNow": "Köp nu"
+  },
+  "country": {
+    "label": "Sverige",
+    "switcherTitle": "Välj land / språk",
+    "switcherAria": "Byt land och språk"
+  },
+  "geoBanner": {
+    "suggest": "Du verkar vara från {country} — vill du gå till {locale}-versionen?",
+    "accept": "Ja, gå dit",
+    "dismiss": "Nej tack, stanna här",
+    "ariaLabel": "Förslag att byta landsversion"
+  },
+  "hero": {
+    "kicker": "Sveriges IPTV-leverantör i premiumklass",
+    "title": "Bästa IPTV i Sverige — 12 000+ kanaler i 4K",
+    "subtitle": "Allsvenskan, Champions League, SVT, TV4, Viaplay och C More — utan buffring, utan bindningstid.",
+    "ctaPrimary": "Starta gratis 24h-test",
+    "ctaSecondary": "Se priser"
+  },
+  "trust": {
+    "rating": "4,9 / 5 på Trustpilot",
+    "customers": "20 000+ nöjda kunder i Norden",
+    "antiFreeze": "Anti-Freeze™ teknologi",
+    "support247": "Svenskspråkig support 24/7",
+    "guarantee": "Pengarna tillbaka-garanti"
+  },
+  "payments": {
+    "title": "Säker betalning",
+    "swish": "Swish",
+    "klarna": "Klarna",
+    "card": "Kort",
+    "vipps": "Vipps",
+    "mobilepay": "MobilePay",
+    "applePay": "Apple Pay"
+  },
+  "footer": {
+    "tagline": "Sveriges IPTV-leverantör — Stockholm · Göteborg · Malmö",
+    "rights": "Alla rättigheter förbehållna.",
+    "terms": "Användarvillkor",
+    "privacy": "Integritetspolicy",
+    "contact": "Kontakt"
+  },
+  "common": {
+    "month": "månad",
+    "perMonth": "/ mån",
+    "loading": "Laddar…",
+    "error": "Ett fel uppstod. Försök igen.",
+    "close": "Stäng"
+  }
+}
