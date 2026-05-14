@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Sverige TV — Bästa IPTV Sverige">
+  <title>Sverige TV</title>
+  <defs>
+    <radialGradient id="bg" cx="0.35" cy="0.3" r="0.9">
+      <stop offset="0%" stop-color="#1E7AC4"/>
+      <stop offset="60%" stop-color="#006AA7"/>
+      <stop offset="100%" stop-color="#003E66"/>
+    </radialGradient>
+    <linearGradient id="bolt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF099"/>
+      <stop offset="55%" stop-color="#FECC00"/>
+      <stop offset="100%" stop-color="#E0A800"/>
+    </linearGradient>
+    <radialGradient id="star" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#FFF7CC"/>
+      <stop offset="100%" stop-color="#FECC00"/>
+    </radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="starGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="0.9" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Disc -->
+  <circle cx="32" cy="32" r="30" fill="url(#bg)"/>
+
+  <!-- Broadcast arcs -->
+  <g stroke="#FECC00" stroke-linecap="round" fill="none" opacity="0.55">
+    <path d="M14 26 Q20 18 28 16" stroke-width="2.2"/>
+    <path d="M10 22 Q18 12 30 10"  stroke-width="1.6" opacity="0.7"/>
+    <path d="M50 38 Q44 46 36 48" stroke-width="2.2"/>
+    <path d="M54 42 Q46 52 34 54" stroke-width="1.6" opacity="0.7"/>
+  </g>
+
+  <!-- Lightning bolt = play -->
+  <path d="M34 10 L20 36 H30 L26 54 L46 28 H34 L40 10 Z"
+        fill="url(#bolt)" stroke="#FFFFFF" stroke-width="0.8" stroke-linejoin="round"
+        filter="url(#glow)"/>
+
+  <!-- Premium star top-right (subtle, vanishes at 16x16 by anti-aliasing) -->
+  <g filter="url(#starGlow)" transform="translate(50 14)">
+    <path d="M0 -4 L1.2 -1.2 L4 -1.2 L1.7 0.8 L2.7 4 L0 2 L-2.7 4 L-1.7 0.8 L-4 -1.2 L-1.2 -1.2 Z"
+          fill="url(#star)" stroke="#FFFFFF" stroke-width="0.3"/>
+  </g>
+</svg>
