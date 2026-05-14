@@ -83,39 +83,6 @@ export default async function Page() {
     sku: "SVTV-STREAM-SE",
     mpn: "SVTV-2026",
     category: "Streaming / IPTV",
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "1200",
-      bestRating: "5",
-      worstRating: "1",
-    },
-    review: [
-      {
-        "@type": "Review",
-        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
-        author: { "@type": "Person", name: "Erik L." },
-        reviewBody:
-          "Installationen gick på 10 minuter. SVT, TV4 och alla sportkanaler fungerar perfekt. Sparar 250 kr i månaden.",
-        datePublished: "2026-01-12",
-      },
-      {
-        "@type": "Review",
-        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
-        author: { "@type": "Person", name: "Lars P." },
-        reviewBody:
-          "Testade gratis 24h och köpte direkt årsabonnemanget. Allsvenskan, Premier League och NHL på ett ställe.",
-        datePublished: "2026-02-08",
-      },
-      {
-        "@type": "Review",
-        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
-        author: { "@type": "Person", name: "Dragan P." },
-        reviewBody:
-          "Konačno sve ExYu kanale na jednom mestu! Pink, RTS, HRT, Arena Sport — sve radi savršeno u 4K.",
-        datePublished: "2026-03-20",
-      },
-    ],
     offers: plans.map((p) => ({
       "@type": "Offer",
       "@id": `${SITE.domain}/#offer-${p.key}`,
@@ -182,12 +149,6 @@ export default async function Page() {
         opens: "08:00",
         closes: "23:00",
       },
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "1200",
-      bestRating: "5",
     },
     sameAs: [`https://wa.me/${SITE.whatsappPhone}`],
     priceRange: "50-600 SEK",
@@ -342,49 +303,6 @@ export default async function Page() {
 
         <main className="main">
           <Hero ua={ua} />
-
-          {/* SEO INDEXABLE TEXT — visible to Google immediately, no JS needed */}
-          {/* This block is hidden from users but readable by crawlers, providing
-              a Swedish-first content baseline even before client hydration. */}
-          <div
-            style={{
-              position: "absolute",
-              left: -10000,
-              width: 1,
-              height: 1,
-              overflow: "hidden",
-            }}
-            aria-hidden="true"
-          >
-            <h2>Bästa IPTV Sverige 2026 — 20 000+ kanaler från 50 kr/mån</h2>
-            <p>
-              Sverige TV är Sveriges ledande IPTV-tjänst 2026 med 20 000+ live-kanaler,
-              100 000+ filmer & serier, 4K UHD-kvalitet och svensk WhatsApp-support 24/7.
-              Vi erbjuder alla svenska kanaler (SVT1, SVT2, TV4, Kanal 5, TV3, TV6, TV8,
-              Sjuan, Kanal 9, SVT Play Live), nordiska kanaler (NRK, DR1, Yle), sport
-              (Allsvenskan, SHL, Premier League, La Liga, Champions League, NHL, NBA, NFL,
-              Formel 1) plus dedikerade paket för ExYu (Pink, RTS, HRT, Arena Sport),
-              arabiska (MBC, Al Jazeera, beIN Sports), turkiska (TRT, Show TV, Kanal D),
-              persiska (Manoto, GEM TV), kurdiska (Rudaw, Kurdistan 24), somaliska,
-              polska, finska och 12+ andra språk. Aktivering på 10 minuter via WhatsApp.
-              Gratis 24h test utan kreditkort. Servrar i Stockholm och Helsingfors för
-              minimal buffring. Kompatibelt med Firestick, Samsung Smart TV, LG, iPhone,
-              iPad, Android, Android TV Box, MAG Box, Apple TV och PC/Mac. Stöder TiviMate,
-              IPTV Smarters Pro, GSE Smart IPTV, Smart IPTV, XCIPTV och Kodi. Betalning via
-              Swish, BankID, Klarna, MobilePay, PayPal, Apple Pay, Google Pay, Visa,
-              Mastercard, Bitcoin. Optimerat för Telia, Bahnhof, Com Hem, Tele2.
-              Ingen bindningstid, nöjd-kund-garanti, 99,9% uptime.
-            </p>
-            <p>
-              Best IPTV Sweden 2026: Sverige TV offers premium IPTV streaming with 20,000+
-              live channels in 4K UHD, including SVT, TV4, Allsvenskan, SHL, plus ExYu,
-              Arabic, Turkish, Persian, Kurdish, Somali and more language packages.
-              Activated in 10 minutes via WhatsApp. Free 24-hour trial without credit card.
-              No commitment. Works on Firestick, Smart TV, iPhone, Android, MAG Box.
-              Worldwide service for Swedish & Nordic expats in Dubai, USA, UK, Germany,
-              Spain, Saudi Arabia, Canada, Australia.
-            </p>
-          </div>
 
           <TrialBanner ua={ua} />
           <TrustSection />
